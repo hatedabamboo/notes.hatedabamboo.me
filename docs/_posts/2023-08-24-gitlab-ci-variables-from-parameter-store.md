@@ -1,22 +1,28 @@
 ---
 layout:     post
 title:      "Using AWS Parameter Store instead of Gitlab CICD Variables"
-date:       2023-08-24 17:03:14 +0200
+date:       2023-08-24 17:03:00 +0200
 author:     Kirill Solovei
 permalink:  /cicd-variables-from-aws
 tags:       aws gitlab cicd
 ---
-Gitlab CICD Variables is a tool that helps to store some variables and secret
-values for later usage inside the pipelines. It may be handy and convenient,
-but there are also downsides:
+This note is dedicated to showing how one can store CI/CD variables and secret
+values inside AWS Parameter Store (or Secrets Manager) and use them within
+Gitlab CI.
 
-1. similar variables from different projects have to be maintaned separately
+<!--more-->
+
+Gitlab CI/CD Variables is a tool that helps store various variables and secret
+values for later use within pipelines. It can be handy and convenient, but
+there are also downsides:
+
+1. similar variables from different projects need to be maintained separately
 2. users have access to them
 3. some variables can't be masked in the logs
 
-So in order to get the best of AWS Parameter Store (or Secrets Manager) I
-decided to move all the variables away from Gitlab CI Variables. To achieve
-this goal we will need the help of `id_tokens` option.
+To make the most of AWS Parameter Store (or Secrets Manager), I have decided to
+relocate all the variables from Gitlab CI Variables. To achieve this goal, we
+will leverage the `id_tokens` option.
 
 ## Using id_tokens to access AWS secrets
 
@@ -74,9 +80,10 @@ While the attach policy to the role may look like this:
 }
 ```
 
-This policy is very allowing, which is a security concern. In order to make it
-more strict, we can specify by name all the secrets we want allow access to
-and, perhaps, add some condition to it (e.g. existance of specific tag).
+This policy is overly permissive, which poses a security concern. To enhance
+its strictness, we can specify the secrets to which we want to allow access by
+name. Additionally, we may consider adding conditions to the policy, such as
+requiring the existence of a specific tag.
 
 ```json
 {
@@ -103,13 +110,13 @@ and, perhaps, add some condition to it (e.g. existance of specific tag).
 }
 ```
 
-This policy will allow to fetch only secrets, which have tag "repository"
-set to "frontend".
+This policy will only permit fetching secrets with the "repository" set to
+"frontend".
 
 ### 3. Write stage in gitlab CI
 
-Now to the pipelines themself. This is an example stage showing how all of the
-above can be used inside actual `.gitlab-ci.yml` file.
+Now to the pipelines themself. Here's an example stage that demonstrates how
+all of the above can be implemented within an actual `.gitlab-ci.yml` file.
 
 ```yaml
 test:
@@ -136,19 +143,21 @@ test:
     - aws ssm get-parameter --name "s3-bucket"
 ```
 
-What happens here? We use `id_tokens` parameter to fetch `AWS_TOKEN` using
-previously created audience in AWS IAM.
+What's happening here? We are using the `id_tokens` parameter to retrieve the
+`AWS_TOKEN` using the previously established audience in AWS IAM.
 
-First, we install `awscli` tool to be able to query AWS Parameter Store. Then
-we try to assume role (which has been created in step #1) using `AWS_TOKEN`
-and write response data to identity file for later. We dissect necessary
-parameters from identity file (access key, secret access key and session token)
-with the help of `jq` and use them as environment variables. Having all the
-necessary prerequisites, we finally query Parameter Store for `s3-bucket`
-secret. Voila!
+To begin, we install the `awscli` tool to enable querying the AWS Parameter
+Store. Next, we attempt to assume the role (created in step #1) using the
+`AWS_TOKEN` and save the response data to an identity file for later use.
+Subsequently, we extract the necessary parameters from the identity file
+(access key, secret access key, and session token) using the `jq` tool. These
+parameters are then utilized as environment variables.
 
-This script can even be wrapped in the bash function to query multiple
-parameters during one pipeline:
+With all the essential prerequisites in place, we proceed to query the
+Parameter Store for the `s3-bucket` secret. Voilà!
+
+This script can even be encapsulated within a Bash function to enable querying
+multiple parameters within a single pipeline:
 
 ```yaml
 test:

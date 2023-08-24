@@ -13,6 +13,7 @@ baseurl: /
 url: notes.hatedabamboo.me
 
 show_excerpts: true
+excerpt_separator: <!--more-->
 header_pages:
   - about.md
 
