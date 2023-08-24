@@ -4,14 +4,15 @@ title: About
 permalink: /about
 ---
 
-Hi! My name is Kirill and this is my (i can't say blog, it's not that huge)
-notebook where I write some notes about what I encounter on the daily basis:
-nontrivial tasks, some interesting challenges and just overall exciting
-stuff.
+Hello! I'm Kirill, and this is my not-so-huge notebook (I hesitate to call
+it a blog) where I jot down various notes about my daily experiences: from
+nontrivial tasks to interesting challenges and anything else that sparks
+excitement.
 
-While this blog is mostly related to technical stuff, you also can:
+The initial idea originated from my passion for taking notes using
+[Obsidian](https://obsidian.md). However, over time, I realized that some of
+my notes could be useful not only to me but also to others. And that's how my
+online notebook came to be.
 
-- review my code (including this blog and my website) and comment on it's quality on [GitHub](https://github.com/hatedabamboo)
-- find my official profile and add me to your network at [LinkedIn](https://linkedin.com/hatedabamboo)
-- watch me shitpot and posting memes on [Twitter](https://twitter.com/hatedabamboo) (no, Elon, X is not a valid name for social network)
-- take a look at my photos and photos of me at [Instagram](https://instagram.com/hatedabamboo)
+You can find my official website [over here](https://hatedabamboo.me) with
+all the necessary information nad other social links.

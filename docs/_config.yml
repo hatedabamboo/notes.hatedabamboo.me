@@ -7,10 +7,19 @@ remote_theme: jekyll/minima
 title: hatedabamboo notes
 email: hatedabamboo@pm.me
 description: >-
-  Notes about personal and professional experience in DevOps, Systems Engineering and AWS.
+  Notes about personal and professional experience in DevOps, Systems Engineering and Cloud Platforms.
 domain: notes.hatedabamboo.me
 baseurl: /
 url: notes.hatedabamboo.me
 
 header_pages:
   - about.md
+
+minima:
+  social_links:
+    - { platform: linkedin, user_url: "https://linkedin.com/in/hatedabamboo/"}
+    - { platform: github,  user_url: "https://github.com/hatedabamboo" }
+    - { platform: telegram, user_url: "https://t.me/hatedabamboo" }
+    - { platform: instagram, user_url: "https://instagram.com/hatedabamboo" }
+    - { platform: twitter, user_url: "https://twitter.com/hatedabamboo" }
+    - { platform: facebook, user_url: "https://facebook.com/hatedabamboo" }
