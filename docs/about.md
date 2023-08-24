@@ -1,7 +1,7 @@
 ---
-layout: page
-title: About
-permalink: /about
+layout:     page
+title:      About
+permalink:  /about
 ---
 
 Hello! I'm Kirill, and this is my not-so-huge notebook (I hesitate to call
