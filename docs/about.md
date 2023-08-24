@@ -15,4 +15,4 @@ my notes could be useful not only to me but also to others. And that's how my
 online notebook came to be.
 
 You can find my official website [over here](https://hatedabamboo.me) with
-all the necessary information nad other social links.
+all the necessary information and other social links.
