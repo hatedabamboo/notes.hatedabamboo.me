@@ -7,18 +7,12 @@ baseurl: "notes"
 url: "hatedabamboo.github.io"
 
 markdown: kramdown
-theme: minima
+# theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-remote-theme
 
-# exclude:
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+remote_theme: jekyll/minima
 
 header_pages:
   - about.md
