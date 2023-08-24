@@ -1,0 +1,23 @@
+title: hatedabamboo notes
+email: hatedabamboo@pm.me
+description: >-
+  Notes about personal and professional experience in DevOps, Systems Engineering and AWS.
+domain: hatedabamboo.github.io
+baseurl: "notes"
+url: "hatedabamboo.github.io"
+twitter_username: hatedabamboo
+github_username:  hatedabamboo
+
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+
+# exclude:
+#   - Gemfile
+#   - Gemfile.lock
+#   - node_modules
+#   - vendor/bundle/
+#   - vendor/cache/
+#   - vendor/gems/
+#   - vendor/ruby/
