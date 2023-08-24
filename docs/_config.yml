@@ -14,9 +14,3 @@ url: "hatedabamboo.github.io"
 
 header_pages:
   - about.md
-
-minima:
-  social_links:
-    - { platform: github, user_url: "https://github.com/hatedabamboo" }
-    - { platform: linkedin, user_url: "https://linkedin.com/hatedabamboo" }
-    - { platform: telegram, user_url: "https://t.me/hatedabamboo" }
