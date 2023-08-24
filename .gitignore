@@ -1,2 +1,5 @@
-docs/Gemfile.lock
-*/**/*.gem
+**/Gemfile.lock
+*.gem
+**/_site
+**/.sass-cache
+**/.jekyll-metadata
