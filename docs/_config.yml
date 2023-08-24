@@ -20,6 +20,9 @@ plugins:
 #   - vendor/gems/
 #   - vendor/ruby/
 
+header_pages:
+  - about.md
+
 minima:
   social_links:
     - { platform: github, user_url: "https://github.com/hatedabamboo" }
