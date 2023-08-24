@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "Using AWS Parameter Store instead of Gitlab CICD Variables"
-date:       2023-08-24
+date:       2023-08-24 17:03:14 +0200
 author:     Kirill Solovei
 permalink:  /cicd-variables-from-aws
 tags:       aws gitlab cicd
