@@ -12,6 +12,7 @@ domain: notes.hatedabamboo.me
 baseurl: /
 url: notes.hatedabamboo.me
 
+show_excerpts: true
 header_pages:
   - about.md
 
