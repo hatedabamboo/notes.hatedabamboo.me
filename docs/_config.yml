@@ -5,8 +5,6 @@ description: >-
 domain: hatedabamboo.github.io
 baseurl: "notes"
 url: "hatedabamboo.github.io"
-twitter_username: hatedabamboo
-github_username:  hatedabamboo
 
 markdown: kramdown
 theme: minima
@@ -24,6 +22,6 @@ plugins:
 
 minima:
   social_links:
-    - { platform: github,  user_url: "https://github.com/hatedabamboo" }
+    - { platform: github, user_url: "https://github.com/hatedabamboo" }
     - { platform: twitter, user_url: "https://linkedin.com/hatedabamboo" }
-    - { platform: telegram, user_url: "https://t.me/hatedabamboo"}
+    - { platform: telegram, user_url: "https://t.me/hatedabamboo" }
