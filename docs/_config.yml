@@ -1,3 +1,9 @@
+markdown: kramdown
+plugins:
+  - jekyll-feed
+  - jekyll-remote-theme
+remote_theme: jekyll/minima
+
 title: hatedabamboo notes
 email: hatedabamboo@pm.me
 description: >-
@@ -6,19 +12,11 @@ domain: hatedabamboo.github.io
 baseurl: "notes"
 url: "hatedabamboo.github.io"
 
-markdown: kramdown
-# theme: minima
-plugins:
-  - jekyll-feed
-  - jekyll-remote-theme
-
-remote_theme: jekyll/minima
-
 header_pages:
   - about.md
 
 minima:
   social_links:
     - { platform: github, user_url: "https://github.com/hatedabamboo" }
-    - { platform: twitter, user_url: "https://linkedin.com/hatedabamboo" }
+    - { platform: linkedin, user_url: "https://linkedin.com/hatedabamboo" }
     - { platform: telegram, user_url: "https://t.me/hatedabamboo" }
