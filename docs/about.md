@@ -3,6 +3,7 @@ layout:     page
 title:      About
 permalink:  /about
 ---
+![Winter is coming](./assets/about.webp)
 
 Hello! I'm Kirill, and this is my not-so-huge notebook (I hesitate to call
 it a blog) where I jot down various notes about my daily experiences: from
