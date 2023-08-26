@@ -9,9 +9,9 @@ title: hatedabamboo notes
 email: hatedabamboo@pm.me
 description: >-
   Notes about personal and professional experience in DevOps, Systems Engineering and Cloud Platforms.
-domain: notes.hatedabamboo.me
+# domain: notes.hatedabamboo.me
 baseurl: /
-url: notes.hatedabamboo.me
+url: https://notes.hatedabamboo.me/
 
 show_excerpts: true
 excerpt_separator: <!--more-->
