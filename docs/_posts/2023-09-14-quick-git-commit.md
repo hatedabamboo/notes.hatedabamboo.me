@@ -4,13 +4,15 @@ title:      "Automatic git commit"
 date:       2023-09-14 20:46:00 +0200
 author:     Kirill Solovei
 permalink:  /automatic-git-commit
-tags:       git
+tags:       git bash
 ---
 How often you find yourself in the situation, when you're too bored to write a
 commit message? Personally, quite often. For this specific reason I finally
 managed to create a quick way to write commit messages.
 
 <!--more-->
+
+![Bash is cool](../assets/2023-09-14-quick-git-commit.webp)
 
 I love aliases in bash. They're super convenient and useful and significantly
 increase the speed of work. Someday I hope to write finally a post about them,
@@ -69,9 +71,9 @@ U           U    unmerged, both modified
 -------------------------------------------------
 ```
 
-They're all can be used as an anchor for the quick alias, however not all of
-them are convenient to me in everyday operations. This brings me to creation
-of such command:
+They all can be used as an anchor for the quick alias, however not all of them
+are convenient to me in everyday operations. This brings me to creation of such
+command:
 
 ```bash
 git status --short | sed 's/^M /Updated\t/g; s/^A /Added\t/g; s/^D /Deleted\t/g; s/ .*\// /g' | sort

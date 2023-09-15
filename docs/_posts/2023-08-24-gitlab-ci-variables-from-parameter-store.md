@@ -12,6 +12,8 @@ Gitlab CI.
 
 <!--more-->
 
+![Gitlab + AWS](../assets/2023-08-24-gitlab-ci-variables-from-parameter-store.webp)
+
 Gitlab CI/CD Variables is a tool that helps store various variables and secret
 values for later use within pipelines. It can be handy and convenient, but
 there are also downsides:
