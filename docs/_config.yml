@@ -12,6 +12,8 @@ description: >-
 baseurl: /
 url: https://notes.hatedabamboo.me/
 
+google_analytics: ${{ secretsi.GA_ID }}
+
 show_excerpts: true
 excerpt_separator: <!--more-->
 header_pages:
