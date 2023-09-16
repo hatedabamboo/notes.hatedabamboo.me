@@ -12,7 +12,7 @@ description: >-
 baseurl: /
 url: https://notes.hatedabamboo.me/
 
-google_analytics: ${{ secretsi.GA_ID }}
+google_analytics: ${{ secrets.GA_ID }}
 
 show_excerpts: true
 excerpt_separator: <!--more-->
