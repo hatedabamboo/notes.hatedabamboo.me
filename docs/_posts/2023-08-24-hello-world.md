@@ -10,4 +10,6 @@ Here lies the first ever blogpost. Just so it will be here. No other particular 
 
 <!--more-->
 
+![First post](../assets/2023-08-24-hello-world.webp)
+
 There will be more of them, I assure you.
