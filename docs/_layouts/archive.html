@@ -1,15 +1,14 @@
 ---
 layout: page
 ---
-<ul class="posts">
-  {% for post in site.posts %}
-    {% assign current_date = post.date | date: "%Y" %}
-    {% if current_date != date %}
-      <li id="{{ current_date }}">{{ current_date }}</li>
-      {% assign date = current_date %}
-    {% endif %}
-    <li>
-      <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title }}</a>
-    </li>
-  {% endfor %}
-</ul>
+{% for post in site.posts %}
+  {% assign current_date = post.date | date: "%Y" %}
+  {% if current_date != date %}
+    <h4 style="margin-bottom: 0px" id="{{ current_date }}"><a href="#{{ current_date }}">{{ current_date }}</a></h4>
+    <ul id="{{ current_date }}">{{ current_date }}</ul>
+    {% assign date = current_date %}
+  {% endif %}
+  <li>
+    <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+  </li>
+{% endfor %}
