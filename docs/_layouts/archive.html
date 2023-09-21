@@ -3,7 +3,7 @@ layout: page
 ---
 <ul class="posts">
   {% for post in site.posts %}
-    {% assign current_date = post.date | date: "%Y" }
+    {% assign current_date = post.date | date: "%Y" %}
     {% if current_date != date %}
       <li id="{{ current_date }}"></li>
       {% assign date = current_date %}
