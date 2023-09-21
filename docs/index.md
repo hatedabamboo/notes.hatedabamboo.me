@@ -1,4 +1,4 @@
 ---
 layout: home
-title: root
+title:  Root
 ---

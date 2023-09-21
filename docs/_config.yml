@@ -3,10 +3,11 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-remote-theme
+
 remote_theme: jekyll/minima
 
 title: hatedabamboo notes
-email: hatedabamboo@pm.me
+email: hatedabamboo@gmail.com
 description: >-
   Notes about personal and professional experience in DevOps, Systems Engineering and Cloud Platforms.
 baseurl: /
@@ -16,14 +17,17 @@ google_analytics: G-E9FSFDM6ER
 
 show_excerpts: true
 excerpt_separator: <!--more-->
+
 header_pages:
+  - tags.md
+  - archive.md
   - about.md
 
 minima:
   social_links:
     - { platform: linkedin, user_url: "https://linkedin.com/in/hatedabamboo/"}
-    - { platform: github,  user_url: "https://github.com/hatedabamboo" }
-    - { platform: telegram, user_url: "https://t.me/hatedabamboo" }
-    - { platform: instagram, user_url: "https://instagram.com/hatedabamboo" }
-    - { platform: twitter, user_url: "https://twitter.com/hatedabamboo" }
-    - { platform: facebook, user_url: "https://facebook.com/hatedabamboo" }
+    - { platform: github,  user_url: "https://github.com/hatedabamboo/" }
+    - { platform: telegram, user_url: "https://t.me/hatedabamboo/" }
+    - { platform: instagram, user_url: "https://instagram.com/hatedabamboo/" }
+    - { platform: twitter, user_url: "https://twitter.com/hatedabamboo/" }
+    - { platform: facebook, user_url: "https://facebook.com/hatedabamboo/" }
