@@ -5,7 +5,9 @@ layout: page
 
   {% assign current_date = post.date | date: "%Y" %}
   {% if current_date != date %}
-    <h4 style="margin-bottom: 0px; text-decoration: underline; text-decoration-style: dotted;" id="{{ current_date }}"><a href="#{{ current_date }}">{{ current_date }}</a></h4>
+    <h4 style="margin-bottom: 0px; text-decoration: underline; text-decoration-style: dotted;" id="{{ current_date }}">
+      <a href="#{{ current_date }}">{{ current_date }}</a>
+    </h4>
     {% assign date = current_date %}
   {% endif %}
   <ul style="margin-bottom: 0px">
