@@ -102,11 +102,11 @@ requiring the existence of a specific tag.
                 "arn:aws:ssm::{account_id}:parameter/{secret1}",
                 "arn:aws:ssm::{account_id}:parameter/{secret2}"
             ],
-			"Condition": {
-				"StringEquals": {
-					"aws:ResourceTag/repository": "frontend"
-				}
-			}
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceTag/repository": "frontend"
+                }
+            }
         }
     ]
 }

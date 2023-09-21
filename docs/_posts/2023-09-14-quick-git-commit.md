@@ -112,8 +112,8 @@ and commit message will look like this:
 
 ```text
 Added   mock_data.sql
-Added	test-query.sql
-Added	query-result.sql
+Added   test-query.sql
+Added   query-result.sql
 Updated README.md
 Deleted testfile
 ```
