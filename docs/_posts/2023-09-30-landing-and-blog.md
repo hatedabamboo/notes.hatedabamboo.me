@@ -102,7 +102,9 @@ After all, what is a landing page if not a static webpage, right? Besides, with
 simple HTML and a minimal amount of CSS and assets, my webpage loads in around
 300–400 ms. Take that, modern bloatweb!
 
-    Initially, I intended to describe what I did during the creation and configuration of my landing page, but in the end, it turned out to be instructions on how to create your own.
+    Initially, I intended to describe what I did during the creation and configuration of
+    my landing page, but in the end, it turned out to be instructions on how to create your
+    own.
     So be it.
 
 ### Domain name
@@ -238,7 +240,8 @@ This is the schema of the whole process:
 
 #### 3. HTTP and S
 
-    As every P in the name of something IT-related stands for "Protocol" and L for "Language", S stands for "Secured".
+    As every P in the name of something IT-related stands for "Protocol" and
+    L for "Language", S stands for "Secured".
 
 Locate the Certificate Manager in the AWS Web Console. Here's the tricky part:
 if your region is different from *us-east-1* (N. Virginia), your certificates
@@ -265,7 +268,7 @@ In the deployment pipeline, there are three simple steps for the process:
 
 However, I was waiting for the changes to appear on the webpage for some time
 until it dawned on me: CloudFront is a CDN, and it caches the page on edge
-locations. This leads us to step 3:
+locations. This leads us to step 1, but actually 3:
 
 3. Invalidate updated files
 
