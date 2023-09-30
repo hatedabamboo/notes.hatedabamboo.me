@@ -219,8 +219,7 @@ convention and serve these requests as well. It's quite simple, though.
 
 All you have to do is create another S3 bucket, this time with the name of the
 website preceded by `www`. Like this: `www.your-cool-website.com`. All the
-permission settings are the same as mentioned
-[before](./2023-09-30-landing-and-blog.md#static-website-hosting), except for
+permission settings are the same as mentioned before, except for
 the static website hosting configuration, which should be enabled, and
 "**Hosting type**" should be set to redirect requests to your main bucket
 (without `^www.`).
