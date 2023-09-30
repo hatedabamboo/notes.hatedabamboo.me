@@ -102,9 +102,8 @@ After all, what is a landing page if not a static webpage, right? Besides, with
 simple HTML and a minimal amount of CSS and assets, my webpage loads in around
 300–400 ms. Take that, modern bloatweb!
 
-    Initially, I intended to describe what I did during the creation and
-    configuration of my landing page, but in the end, it turned out to be
-    instructions on how to create your own. So be it.
+    Initially, I intended to describe what I did during the creation and configuration of my landing page, but in the end, it turned out to be instructions on how to create your own.
+    So be it.
 
 ### Domain name
 
@@ -139,8 +138,7 @@ the policy would look like:
 }
 ```
 
-    For future convenience, you should name the bucket the same as your website
-    address.
+    For future convenience, you should name the bucket the same as your website address.
 
 With these steps, you can already upload `index.html` to the bucket, and the
 website will be accessible. The only downside is that the address would look
@@ -240,8 +238,7 @@ This is the schema of the whole process:
 
 #### 3. HTTP and S
 
-    As every P in the name of something IT-related stands for "Protocol" and L
-    for "Language", S stands for "Secured".
+    As every P in the name of something IT-related stands for "Protocol" and L for "Language", S stands for "Secured".
 
 Locate the Certificate Manager in the AWS Web Console. Here's the tricky part:
 if your region is different from *us-east-1* (N. Virginia), your certificates
