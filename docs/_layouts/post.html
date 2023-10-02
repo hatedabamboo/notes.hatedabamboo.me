@@ -33,7 +33,7 @@ layout: base
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    {{ content }}
+    {% include anchor-headings.html html=content anchorBody="#" %}
   </div>
 
   {%- if site.disqus.shortname -%}
