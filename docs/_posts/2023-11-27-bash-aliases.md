@@ -13,6 +13,8 @@ favourite tricks — aliases.
 
 <!--more-->
 
+![Bash aliases and where to find them](../assets/2023-11-27-bash-aliases.webp)
+
 ## A little detour
 
 Before diving into the topic itself, I would like to brag a bit why I love
