@@ -15,8 +15,8 @@ managed to create a quick way to write commit messages.
 ![Bash is cool](../assets/2023-09-14-quick-git-commit.webp)
 
 I love aliases in bash. They're super convenient and useful and significantly
-increase the speed of work. Someday I hope to write finally a post about them,
-but for now you can check my
+increase the speed of work. Someday I hope to write finally a
+[post about them](./2023-11-27-bash-aliases.md), but for now you can check my
 [dotfiles repository](https://github.com/hatedabamboo/dotfiles) with aliases.
 
 But lets back to the topic. I use aliases in git operations a log: `gs` instead
