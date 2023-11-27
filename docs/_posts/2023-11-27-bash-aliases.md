@@ -94,4 +94,4 @@ Feel free to comment, propose changes or even befriend me.
 
 During the process of writing this post, the following music compositions have
 been listened to:
-[* 2005 - 2010 Hardstyle Mix *](https://www.youtube.com/watch?v=XytcoeXiaZ0).
+[*2005 - 2010 Hardstyle Mix*](https://www.youtube.com/watch?v=XytcoeXiaZ0).
