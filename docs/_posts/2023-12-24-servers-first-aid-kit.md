@@ -1,6 +1,7 @@
 ---
 layout:     post
-title:      "Server's first aid kit"
+title:      "Server's first aid kit: a quick way to determine if your server is
+alive and well"
 date:       2023-12-24 19:27:00 +0200
 author:     Kirill Solovei
 permalink:  /servers-first-aid-kit
