@@ -49,9 +49,9 @@ And above all that you can format it with a JSON output just like that:
 
 ## How's the system load?
 
-The forefather of all system load analysis: the *`top`. There's several of
+The forefather of all system load analysis: the *`top`. There are several of
 them: `top`, `atop`, `htop`, you can choose any by your liking. They differ
-not only on representation of data, but also on the amount of information you
+not only by representation of data, but also on the amount of information you
 can obtain. I'll point several facts why I use any of them:
 
 - `top` is cool, because it's in the base package of any fill-size Linux OS.
@@ -76,8 +76,8 @@ IOPS.
 
 Apart from pressing buttons you can actually configure the interface [however
 you like](https://www.redhat.com/sysadmin/customize-top-command), but I
-wouldn't bother as now it's hundreds and thousands of servers under our command
-and we don't spend as much time as we used to anyway.
+wouldn't bother as nowdays it's hundreds and thousands of servers under our
+command and we don't spend as much time as we used to anyway.
 
 ## Memory much?
 
@@ -144,7 +144,8 @@ Is DNS working properly? `host example.com` is your guy. `dig google.com` will
 show even more information.
 
 Internet is available, but external application still can't reach you? Check
-the firewall using `iptables -nvL` (if not using any Security Groups on AWS).
+the firewall using `iptables -nvL` (if you're not using any Security Groups on
+AWS, presumably).
 
 Want to see which ports are used by which processes? `ss -ntupl` will do this
 for you. As well as `netstat -tup`.
@@ -162,9 +163,9 @@ certificate's data you need (I'm looking at you, expiration dates!)
 
 ## Conclusion
 
-Wow, what a trip down the memory lane. I kinds miss the old days when I had
+Wow, what a trip down the memory lane. I kinda miss the old days when I had
 hundreds of servers to fix and troubleshoot. But as time kept going, physical
-infrastructure was replaces by virtual, and our skills switch along with it.
+infrastructure was replaces by virtual, and our skills switched along with it.
 
 But that's a story for another time. For now, I would like to advise you to
 spend your time getting to know what tools you have in your console. I would
