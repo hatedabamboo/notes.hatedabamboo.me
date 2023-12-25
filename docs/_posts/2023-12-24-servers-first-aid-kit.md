@@ -35,6 +35,23 @@ ubuntu   pts/0    12.34.56.78      16:48    1.00s  0.03s  0.00s w
 
 It's not very informative, but it helps to understand if something's wrong.
 
+## Where can I see whether something went awry?
+
+Log was, is, and always will be the very best way to gather information about
+application and system health.
+
+Normal applications tend to store their logs in centralized place — `/var/log/`
+directory. This is the rule. If your application writes logs somewhere else, I
+suggest you to rethink your life. Several handy log files:
+
+- `/var/log/syslog` and `/var/log/kern.log` can show a lot of interesting stuff
+- `/var/log/auth.log` logs all log ins and log outs, a useful place to loog for
+dem hackers
+
+System-wide messages are provided by `dmesg` (with the emphasis on hardware
+notifications) and `journalctl -xe` (for systemd operated systems with the
+emphasys on running applications).
+
 ## What hardware this thing runs on?
 
 That's easy. `lshw` will show you so much information, you'd like to avoid
