@@ -312,12 +312,12 @@ The source code for both my ladning and my blog can be found at my GitHub:
 - [Website](https://github.com/hatedabamboo/hatedabamboo.me)
 - [Blog](https://github.com/hatedabamboo/notes.hatedabamboo.me)
 
+---
+
 As always, feel free to
 [disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
 me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
 mistakes and befriend me on one of the social media platforms listed below.
-
----
 
 During the process of writing this post, the following music compositions have
 been listened to:
