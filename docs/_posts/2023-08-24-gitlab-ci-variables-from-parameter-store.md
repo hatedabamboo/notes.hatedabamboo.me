@@ -199,3 +199,10 @@ script:
 
 This way we can store all the necessary secrets and variables in one place
 and change them anywhere with one simple trick.
+
+---
+
+As always, feel free to
+[disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
+me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
+mistakes and befriend me on one of the social media platforms listed below.
