@@ -93,9 +93,9 @@ to find that bloody memory leaking process or the bastard who stole all the
 IOPS.
 
 Apart from pressing buttons you can actually configure the interface however
-you like[[1]](#links), but I
-wouldn't bother as nowdays it's hundreds and thousands of servers under our
-command and we don't spend as much time as we used to anyway.
+you like<sup>[[1]](#links)</sup>, but I wouldn't bother as nowdays it's
+hundreds and thousands of servers under our command and we don't spend as much
+time as we used to anyway.
 
 ## Memory much?
 
