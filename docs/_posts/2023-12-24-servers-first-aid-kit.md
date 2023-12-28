@@ -92,8 +92,8 @@ These instruments provide a more detailed overview on the system load and allow
 to find that bloody memory leaking process or the bastard who stole all the
 IOPS.
 
-Apart from pressing buttons you can actually configure the interface [however
-you like](https://www.redhat.com/sysadmin/customize-top-command), but I
+Apart from pressing buttons you can actually configure the interface however
+you like[[1]](#links), but I
 wouldn't bother as nowdays it's hundreds and thousands of servers under our
 command and we don't spend as much time as we used to anyway.
 
@@ -191,6 +191,10 @@ even recommend write a small bullet list of your own, which you will be able to
 follow at any time to troubleshoot any issue at your own pace and order.
 
 Thank you for reading!
+
+## Links
+
+1. [How to customize the Linux top command](https://www.redhat.com/sysadmin/customize-top-command)
 
 ---
 
