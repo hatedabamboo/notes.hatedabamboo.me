@@ -30,5 +30,4 @@ minima:
     - { platform: telegram, user_url: "https://t.me/hatedabamboo/" }
     - { platform: instagram, user_url: "https://instagram.com/hatedabamboo/" }
     - { platform: twitter, user_url: "https://twitter.com/hatedabamboo/" }
-    - { platform: facebook, user_url: "https://facebook.com/hatedabamboo/" }
     - { platform: mastodon, user_url: "https://mastodon.social/@hatedabamboo" }
