@@ -26,7 +26,7 @@ layout: base
       {%- endif -%}
       {%- if page.tags -%}
       • {% for tag in page.tags %}
-      <span class="p-name" itemprop="name"><a href="{{ site.url }}tags#{{ tag }}">{{ tag }}</a></span>
+      <span class="p-name" itemprop="name"><a href="{{ site.url }}/tags#{{ tag }}">{{ tag }}</a></span>
       {% endfor %}
       {%- endif -%}
     </p>
