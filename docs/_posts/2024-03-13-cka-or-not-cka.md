@@ -96,7 +96,7 @@ However, certifications in IT industry created a vast variety of preparation
 courses and learning tools. They often contain well-refined, concentrated
 material covering theoretical, and sometimes practical, aspects of the topic.
 Thus, these courses can be an incredible resource for delving into a subject,
-should the need arise. I, for one, managed to get aquainted with with the basic
+should the need arise. I, for one, managed to get aquainted with the basic
 elements of AWS infrastructure thanks to such a course in just three months. It
 provided a significant boost to my professional development.
 
