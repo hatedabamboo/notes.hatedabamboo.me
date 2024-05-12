@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ $# -eq 0 ]; then
+  echo "Please provide a title for the topic"
+fi
+
 TITLE="$(echo $@ | tr ' ' '-' | tr [[:upper:]] [[:lower:]])"
 
 filename="$(date +"%Y-%m-%d")-${TITLE}"
@@ -37,4 +41,4 @@ me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
 mistakes and befriend me on one of the social media platforms listed below.
 EOF
 
-vim $postfile  
+ vim $postfile  
