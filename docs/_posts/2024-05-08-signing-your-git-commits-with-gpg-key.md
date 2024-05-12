@@ -14,7 +14,7 @@ Let's find out!
 
 <!--more-->
 
-![git commit -m Verified](../assets/2024-05-08-signing-your-git-commits-with-gpg-key.webp)
+![git commit -m Verified](../assets/2024-05-08-signing-your-git-commits-with-gpg-key-1.webp)
 
 ## git commit -m 'Initial commit'
 
