@@ -1,31 +1,4 @@
 copyright: Kirill Solovei &copy; 2023-2024
-# repo_name: notes.hatedabamboo.me
-# repo_url: https://github.com/hatedabamboo/notes.hatedabamboo.me
-
-site_name: hatedabamboo notes
-site_url: https://notes.hatedabamboo.me
-theme:
-  name: material
-  palette:
-    primary: white
-    # accent: indigo
-  font:
-    text: Open Sans
-  icon:
-    logo: material/note-edit-outline
-    # previous: fontawesome/solid/angle-left
-    # next: fontawesome/solid/angle-right
-  favicon: assets/favicon.png
-  features:
-    - navigation.tabs
-    - navigation.sections
-    # - navigation.path
-    - navigation.prune
-    # - navigation.instant
-    - navigation.indexes
-    - navigation.top
-    - navigation.footer
-    - header.autohide
 
 extra:
   analytics:
@@ -46,32 +19,41 @@ extra:
     - icon: fontawesome/brands/mastodon
       link: https://mastodon.social/@hatedabamboo
 
-plugins: 
+plugins:
   - blog:
       archive: true
       archive_date_format: YYYY
       blog_dir: .
+      blog_toc: true
       pagination: true
       pagination_per_page: 10
-      post_excerpt: required
       post_date_format: long
       post_dir: posts
+      post_excerpt: required
       post_url_format: "{slug}"
   - tags:
       tags_file: tags.md
 
-# nav:
-#   - /about: about.md
-#   - /root:
-#     - posts/index.md
-#     - posts/bash-aliases.md
-#     - posts/cka-or-not-cka.md
-#     - posts/git-hooks.md
-#     - posts/gitlab-ci-variables-from-parameter-store.md
-#     - posts/hello-world.md
-#     - posts/landing-and-blog.md
-#     - posts/linux-battery-management.md
-#     - posts/quick-git-commit.md
-#     - posts/servers-first-aid-kit.md
-#     - posts/signing-your-git-commits-with-gpg-key.md
-#   - /tags: tags.md
+site_name: hatedabamboo notes
+site_url: https://notes.hatedabamboo.me
+
+theme:
+  favicon: assets/favicon.png
+  features:
+    - navigation.footer
+    - navigation.indexes
+    - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    - navigation.top
+  font:
+    text: Open Sans
+  icon:
+    logo: material/note-edit-outline
+    next: fontawesome/solid/angle-right
+    previous: fontawesome/solid/angle-left
+    top: fontawesome/solid/angle-up
+  name: material
+  palette:
+    primary: white
+    accent: light blue
