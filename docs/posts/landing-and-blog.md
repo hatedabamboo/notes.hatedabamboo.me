@@ -1,17 +1,21 @@
 ---
-layout:     post
-title:      "Landing and blog: how-to and why at all"
-date:       2023-09-30 23:22:00 +0200
-author:     Kirill Solovei
-permalink:  /landing-and-blog
-tags:       aws github
+authors:
+  - hatedabamboo
+date:
+  created: 2023-09-30
+slug: /landing-and-blog
+tags:
+  - aws
+  - github
 ---
+# Landing and blog: how-to and why at all
+
 A short story about why I decided to create a personal website and blog and how
 I set them up and got them running. (Which turned into a manual on how to create
 a static website with S3 + HTTPS + custom domain name and blog for it using
 GitHub Pages).
 
-<!--more-->
+<!-- more -->
 
 ![Horrible handwriting](../assets/2023-09-30-landing-and-blog.webp)
 

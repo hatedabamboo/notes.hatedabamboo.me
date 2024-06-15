@@ -1,0 +1,79 @@
+copyright: Kirill Solovei &copy; 2023-2024
+# repo_name: notes.hatedabamboo.me
+# repo_url: https://github.com/hatedabamboo/notes.hatedabamboo.me
+
+site_name: hatedabamboo notes
+site_url: https://notes.hatedabamboo.me
+theme:
+  name: material
+  palette:
+    primary: white
+    # accent: indigo
+  font:
+    text: Open Sans
+  icon:
+    logo: material/note-edit-outline
+    # previous: fontawesome/solid/angle-left
+    # next: fontawesome/solid/angle-right
+  favicon: assets/favicon.png
+  features:
+    - navigation.tabs
+    - navigation.sections
+    # - navigation.path
+    - navigation.prune
+    - navigation.instant
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - header.autohide
+
+extra:
+  analytics:
+    provider: google
+    property: G-E9FSFDM6ER
+  generator: false
+  social:
+    - icon: fontawesome/brands/linkedin
+      link: https://linkedin.com/in/hatedabamboo/
+    - icon: fontawesome/brands/github
+      link: https://github.com/hatedabamboo/
+    - icon: fontawesome/brands/telegram
+      link: https://t.me/hatedabamboo/
+    - icon: fontawesome/brands/instagram
+      link: https://instagram.com/hatedabamboo/
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/hatedabamboo/
+    - icon: fontawesome/brands/mastodon
+      link: https://mastodon.social/@hatedabamboo
+
+plugins: 
+  - blog:
+      archive: true
+      archive_file: archive.md
+      archive_date_format: YYYY
+      archive_name: /archive
+      blog_dir: .
+      pagination: true
+      pagination_per_page: 10
+      post_excerpt: required
+      post_date_format: long
+      post_dir: posts
+      post_url_format: "{slug}"
+  - tags:
+      tags_file: tags.md
+
+nav:
+  - /about: about.md
+  - /root:
+    - posts/index.md
+    - posts/bash-aliases.md
+    - posts/cka-or-not-cka.md
+    - posts/git-hooks.md
+    - posts/gitlab-ci-variables-from-parameter-store.md
+    - posts/hello-world.md
+    - posts/landing-and-blog.md
+    - posts/linux-battery-management.md
+    - posts/quick-git-commit.md
+    - posts/servers-first-aid-kit.md
+    - posts/signing-your-git-commits-with-gpg-key.md
+  - /tags: tags.md

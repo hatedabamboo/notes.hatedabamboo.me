@@ -1,5 +1,4 @@
 ---
-layout: tags
-title: Tags
-permalink: /tags
+slug: /tags
 ---
+# Tags

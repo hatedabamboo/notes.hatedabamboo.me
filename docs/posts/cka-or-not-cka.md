@@ -1,17 +1,20 @@
 ---
-layout:     post
-title:      "CKA or not CKA: my thoughts about certification and stuff"
-date:       2024-03-13 21:56:00 +0200
-author:     Kirill Solovei
-permalink:  /cka-or-not-cka
-tags:       kubernetes certification
+authors:
+  - hatedabamboo
+date:
+  created: 2024-03-13
+slug: /cka-or-not-cka
+tags:
+  - kubernetes
+  - certification
 ---
+# CKA or not CKA: my thoughts about certification and stuff
 
 To certify or not to certify? That is a complicated question. In this post, I
 will speculate on the topic and share my personal thoughts on certifications in
  general, specifically focusing on the CKA.
 
-<!--more-->
+<!-- more -->
 
 ![CKA](../assets/2024-03-13-cka-or-not-cka.webp)
 

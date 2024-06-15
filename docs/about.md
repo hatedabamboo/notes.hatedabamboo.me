@@ -1,8 +1,8 @@
 ---
-layout:     page
-title:      About
-permalink:  /about
+slug:  /about
 ---
+# /about
+
 ![Winter is coming](./assets/about.webp)
 
 Hello! I'm Kirill, and this is my not-so-huge notebook (I hesitate to call

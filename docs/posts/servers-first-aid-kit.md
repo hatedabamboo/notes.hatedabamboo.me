@@ -1,12 +1,15 @@
 ---
-layout:     post
-title:      "Server's first aid kit: a quick way to determine if your server is
-alive and well"
-date:       2023-12-24 19:27:00 +0200
-author:     Kirill Solovei
-permalink:  /servers-first-aid-kit
-tags:       servers hardware troubleshooting
+authors:
+  - hatedabamboo
+date:
+  created: 2023-12-24
+slug: /servers-first-aid-kit
+tags:
+  - servers
+  - hardware
+  - troubleshooting
 ---
+# Server's first aid kit: a quick way to determine if your server is alive and well
 There are a lot of posts in the internet regarding which program or tool does
 what in Linux systems. Usually it's a brief overview of the program's
 functionality, a few examples, and that's it. All from the objective point of
@@ -15,7 +18,7 @@ algorithms in which these programs can be used. So I decided to write a quick
 guide you can follow to determine whether there's a problem with a server and
 where it is.
 
-<!--more-->
+<!-- more -->
 
 ![Server's first aid kit](../assets/2023-12-24-servers-first-aid-kit.webp)
 

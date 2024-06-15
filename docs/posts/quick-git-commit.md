@@ -1,16 +1,20 @@
 ---
-layout:     post
-title:      "Automatic git commit"
-date:       2023-09-14 20:46:00 +0200
-author:     Kirill Solovei
-permalink:  /automatic-git-commit
-tags:       git bash
+date:
+  created: 2023-09-14
+authors:
+  - hatedabamboo
+slug: /automatic-git-commit
+tags:
+  - git
+  - bash
 ---
+# Automatic git commit
+
 How often you find yourself in the situation, when you're too bored to write a
 commit message? Personally, quite often. For this specific reason I finally
 managed to create a quick way to write commit messages.
 
-<!--more-->
+<!-- more -->
 
 ![Bash is cool](../assets/2023-09-14-quick-git-commit.webp)
 

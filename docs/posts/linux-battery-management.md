@@ -1,17 +1,20 @@
 ---
-layout:     post
-title:      "Linux battery management"
-date:       2024-04-13 16:36:00 +0200
-author:     Kirill Solovei
-permalink:  /linux-battery-management
-tags:       linux hardware
+authors:
+  - hatedabamboo
+date:
+  created: 2024-04-13
+slug: /linux-battery-management
+tags:
+  - linux
+  - hardware
 ---
+# Linux battery management
 
 Yet another reason why I love Linux: everything is a file. Today I would like
 to talk about the files that help us to understand the health of our
 accumulator batteries.
 
-<!--more-->
+<!-- more -->
 
 ![Battery](../assets/2024-04-13-linux-battery-management.webp)
 

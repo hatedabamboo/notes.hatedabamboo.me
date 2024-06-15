@@ -1,0 +1,6 @@
+INFO    -  Building documentation...
+INFO    -  Cleaning site directory
+ERROR   -  Error reading metadata 'date' of post 'blog/posts/bash-aliases.md' in 'docs':
+Expected type: <class 'datetime.date'> or <class 'datetime.datetime'> but received: <class 'str'>
+
+Aborted with a BuildError!

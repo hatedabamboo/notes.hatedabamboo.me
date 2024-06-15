@@ -1,17 +1,20 @@
 ---
-layout:     post
-title:      "Bash aliases and why I love them"
-date:       2023-11-27 14:25:00 +0200
-author:     Kirill Solovei
-permalink:  /bash-aliases
-tags:       bash
+authors:
+  - hatedabamboo
+date:
+  created: 2023-11-27
+slug: /bash-aliases
+tags:
+  - bash
 ---
+# Bash aliases and why I love them
+
 I love bash. A tool as trivial as command line interface (CLI, or just console)
 holds so many secrets, that even after 9 years of experience I still sometime
 find something wonderful. But today I want to talk a bit about one of my
 favourite tricks — aliases.
 
-<!--more-->
+<!-- more -->
 
 ![Bash aliases and where to find them](../assets/2023-11-27-bash-aliases.webp)
 
