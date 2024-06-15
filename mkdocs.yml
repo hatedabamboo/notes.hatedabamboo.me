@@ -21,7 +21,7 @@ theme:
     - navigation.sections
     # - navigation.path
     - navigation.prune
-    - navigation.instant
+    # - navigation.instant
     - navigation.indexes
     - navigation.top
     - navigation.footer
@@ -49,9 +49,7 @@ extra:
 plugins: 
   - blog:
       archive: true
-      archive_file: archive.md
       archive_date_format: YYYY
-      archive_name: /archive
       blog_dir: .
       pagination: true
       pagination_per_page: 10
@@ -62,18 +60,18 @@ plugins:
   - tags:
       tags_file: tags.md
 
-nav:
-  - /about: about.md
-  - /root:
-    - posts/index.md
-    - posts/bash-aliases.md
-    - posts/cka-or-not-cka.md
-    - posts/git-hooks.md
-    - posts/gitlab-ci-variables-from-parameter-store.md
-    - posts/hello-world.md
-    - posts/landing-and-blog.md
-    - posts/linux-battery-management.md
-    - posts/quick-git-commit.md
-    - posts/servers-first-aid-kit.md
-    - posts/signing-your-git-commits-with-gpg-key.md
-  - /tags: tags.md
+# nav:
+#   - /about: about.md
+#   - /root:
+#     - posts/index.md
+#     - posts/bash-aliases.md
+#     - posts/cka-or-not-cka.md
+#     - posts/git-hooks.md
+#     - posts/gitlab-ci-variables-from-parameter-store.md
+#     - posts/hello-world.md
+#     - posts/landing-and-blog.md
+#     - posts/linux-battery-management.md
+#     - posts/quick-git-commit.md
+#     - posts/servers-first-aid-kit.md
+#     - posts/signing-your-git-commits-with-gpg-key.md
+#   - /tags: tags.md

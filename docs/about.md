@@ -1,7 +1,7 @@
 ---
 slug:  /about
 ---
-# /about
+# About
 
 ![Winter is coming](./assets/about.webp)
 
