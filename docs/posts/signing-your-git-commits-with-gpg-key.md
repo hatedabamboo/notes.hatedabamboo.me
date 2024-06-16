@@ -1,18 +1,20 @@
 ---
-layout:     post
-title:      "Signing your git commits with GPG key"
-date:       2024-05-08 13:04:00 +0200
-author:     Kirill Solovei
-permalink:  /signing-your-git-commits-with-gpg-key
-tags:       git gpg
+authors:
+  - hatedabamboo
+date: 2024-05-08
+slug: signing-your-git-commits-with-gpg-key
+tags:
+  - git
+  - gpg
 ---
+# Signing your git commits with GPG key
 
 We all use git. We all are familiar with pull, push and commit commands and we
 don't give them too much thought apart from that. Like, what can possibly be
 complicated about a commit? But is it actually this simple and straightforward?
 Let's find out!
 
-<!--more-->
+<!-- more -->
 
 ![git commit -m Verified](../assets/2024-05-08-signing-your-git-commits-with-gpg-key-1.webp)
 
@@ -184,9 +186,9 @@ And also it will allow you to avoid such things as this:
 
 ![Someone has used your name to commit shit!](../assets/2024-05-08-signing-your-git-commits-with-gpg-key-3.webp)
 
----
+!!! abstract "Closing remarks"
 
-As always, feel free to
-[disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
-me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
-mistakes and befriend me on one of the social media platforms listed below.
+    As always, feel free to
+    [disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
+    me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
+    mistakes and befriend me on one of the social media platforms listed below.

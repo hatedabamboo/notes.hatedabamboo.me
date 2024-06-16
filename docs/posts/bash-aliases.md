@@ -1,17 +1,20 @@
 ---
-layout:     post
-title:      "Bash aliases and why I love them"
-date:       2023-11-27 14:25:00 +0200
-author:     Kirill Solovei
-permalink:  /bash-aliases
-tags:       bash
+authors:
+  - hatedabamboo
+date:
+  created: 2023-11-27
+slug: bash-aliases
+tags:
+  - bash
 ---
+# Bash aliases and why I love them
+
 I love bash. A tool as trivial as command line interface (CLI, or just console)
 holds so many secrets, that even after 9 years of experience I still sometime
 find something wonderful. But today I want to talk a bit about one of my
 favourite tricks — aliases.
 
-<!--more-->
+<!-- more -->
 
 ![Bash aliases and where to find them](../assets/2023-11-27-bash-aliases.webp)
 
@@ -47,13 +50,13 @@ In the example above `~/` is the home directory of your current user, same as
 `/home/your-username`.
 Declaration of an alias looks like this:
 
-```bash
+```shell
 alias <new word for the command>="<command you want to replace with alias>"
 ```
 
 And actual example:
 
-```bash
+```shell
 alias l="ls -lh --color=always"
 alias ll="ls -lah --color=always"
 ```
@@ -61,7 +64,7 @@ alias ll="ls -lah --color=always"
 And that's it! If you're going to use non-default file for your aliases, don't
 forget to include it inside your shell profile:
 
-```bash
+```shell
 if [ -f ~/.bash_aliases ]; then
   . ~/.bash_aliases
 fi
@@ -69,7 +72,7 @@ fi
 
 After inclusion of the aliases, don't forget to update your shell profile:
 
-```bash
+```shell
 source ~/.bashrc
 # or
 source ~/.profile
@@ -90,13 +93,13 @@ You can peek at my aliases (and all the dotfiles I use, actually) at my GitHub:
 
 - [dotfiles](https://github.com/hatedabamboo/dotfiles)
 
----
+!!! abstract "Closing remarks"
 
-As always, feel free to
-[disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
-me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
-mistakes and befriend me on one of the social media platforms listed below.
+    As always, feel free to
+    [disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
+    me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
+    mistakes and befriend me on one of the social media platforms listed below.
 
-During the process of writing this post, the following music compositions have
-been listened to:
-[*2005 - 2010 Hardstyle Mix*](https://www.youtube.com/watch?v=XytcoeXiaZ0).
+    During the process of writing this post, the following music compositions have
+    been listened to:
+    [*2005 - 2010 Hardstyle Mix*](https://www.youtube.com/watch?v=XytcoeXiaZ0).

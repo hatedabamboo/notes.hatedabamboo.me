@@ -1,16 +1,22 @@
 ---
-layout:     post
-title:      "Using AWS Parameter Store instead of Gitlab CICD Variables"
-date:       2023-08-24 17:03:00 +0200
-author:     Kirill Solovei
-permalink:  /cicd-variables-from-aws
-tags:       aws gitlab cicd secrets
+authors:
+  - hatedabamboo
+date:
+  created: 2023-08-24
+slug: cicd-variables-from-aws
+tags:
+  - aws
+  - gitlab
+  - cicd
+  - secrets
 ---
+# Using AWS Parameter Store instead of Gitlab CICD Variables
+
 This note is dedicated to showing how one can store CI/CD variables and secret
 values inside AWS Parameter Store (or Secrets Manager) and use them within
 Gitlab CI.
 
-<!--more-->
+<!-- more -->
 
 ![Gitlab + AWS](../assets/2023-08-24-gitlab-ci-variables-from-parameter-store.webp)
 
@@ -200,9 +206,9 @@ script:
 This way we can store all the necessary secrets and variables in one place
 and change them anywhere with one simple trick.
 
----
+!!! abstract "Closing remarks"
 
-As always, feel free to
-[disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
-me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
-mistakes and befriend me on one of the social media platforms listed below.
+    As always, feel free to
+    [disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
+    me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
+    mistakes and befriend me on one of the social media platforms listed below.

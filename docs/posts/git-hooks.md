@@ -1,16 +1,19 @@
 ---
-layout:     post
-title:      "Git hooks: a painless way to use them"
-date:       2023-12-28 12:00:00 +0100
-author:     Kirill Solovei
-permalink:  /git-hooks
-tags:       git
+authors:
+  - hatedabamboo
+date:
+  created: 2023-12-28
+slug: git-hooks
+tags:
+  - git
 ---
+# Git hooks: a painless way to use them
+
 Git hooks are a very handy feature in development. However, because of their
 local nature, configuring them from a centralized repository perspective can be
 challenging. In this note, I aim to find a convenient solution to this problem.
 
-<!--more-->
+<!-- more -->
 
 ![Git hooks](../assets/2023-12-28-git-hooks.webp)
 
@@ -86,7 +89,7 @@ such case the script has to be updated accordingly.
 The script itself has to be put in the repository root as well.
 
 Of course, hooks inside this directory must follow the same naming convention
-as original hooks<sup>[[1]](#links)</sup>. After all, this is just a different
+as original hooks[^1]. After all, this is just a different
 storage, not different implementation of the feature.
 
 This allows DevOps engineer to provide all developers with the necessary
@@ -101,17 +104,15 @@ command:
 bash install-hooks.sh
 ```
 
-## Links
+!!! abstract "Closing remarks"
 
-1. [Customizing Git - Git Hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)
+    As always, feel free to
+    [disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
+    me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
+    mistakes and befriend me on one of the social media platforms listed below.
 
----
+    During the process of writing this post, the following music compositions have
+    been listened to:
+    [*Gojira — From Mars to Sirius*](https://open.spotify.com/album/0AvFF0HlQYvYKHaRURGZBs).
 
-As always, feel free to
-[disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
-me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
-mistakes and befriend me on one of the social media platforms listed below.
-
-During the process of writing this post, the following music compositions have
-been listened to:
-[*Gojira — From Mars to Sirius*](https://open.spotify.com/album/0AvFF0HlQYvYKHaRURGZBs).
+[^1]: [Customizing Git - Git Hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)

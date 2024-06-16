@@ -1,17 +1,21 @@
 ---
-layout:     post
-title:      "Landing and blog: how-to and why at all"
-date:       2023-09-30 23:22:00 +0200
-author:     Kirill Solovei
-permalink:  /landing-and-blog
-tags:       aws github
+authors:
+  - hatedabamboo
+date:
+  created: 2023-09-30
+slug: landing-and-blog
+tags:
+  - aws
+  - github
 ---
+# Landing and blog: how-to and why at all
+
 A short story about why I decided to create a personal website and blog and how
 I set them up and got them running. (Which turned into a manual on how to create
 a static website with S3 + HTTPS + custom domain name and blog for it using
 GitHub Pages).
 
-<!--more-->
+<!-- more -->
 
 ![Horrible handwriting](../assets/2023-09-30-landing-and-blog.webp)
 
@@ -27,7 +31,7 @@ forget it, leaving me without necessary notes in the middle of a thought
 process. Not cool.
 
 Somewhere around this time, I discovered a wonderful note organizer called
-Obsidian<sup>[[1]](#links)</sup> through my colleagues. From there, things
+Obsidian[^1] through my colleagues. From there, things
 started moving forward. I began using it not only for professional notes but
 also for personal ones. It proved to be very handy, especially during the
 preparation for certifications, whether it was AWS, Hashicorp Terraform, or
@@ -44,22 +48,22 @@ I don't associate my notes here with the word "blog", but it seems like this is
 the most convenient term for it.
 
 When I thought about the platform and approach for my blog and landing page, I
-decided that it should be as simple as possible (KISS<sup>[[2]](#links)</sup>,
+decided that it should be as simple as possible (KISS[^2],
 as they say). That's why choosing GitHub Pages seemed like the most obvious
 solution. The platform has built-in functionality to deploy a website using the
 very popular existing engine. I wouldn't have to worry about deploying pipelines
 (ha-ha, DevOps engineer wouldn't like to set up another pipeline). The main
 language for notes is Markdown, and it's already a git repository. Every commit
 will trigger the pipeline, deploy fresh changes, and display fresh posts in
-just a minute. GitOps<sup>[[3]](#links)</sup> in its full
+just a minute. GitOps[^3] in its full
 glory! What more could one wish for?
 
 And that's how this blog was created. GitHub has a very nice and thorough
-manual<sup>[[4]](#links)</sup> for the process of creating a personal blog,
+manual[^4] for the process of creating a personal blog,
 which is exactly what I followed.
 
 Some customization has been made, primarily with a custom domain name (which I
-find very good). GitHub has a manual<sup>[[5]](#links)</sup> for this case as
+find very good). GitHub has a manual[^5] for this case as
 well. But as I recall correctly, all I did was select the "**Custom domain**"
 option in the "**Pages**" menu of the repository settings and paste my custom
 domain for this blog. After a few minutes, when GitHub checked DNS
@@ -75,13 +79,13 @@ outdated, sometimes even abandoned. This leads to frustrating situations where
 you have to reinvent the wheel instead of just adding some parameters and
 modules and doing a git push. Adding tags and a post archive took me about 3
 hours and approximately 50 commits to the repository (GitOps, you know). Not to
-mention that the default theme for Jekyll, minima<sup>[[6]](#links)</sup>, has
+mention that the default theme for Jekyll, minima[^6], has
 been out of development for 4 years already. And to use its latest version (3),
 you'll have to improvise, because you can't simply set it in the Gemfile, as
 it's not in the repository. To configure the latest minima theme, I had to
 include it in a separate setting in `_config.yml`:
 
-```text
+```yaml
 remote_theme: jekyll/minima
 ```
 
@@ -99,9 +103,12 @@ After all, what is a landing page if not a static webpage, right? Besides, with
 simple HTML and a minimal amount of CSS and assets, my webpage loads in around
 300–400 ms. Take that, modern bloatweb!
 
+!!! note
+
     Initially, I intended to describe what I did during the creation and configuration of
     my landing page, but in the end, it turned out to be instructions on how to create your
     own.
+
     So be it.
 
 ### Domain name
@@ -137,6 +144,8 @@ the policy would look like:
 }
 ```
 
+!!! tip
+
     For future convenience, you should name the bucket the same as your website address.
 
 With these steps, you can already upload `index.html` to the bucket, and the
@@ -171,7 +180,7 @@ name, and find the "**Nameservers**" setting. You'll need to change them to the
 ones created by the hosted zone in Route 53 – specifically, the *NS* records.
 They should look like this:
 
-```text
+```text title="Domain names"
 ns-2048.awsdns-64.com
 ns-2049.awsdns-65.net
 ns-2050.awsdns-66.org
@@ -237,6 +246,8 @@ This is the schema of the whole process:
 
 #### 3. HTTP and S
 
+!!! info
+
     As every P in the name of something IT-related stands for "Protocol" and
     L for "Language", S stands for "Secured".
 
@@ -284,8 +295,7 @@ Here, I check for changes in the actual website pages for the latest commit and
 invalidate those files using `awscli`. It's simple yet effective, and I find
 this part very satisfying.
 
-You can find the complete pipeline in the repository<sup>[[7]](#links)</sup>
-for my website.
+You can find the complete pipeline in the repository[^7] for my website.
 
 #### 5. Costs
 
@@ -310,26 +320,24 @@ The source code for both my ladning and my blog can be found at my GitHub:
 - [Website](https://github.com/hatedabamboo/hatedabamboo.me)
 - [Blog](https://github.com/hatedabamboo/notes.hatedabamboo.me)
 
-## Links
+!!! abstract "Closing remarks"
 
-1. [Obsidian](https://obsidian.md/)
-2. [KISS principle](https://en.wikipedia.org/wiki/KISS_principle)
-3. [What is GitOps?](https://about.gitlab.com/topics/gitops/)
-4. [Creating a GitHub Pages site](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site)
-5. [Managing a custom domain for your GitHub Pages site](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)
-6. [minima](https://github.com/jekyll/minima/)
-7. [GitHub pipeline](https://github.com/hatedabamboo/hatedabamboo.me/blob/main/.github/workflows/main.yml)
+    As always, feel free to
+    [disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
+    me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
+    mistakes and befriend me on one of the social media platforms listed below.
 
----
+    During the process of writing this post, the following music compositions have
+    been listened to:
+    [*Protectorate - UnderRail Extended Soundtrack*](https://www.youtube.com/watch?v=JrLyrEPzrpc),
+    [*All Blasphemous Boss Themes*](https://www.youtube.com/watch?v=vfT5-o4US0k),
+    [*Dark Souls 3 All Boss Theme Songs OST (+DLC)*](https://www.youtube.com/watch?v=n-Eb4xQ1dnw),
+    [*Bloodborne All Boss Theme Songs OST (+DLC)*](https://www.youtube.com/watch?v=5AJaW5HoztQ).
 
-As always, feel free to
-[disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
-me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
-mistakes and befriend me on one of the social media platforms listed below.
-
-During the process of writing this post, the following music compositions have
-been listened to:
-[*Protectorate - UnderRail Extended Soundtrack*](https://www.youtube.com/watch?v=JrLyrEPzrpc),
-[*All Blasphemous Boss Themes*](https://www.youtube.com/watch?v=vfT5-o4US0k),
-[*Dark Souls 3 All Boss Theme Songs OST (+DLC)*](https://www.youtube.com/watch?v=n-Eb4xQ1dnw),
-[*Bloodborne All Boss Theme Songs OST (+DLC)*](https://www.youtube.com/watch?v=5AJaW5HoztQ).
+[^1]: [Obsidian](https://obsidian.md/)
+[^2]: [KISS principle](https://en.wikipedia.org/wiki/KISS_principle)
+[^3]: [What is GitOps?](https://about.gitlab.com/topics/gitops/)
+[^4]: [Creating a GitHub Pages site](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site)
+[^5]: [Managing a custom domain for your GitHub Pages site](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)
+[^6]: [minima](https://github.com/jekyll/minima/)
+[^7]: [GitHub pipeline](https://github.com/hatedabamboo/hatedabamboo.me/blob/main/.github/workflows/main.yml)

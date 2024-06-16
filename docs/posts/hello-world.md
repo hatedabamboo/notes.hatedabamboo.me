@@ -1,14 +1,17 @@
 ---
-layout:     post
-title:      "Ready player one"
-date:       2023-08-24 11:49:00 +0200
-author:     Kirill Solovei
-permalink:  /hello-world
-tags:       other
+authors:
+  - hatedabamboo
+date:
+  created: 2023-08-24
+slug: hello-world
+tags:
+  - other
 ---
+# Ready player one
+
 Here lies the first ever blogpost. Just so it will be here. No other particular reason.
 
-<!--more-->
+<!-- more -->
 
 ![First post](../assets/2023-08-24-hello-world.webp)
 
