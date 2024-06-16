@@ -3,13 +3,14 @@ authors:
   - hatedabamboo
 date:
   created: 2023-12-24
-slug: /servers-first-aid-kit
+slug: servers-first-aid-kit
 tags:
   - servers
   - hardware
   - troubleshooting
 ---
 # Server's first aid kit: a quick way to determine if your server is alive and well
+
 There are a lot of posts in the internet regarding which program or tool does
 what in Linux systems. Usually it's a brief overview of the program's
 functionality, a few examples, and that's it. All from the objective point of
@@ -96,7 +97,7 @@ to find that bloody memory leaking process or the bastard who stole all the
 IOPS.
 
 Apart from pressing buttons you can actually configure the interface however
-you like<sup>[[1]](#links)</sup>, but I wouldn't bother as nowdays it's
+you like[^1], but I wouldn't bother as nowdays it's
 hundreds and thousands of servers under our command and we don't spend as much
 time as we used to anyway.
 
@@ -195,18 +196,16 @@ follow at any time to troubleshoot any issue at your own pace and order.
 
 Thank you for reading!
 
-## Links
+!!! abstract "Closing remarks"
 
-1. [How to customize the Linux top command](https://www.redhat.com/sysadmin/customize-top-command)
+    As always, feel free to
+    [disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
+    me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
+    mistakes and befriend me on one of the social media platforms listed below.
 
----
+    During the process of writing this post, the following music compositions have
+    been listened to:
+    [*The Invincible - Original Game Soundtrack*](https://www.youtube.com/watch?v=eeaRI8dVOGQ),
+    [*2005 - 2010 Hardstyle Mix*](https://www.youtube.com/watch?v=XytcoeXiaZ0).
 
-As always, feel free to
-[disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
-me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
-mistakes and befriend me on one of the social media platforms listed below.
-
-During the process of writing this post, the following music compositions have
-been listened to:
-[*The Invincible - Original Game Soundtrack*](https://www.youtube.com/watch?v=eeaRI8dVOGQ),
-[*2005 - 2010 Hardstyle Mix*](https://www.youtube.com/watch?v=XytcoeXiaZ0).
+[^1]: [How to customize the Linux top command](https://www.redhat.com/sysadmin/customize-top-command)

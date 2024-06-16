@@ -2,7 +2,7 @@
 authors:
   - hatedabamboo
 date: 2024-05-08
-slug: /signing-your-git-commits-with-gpg-key
+slug: signing-your-git-commits-with-gpg-key
 tags:
   - git
   - gpg
@@ -186,9 +186,9 @@ And also it will allow you to avoid such things as this:
 
 ![Someone has used your name to commit shit!](../assets/2024-05-08-signing-your-git-commits-with-gpg-key-3.webp)
 
----
+!!! abstract "Closing remarks"
 
-As always, feel free to
-[disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
-me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
-mistakes and befriend me on one of the social media platforms listed below.
+    As always, feel free to
+    [disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
+    me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
+    mistakes and befriend me on one of the social media platforms listed below.

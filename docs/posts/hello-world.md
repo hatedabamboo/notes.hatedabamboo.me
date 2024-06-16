@@ -3,7 +3,7 @@ authors:
   - hatedabamboo
 date:
   created: 2023-08-24
-slug: /hello-world
+slug: hello-world
 tags:
   - other
 ---

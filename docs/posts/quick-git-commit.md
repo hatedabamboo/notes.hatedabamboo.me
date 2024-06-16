@@ -3,7 +3,7 @@ date:
   created: 2023-09-14
 authors:
   - hatedabamboo
-slug: /automatic-git-commit
+slug: automatic-git-commit
 tags:
   - git
   - bash
@@ -20,8 +20,7 @@ managed to create a quick way to write commit messages.
 
 I love aliases in bash. They're super convenient and useful and significantly
 increase the speed of work. Someday I hope to write finally a
-[post about them](https://notes.hatedabamboo.me/bash-aliases), but for now you can check my
-[dotfiles repository](https://github.com/hatedabamboo/dotfiles) with aliases.
+post about them[^1], but for now you can check my dotfiles repository[^2] with aliases.
 
 But lets back to the topic. I use aliases in git operations a log: `gs` instead
 of `git status`, `gp` instead of `git pull`, etc., etc. Recently I added one
@@ -36,7 +35,7 @@ Turns out, there is such an option. `git status` shows changes that have been
 made in the repository. They're quite verbose, but using `git status --short`
 it can be minimized to one line per change using the following symbols:
 
-```text
+```text title="man git"
 •   ' ' = unmodified
 •   M = modified
 •   T = file type changed (regular file, symbolic link or submodule)
@@ -79,7 +78,7 @@ They all can be used as an anchor for the quick alias, however not all of them
 are convenient to me in everyday operations. This brings me to creation of such
 command:
 
-```bash
+```shell
 git status --short | sed 's/^M /Updated\t/g; s/^A /Added\t/g; s/^D /Deleted\t/g; s/ .*\// /g' | sort
 ```
 
@@ -88,14 +87,14 @@ with only filename and sort changes alphabetically.
 
 It can be wrapped inside the `git commit` command:
 
-```bash
+```shell
 git commit -m "$(git status --short | sed 's/^M /Updated\t/g; s/^A /Added\t/g; s/^D /Deleted\t/g; s/ .*\// /g' | sort)"
 ```
 
 And, finally, create a handy alias for quick commits (don't forget to escape
 double quotes and `$` sign!):
 
-```bash
+```shell
 alias gc="git commit -m \"\$(git status --short | sed 's/^M /Updated\t/g; s/^A /Added\t/g; s/^D /Deleted\t/g; s/ .*\// /g' | sort)\""
 ```
 
@@ -105,7 +104,7 @@ long string or boring comments.
 With this help all git operations (edit file, add file to commit, commit
 it and push to the repository) can be shorten to few symbols:
 
-```bash
+```shell
 vim file
 ga file
 gc
@@ -114,7 +113,7 @@ git push
 
 and commit message will look like this:
 
-```text
+```text title="Commit message"
 Added   mock_data.sql
 Added   test-query.sql
 Added   query-result.sql
@@ -122,9 +121,12 @@ Updated README.md
 Deleted testfile
 ```
 
----
+!!! abstract "Closing remarks"
 
-As always, feel free to
-[disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
-me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
-mistakes and befriend me on one of the social media platforms listed below.
+    As always, feel free to
+    [disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
+    me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
+    mistakes and befriend me on one of the social media platforms listed below.
+
+[^1]: [Bash aliases and why I love them](https://notes.hatedabamboo.me/bash-aliases)
+[^2]: [dotfiles](https://github.com/hatedabamboo/dotfiles)

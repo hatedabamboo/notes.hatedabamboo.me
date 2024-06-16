@@ -3,7 +3,7 @@ authors:
   - hatedabamboo
 date:
   created: 2024-03-13
-slug: /cka-or-not-cka
+slug: cka-or-not-cka
 tags:
   - kubernetes
   - certification
@@ -36,7 +36,7 @@ resources:
 - Official Kubernetes documentation
 - List of topics covered by the exam
 - Video course on Kubernetes by KodeKloud (created specifically for CKA
-certification<sup>[[1]](#links)</sup>)
+certification[^1])
 
 Basically, this is it. This is the amount of theory you will need to delve into
 the topic from ground zero, and I'm not kidding.
@@ -50,7 +50,7 @@ performance-based.
 
 To properly prepare for the exam, one must be familiar with the terminal and
 all basic `kubectl` commands. In this regard, I found the KLLRCODA
-playgrounds<sup>[[2]](#links)</sup> very helpful. Besides having scenario-based
+playgrounds[^2] very helpful. Besides having scenario-based
 playgrounds, they also have an open free-for-all playground, although
 time-limited for free users.
 
@@ -61,7 +61,7 @@ have to set them up manually beforehand. Additionally, the KodeKloud course
 includes several mock exams, which are somewhat similar to the actual exam.
 
 But the ultimate killer feature among all resources is
-killer.sh<sup>[[3]](#links)</sup> (created by the same guys as Killercoda) mock
+killer.sh[^3] (created by the same guys as Killercoda) mock
 exams, which come included with the CKA exam purchase. These preparation exams
 don't mess around: their mock tasks are complicated, timed, and very
 thoughtfully prepared. If you wish to pass the actual exam with ease, killer.sh
@@ -115,15 +115,13 @@ It's important to mention that in certain scenarios, obtaining a certificate
 may be necessary to secure a new job. In such cases, pursuing the certificate
 becomes a solid and direct investment in one's future: go for it.
 
-## Links
+!!! abstract "Closing remarks"
 
-1. [Certified Kubernetes Administrator (CKA) with Practice Tests](https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/)
-2. [Killercoda](https://killercoda.com/)
-3. [Killer Shell](https://killer.sh/)
+    As always, feel free to
+    [disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
+    me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
+    mistakes and befriend me on one of the social media platforms listed below.
 
----
-
-As always, feel free to
-[disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
-me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
-mistakes and befriend me on one of the social media platforms listed below.
+[^1]: [Certified Kubernetes Administrator (CKA) with Practice Tests](https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/)
+[^2]: [Killercoda](https://killercoda.com/)
+[^3]: [Killer Shell](https://killer.sh/)

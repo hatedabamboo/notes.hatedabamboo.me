@@ -3,7 +3,7 @@ authors:
   - hatedabamboo
 date:
   created: 2024-04-13
-slug: /linux-battery-management
+slug: linux-battery-management
 tags:
   - linux
   - hardware
@@ -92,19 +92,18 @@ that we will definitely need.
 Files `charge_control_start_threshold`, `charge_control_end_threshold`,
 `charge_start_threshold` and `charge_stop_threshold` show charge level on which
 battery should start charging or end charging. These values play the crucial
-role in battery lifecycle, as per Battery University<sup>[[1]](#links)</sup>
-(yes, seriously) the optimal charge range for Li-ion batteries is between 30
-and 80 percent.
+role in battery lifecycle, as per Battery University[^1] (yes, seriously) the
+optimal charge range for Li-ion batteries is between 30 and 80 percent.
 
 `cycle_count` show the current amount of charge/discharge cycles.
 
 `energy_full`, `energy_full_design`, `energy_now` show current level of battery
 capacity: at full charge, full by design and current level (in
-µWh<sup>[[2]](#links)</sup>).
+µWh[^2]).
 
 `uevent` has the information from all other sources as well, presenting a
 combination of power supply properties (according to linux kernel source code:
-power_supply.h<sup>[[3]](#links)</sup>) and their respective values. It looks
+power_supply.h[^3]) and their respective values. It looks
 like this:
 
 ```shell
@@ -188,28 +187,27 @@ For viewing information about the battery, there's the `upower` utility, which
 displays information about power sources available in the system.
 
 For adjusting battery charge thresholds, there are open-source solutions like
-the Gnome extension "*Battery Health Charging*"<sup>[[4]](#links)</sup> (which
+the Gnome extension "*Battery Health Charging*"[^4] (which
 I currently use) and many others, depending on your graphical environment and
 operating system.
 
-```text
-N.B.: All actions above have been performed on Fedora Linux 39, actual files and their location may vary.
-```
+!!! info
 
-## Links
+    N.B.: All actions above have been performed on Fedora Linux 39, actual files and their location may vary.
 
-1. [BU-415: How to Charge and When to Charge?](https://batteryuniversity.com/article/bu-415-how-to-charge-and-when-to-charge)
-2. [Linux kernel power supply class](https://www.kernel.org/doc/html/latest/power/power_supply_class.html#units)
-3. [power_supply.h](https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/include/linux/power_supply.h?h=v6.0.11)
-4. [Battery Health Charging](https://extensions.gnome.org/extension/5724/battery-health-charging/)
 
----
+!!! abstract "Closing remarks"
 
-As always, feel free to
-[disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
-me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
-mistakes and befriend me on one of the social media platforms listed below.
+    As always, feel free to
+    [disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with
+    me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
+    mistakes and befriend me on one of the social media platforms listed below.
 
-During the process of writing this post, the following music compositions have
-been listened to:
-[*FromSoftware - Best Soundtracks / Demon Souls / Dark Souls / Bloodborne / Sekiro / Elden Ring*](https://www.youtube.com/watch?v=N3UYRtEMKuU).
+    During the process of writing this post, the following music compositions have
+    been listened to:
+    [*FromSoftware - Best Soundtracks / Demon Souls / Dark Souls / Bloodborne / Sekiro / Elden Ring*](https://www.youtube.com/watch?v=N3UYRtEMKuU).
+
+[^1]: [BU-415: How to Charge and When to Charge?](https://batteryuniversity.com/article/bu-415-how-to-charge-and-when-to-charge)
+[^2]: [Linux kernel power supply class](https://www.kernel.org/doc/html/latest/power/power_supply_class.html#units)
+[^3]: [power_supply.h](https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/include/linux/power_supply.h?h=v6.0.11)
+[^4]: [Battery Health Charging](https://extensions.gnome.org/extension/5724/battery-health-charging/)
