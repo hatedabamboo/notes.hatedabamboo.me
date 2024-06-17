@@ -9,9 +9,8 @@ tags:
   - gitlab
   - cicd
   - secrets
+title: "Using AWS Parameter Store instead of Gitlab CICD Variables"
 ---
-# Using AWS Parameter Store instead of Gitlab CICD Variables
-
 This note is dedicated to showing how one can store CI/CD variables and secret
 values inside AWS Parameter Store (or Secrets Manager) and use them within
 Gitlab CI.

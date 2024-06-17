@@ -3,13 +3,13 @@ authors:
   - hatedabamboo
 date:
   created: 2023-09-30
+  updated: 2024-06-17
 slug: landing-and-blog
 tags:
   - aws
   - github
+title: "Landing and blog: how-to and why at all"
 ---
-# Landing and blog: how-to and why at all
-
 A short story about why I decided to create a personal website and blog and how
 I set them up and got them running. (Which turned into a manual on how to create
 a static website with S3 + HTTPS + custom domain name and blog for it using
@@ -18,6 +18,14 @@ GitHub Pages).
 <!-- more -->
 
 ![Horrible handwriting](../assets/2023-09-30-landing-and-blog.webp)
+
+!!! warning "17.06.2024 update"
+
+    On June 17 I switched blog platform from Jekyll to Material for MkDocs
+    (with which I'm very happy for now). Because of this some parts of this
+    post became obsolete. I'm pretty sure some time in the future I'll update
+    this post with all hte new information, or write a separate one regarding
+    reasons behind this transition and transition itself. We'll see.
 
 ## Introduction
 

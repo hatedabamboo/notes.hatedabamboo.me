@@ -6,9 +6,8 @@ slug: signing-your-git-commits-with-gpg-key
 tags:
   - git
   - gpg
+title: "Signing your git commits with GPG key"
 ---
-# Signing your git commits with GPG key
-
 We all use git. We all are familiar with pull, push and commit commands and we
 don't give them too much thought apart from that. Like, what can possibly be
 complicated about a commit? But is it actually this simple and straightforward?

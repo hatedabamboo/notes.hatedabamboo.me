@@ -6,9 +6,8 @@ date:
 slug: git-hooks
 tags:
   - git
+title: "Git hooks: a painless way to use them"
 ---
-# Git hooks: a painless way to use them
-
 Git hooks are a very handy feature in development. However, because of their
 local nature, configuring them from a centralized repository perspective can be
 challenging. In this note, I aim to find a convenient solution to this problem.

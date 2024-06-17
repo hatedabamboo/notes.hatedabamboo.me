@@ -6,9 +6,8 @@ date:
 slug: hello-world
 tags:
   - other
+title: "Ready player one"
 ---
-# Ready player one
-
 Here lies the first ever blogpost. Just so it will be here. No other particular reason.
 
 <!-- more -->

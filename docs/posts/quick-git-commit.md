@@ -7,9 +7,8 @@ slug: automatic-git-commit
 tags:
   - git
   - bash
+title: "Automatic git commit"
 ---
-# Automatic git commit
-
 How often you find yourself in the situation, when you're too bored to write a
 commit message? Personally, quite often. For this specific reason I finally
 managed to create a quick way to write commit messages.

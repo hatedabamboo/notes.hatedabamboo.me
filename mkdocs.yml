@@ -45,9 +45,18 @@ plugins:
       post_dir: posts
       post_excerpt: required
       post_url_format: "{slug}"
+  - rss:
+      categories:
+        - tags
+      date_from_meta:
+        as_creation: date.created
+        as_update: date.updated
+      match_path: "posts/.*"
   - tags:
       tags_file: tags.md
 
+site_author: Kirill Solovei
+site_description: Personal notes on DevOps and systems engineering
 site_name: hatedabamboo notes
 site_url: https://notes.hatedabamboo.me
 

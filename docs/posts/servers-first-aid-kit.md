@@ -8,9 +8,8 @@ tags:
   - servers
   - hardware
   - troubleshooting
+title: "Server's first aid kit: a quick way to determine if your server is alive and well"
 ---
-# Server's first aid kit: a quick way to determine if your server is alive and well
-
 There are a lot of posts in the internet regarding which program or tool does
 what in Linux systems. Usually it's a brief overview of the program's
 functionality, a few examples, and that's it. All from the objective point of

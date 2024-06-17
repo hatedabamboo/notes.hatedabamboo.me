@@ -34,7 +34,10 @@ jobs:
           restore-keys: |
             mkdocs-material-
       - name: Install dependencies
-        run: pip install mkdocs-material
+        run: |
+          pip install \
+            mkdocs-material \
+            mkdocs-rss-plugin
       - name: Build documentation
         run: mkdocs build -s
       - name: Upload to GitHub Pages

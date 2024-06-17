@@ -7,9 +7,8 @@ slug: linux-battery-management
 tags:
   - linux
   - hardware
+title: "Linux battery management"
 ---
-# Linux battery management
-
 Yet another reason why I love Linux: everything is a file. Today I would like
 to talk about the files that help us to understand the health of our
 accumulator batteries.
