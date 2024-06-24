@@ -2,9 +2,10 @@
 
 if [ $# -eq 0 ]; then
   echo "Please provide a title for the topic"
+  exit 0
 fi
 
-TITLE="$(echo $@ | tr ' ' '-' | tr [[:upper:]] [[:lower:]])"
+TITLE="$(echo $@ | tr -d ':,' | tr ' ' '-' | tr [[:upper:]] [[:lower:]])"
 
 filename="${TITLE}"
 post="${filename}.md"

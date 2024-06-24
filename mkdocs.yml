@@ -28,9 +28,14 @@ markdown_extensions:
       auto_title: true
       line_spans: __span
       pygments_lang_class: true
+  - pymdownx.caret
+  - pymdownx.critic
   - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
   - pymdownx.snippets
   - pymdownx.superfences
+  - pymdownx.tilde
 
 plugins:
   - blog:
