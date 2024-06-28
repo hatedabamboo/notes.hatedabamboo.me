@@ -10,7 +10,8 @@ tags:
   - terraform
 title: "Checking IAM policy length using Terraform"
 ---
-Terraform, apart from being an incredible tool overall, is very good for managing IAM policies: it's straightforward, easy to maintain, and very flexible. I've seen a lot of guides on using Terraform for managing infrastructure in general and IAM specifically, but I haven't seen any implementing an important but not very common feature—validating IAM policy length. So I decided to create one.
+Terraform, apart from being an incredible tool overall, is very good for managing IAM policies: it's straightforward, easy to maintain, and very flexible. I've seen a lot of guides on using Terraform for managing infrastructure in general and IAM specifically, but I haven't seen any implementing an important but not very common feature — validating IAM policy length. So I decided to create one.
+
 <!-- more -->
 
 ![image](../assets/checking-iam-policy-length-using-terraform.webp)
