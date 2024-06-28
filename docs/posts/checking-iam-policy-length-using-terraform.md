@@ -1,5 +1,4 @@
 ---
-draft: true # TODO remove
 authors:
   - hatedabamboo
 date:
@@ -7,14 +6,14 @@ date:
 slug: checking-iam-policy-length-using-terraform
 tags:
   - aws
+  - iam
   - terraform
 title: "Checking IAM policy length using Terraform"
 ---
-Terraform, apart from being incredible tool overall, is very good for managing IAM policies: it's straightforward, it's easy maintainable and very flexible. I've seen a lot of guides on using Terraform for managing infrastracture in general and IAM specifically, but I haven't seen any implementing kinda important, but not very common feature -- validating IAM policy length. So I decided to create one.
-
+Terraform, apart from being an incredible tool overall, is very good for managing IAM policies: it's straightforward, easy to maintain, and very flexible. I've seen a lot of guides on using Terraform for managing infrastructure in general and IAM specifically, but I haven't seen any implementing an important but not very common feature—validating IAM policy length. So I decided to create one.
 <!-- more -->
 
-![image](../assets/checking-iam-policy-length-using-terraform.webp) # TODO draw the picture
+![image](../assets/checking-iam-policy-length-using-terraform.webp)
 
 ## The problem
 
@@ -36,7 +35,7 @@ I'm sure 90% of IAM policies look like this:
 }
 ```
 
-Which may be totally fine, based on your needs. This policy, however, is not very close to the Well-Architected Framework's "least privilege" design principle[^1]. Keeping up with the tone of WAF, the policy should be narrowed to only necessary actions on necessary resources, e.g.:
+Which may be totally fine based on your needs. This policy, however, is not very close to the Well-Architected Framework's "least privilege" design principle[^1]. Keeping with the tone of WAF, the policy should be narrowed to only necessary actions on necessary resources, e.g.:
 
 ```json
 {
@@ -59,13 +58,13 @@ Which may be totally fine, based on your needs. This policy, however, is not ver
 }
 ```
 
-Narrowed this policy became only in functionality, but not in size. Should we further fine tune the functionality, the size of the policy will increase. On medium and small-sized projects this may not be an issue at all, but on big projects with huge amount of users, resources, accounts and restictions this may become a pain in the butt. The reason being AWS limit for the size of policies: 6144 non-whitespace characters. Splitting one big policy into several smaller ones may work up until the point when you reach hard limit of 20 policies per role[^2].
+Narrowing this policy reduced its functionality but not its size. If we further fine-tune the functionality, the size of the policy will increase. In medium and small-sized projects, this may not be an issue, but in large projects with many users, resources, accounts, and restrictions, this may become problematic. The reason is AWS's limit for the size of policies: 6144 non-whitespace characters. Splitting one large policy into several smaller ones may work until you reach the hard limit of 20 policies per role[^2].
 
 ## Monitoring the size of the policy
 
-But this post is not about how to deal with bloated policies (split them up, use wildcards, etc.), it's about ability to monitor the size of a single policy using Terraform.
+But this post is not about how to deal with bloated policies (splitting them up, using wildcards, etc.); it's about the ability to monitor the size of a single policy using Terraform.
 
-Terraform has a function `length`[^3], which, provided with a string, will calculate amount of characters in it. Okay, where do we get a policy in form of a string? This can be achieved by using `aws_iam_policy_document` data source:
+Terraform has a function `length`[^3], which, when provided with a string, will calculate the number of characters in it. So, how do we get a policy in the form of a string? This can be achieved by using the `aws_iam_policy_document` data source:
 
 ```hcl
 data "aws_iam_policy_document" "example" {
@@ -112,9 +111,9 @@ resource "aws_iam_policy" "example" {
 
 Let me elaborate a bit on what's happening here:
 
-1. `lifecycle` block defines the behaviour of the resource: in this case we define `precondition`, a condition which will be evaluated before Terraform will attempt to create the resource
-2. In `condition` we calculate the length of the policy string (`data.aws_iam_policy_document.example.json`): first, we remove newline (`\n`) characters using `replace`[^4] function (inner), then we remove whitespace characters (outer `replace` function), then we count amount of characters in the leftover string (`length` function)
-3. If the amount is greater than provided (6144), we show error message:
+1. The `lifecycle` block defines the behavior of the resource. In this case, we define `precondition`, a condition that will be evaluated before Terraform attempts to create the resource.
+2. In `condition`, we calculate the length of the policy string (`data.aws_iam_policy_document.example.json`). First, we remove newline (`\n`) characters using the `replace`[^4] function (inner), then we remove whitespace characters (outer `replace` function), and then we count the number of characters in the remaining string using the `length` function.
+3. If the amount is greater than the provided limit (6144), we show an error message.
 
 ```shell
 ╷
@@ -130,7 +129,7 @@ Let me elaborate a bit on what's happening here:
 ╵
 ```
 
-This way we can catch the situation when policy is exceeding allowed length during the plan job instead of apply.
+This way, we can catch the situation when the policy exceeds the allowed length during the plan stage instead of during the apply stage.
 
 !!! abstract "Closing remarks"
 
