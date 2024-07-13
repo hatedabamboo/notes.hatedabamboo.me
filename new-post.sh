@@ -5,9 +5,9 @@ if [ $# -eq 0 ]; then
   exit 0
 fi
 
-TITLE="$(echo $@ | tr -d ':,' | tr ' ' '-' | tr [[:upper:]] [[:lower:]])"
+TITLE=$(echo "$@" | tr -d ':,' | tr ' ' '-' | tr [[:upper:]] [[:lower:]])
 
-filename="${TITLE}"
+filename="$TITLE"
 post="${filename}.md"
 image="${filename}.webp"
 postfile="docs/posts/${post}"
@@ -39,4 +39,5 @@ title: "$@"
     mistakes and befriend me on one of the social media platforms listed below.
 EOF
 
-vim $postfile  
+touch "docs/assets/$image"
+vim "$postfile"
