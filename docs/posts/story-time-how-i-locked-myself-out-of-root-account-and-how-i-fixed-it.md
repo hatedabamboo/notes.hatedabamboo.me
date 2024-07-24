@@ -15,7 +15,7 @@ Yet another reason why I love Linux is the ability to shoot myself in the leg an
 
 ![image](../assets/story-time-how-i-locked-myself-out-of-root-account-and-how-i-fixed-it.webp)
 
-## Preambule
+## Preamble
 
 Once in a while, I get bored with my computer and decide to change something. Sometimes this "something" is quite harmless, like configuring tmux[^1], for example.
 
