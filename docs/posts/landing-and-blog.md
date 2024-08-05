@@ -24,7 +24,7 @@ GitHub Pages).
     On June 17 I switched blog platform from Jekyll to Material for MkDocs
     (with which I'm very happy for now). Because of this some parts of this
     post became obsolete. I'm pretty sure some time in the future I'll update
-    this post with all hte new information, or write a separate one regarding
+    this post with all the new information, or write a separate one regarding
     reasons behind this transition and transition itself. We'll see.
 
 ## Introduction
