@@ -1,11 +1,11 @@
 ---
+draft: true
 authors:
   - hatedabamboo
 date:
   created: 2024-08-05
 slug: sad-servers-pt-1
 tags:
-  - draft
   - linux
   - troubleshooting
   - ctf
