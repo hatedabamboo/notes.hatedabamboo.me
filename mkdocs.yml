@@ -21,21 +21,23 @@ markdown_extensions:
   - admonition
   - footnotes
   - md_in_html
-  - toc:
-      permalink: true
+  - pymdownx.caret
+  - pymdownx.critic
   - pymdownx.highlight:
       anchor_linenums: true
       auto_title: true
       line_spans: __span
       pygments_lang_class: true
-  - pymdownx.caret
-  - pymdownx.critic
   - pymdownx.inlinehilite
   - pymdownx.keys
   - pymdownx.mark
   - pymdownx.snippets
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.tilde
+  - toc:
+      permalink: true
 
 plugins:
   - blog:
