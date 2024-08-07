@@ -6,8 +6,8 @@ date:
 slug: cicd-variables-from-aws
 tags:
   - aws
-  - gitlab
   - cicd
+  - gitlab
   - secrets
 title: "Using AWS Parameter Store instead of Gitlab CICD Variables"
 ---

@@ -5,8 +5,8 @@ date:
   created: 2023-12-24
 slug: servers-first-aid-kit
 tags:
-  - servers
   - hardware
+  - servers
   - troubleshooting
 title: "Server's first aid kit: a quick way to determine if your server is alive and well"
 ---

@@ -5,8 +5,8 @@ date:
   created: 2024-04-13
 slug: linux-battery-management
 tags:
-  - linux
   - hardware
+  - linux
 title: "Linux battery management"
 ---
 Yet another reason why I love Linux: everything is a file. Today I would like
