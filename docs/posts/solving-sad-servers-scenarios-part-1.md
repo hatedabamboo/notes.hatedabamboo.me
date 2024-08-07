@@ -2,7 +2,7 @@
 authors:
   - hatedabamboo
 date:
-  created: 2024-08-05
+  created: 2024-08-07
 slug: sad-servers-pt-1
 tags:
   - ctf
