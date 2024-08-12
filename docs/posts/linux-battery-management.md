@@ -17,6 +17,12 @@ accumulator batteries.
 
 ![Battery](../assets/2024-04-13-linux-battery-management.webp)
 
+!!! warning "12.08.2024 update"
+
+    Since I started learning Golang, one of my first ideas was to rewrite
+    existing tools I use in Go. I’ve now added the source code for a program
+    that has the same functionality, but written in Go -- because why not.
+
 ## Batteries and Their Location
 
 Recently I became a happy owner of Lenovo ThinkPad laptop. And of course I
@@ -134,29 +140,158 @@ First things first, as I like writing shell scripts, I wrote a small utility
 calculating current battery charge, battery health percentage and charge
 cycles:
 
-```shell
-#!/bin/bash
+=== "Bash"
 
-ENERGY_MAX=$(cat /sys/class/power_supply/BAT0/energy_full_design)
-ENERGY_FULL=$(cat /sys/class/power_supply/BAT0/energy_full)
-ENERGY_NOW=$(cat /sys/class/power_supply/BAT0/energy_now)
-CAPACITY=$(echo "scale=2; (${ENERGY_FULL}*100)/${ENERGY_MAX}" | bc -l)
-CYCLES=$(cat /sys/class/power_supply/BAT0/cycle_count)
-CONSUMPTION=$(cat /sys/class/power_supply/BAT0/power_now)
-TTL=$(echo "scale=2; (${ENERGY_NOW}/${CONSUMPTION})" | bc -l)
+    ``` shell
+    #!/bin/bash
 
-printf "\n%-25s %5s\n" "Battery capacity, %" "$CAPACITY"
-printf "%-25s %5s\n" "Charge cycles" "$CYCLES"
-printf "%-25s %5s\n\n" "Battery time left, hrs" "$TTL"
-```
+    ENERGY_MAX=$(cat /sys/class/power_supply/BAT0/energy_full_design)
+    ENERGY_FULL=$(cat /sys/class/power_supply/BAT0/energy_full)
+    ENERGY_NOW=$(cat /sys/class/power_supply/BAT0/energy_now)
+    CAPACITY=$(echo "scale=2; (${ENERGY_FULL}*100)/${ENERGY_MAX}" | bc -l)
+    CYCLES=$(cat /sys/class/power_supply/BAT0/cycle_count)
+    CONSUMPTION=$(cat /sys/class/power_supply/BAT0/power_now)
+    TTL=$(echo "scale=2; (${ENERGY_NOW}/${CONSUMPTION})" | bc -l)
+
+    printf "\n%-25s %5s\n" "Battery capacity, %" "$CAPACITY"
+    printf "%-25s %5s\n" "Charge cycles" "$CYCLES"
+    printf "%-25s %5s\n\n" "Battery time left, hrs" "$TTL"
+    ```
+
+=== "Golang"
+
+    ``` go
+    package main
+
+    import (
+      "fmt"
+      "os"
+      "strconv"
+      "strings"
+    )
+
+    const (
+      F_ENERGY_FULL_DESIGN string = "/sys/class/power_supply/BAT0/energy_full_design"
+      F_ENERGY_FULL        string = "/sys/class/power_supply/BAT0/energy_full"
+      F_ENERGY_NOW         string = "/sys/class/power_supply/BAT0/energy_now"
+      F_CYCLE_COUNT        string = "/sys/class/power_supply/BAT0/cycle_count"
+      F_POWER_NOW          string = "/sys/class/power_supply/BAT0/power_now"
+    )
+
+    func readFileAsInt(filename string) (int, error) {
+      data, err := os.ReadFile(filename)
+      if err != nil {
+        return 0, fmt.Errorf("unable to read file %s: %w", filename, err)
+      }
+      value, err := strconv.Atoi(strings.TrimSpace(string(data)))
+      if err != nil {
+        return 0, fmt.Errorf("unable to convert %s to int: %w", string(data), err)
+      }
+      return value, nil
+    }
+
+    func printRow(row []string, colWidths []int) {
+      for i, col := range row {
+        fmt.Printf("| %-*s ", colWidths[i], col)
+      }
+      fmt.Println("|")
+    }
+
+    func printSeparator(colWidths []int) {
+      for _, width := range colWidths {
+        fmt.Print("+")
+        for i := 0; i < width+2; i++ {
+          fmt.Print("-")
+        }
+      }
+      fmt.Println("+")
+    }
+
+    func main() {
+      var capacity, ttl float64
+      headers := []string{"Parameter", "Unit", "Value"}
+      colWidths := make([]int, len(headers))
+
+      energyMax, err := readFileAsInt(F_ENERGY_FULL_DESIGN)
+      if err != nil {
+        fmt.Println(err)
+        return
+      }
+      energyFull, err := readFileAsInt(F_ENERGY_FULL)
+      if err != nil {
+        fmt.Println(err)
+        return
+      }
+      energyNow, err := readFileAsInt(F_ENERGY_NOW)
+      if err != nil {
+        fmt.Println(err)
+        return
+      }
+      cycleCount, err := readFileAsInt(F_CYCLE_COUNT)
+      if err != nil {
+        fmt.Println(err)
+        return
+      }
+      powerNow, err := readFileAsInt(F_POWER_NOW)
+      if err != nil {
+        fmt.Println(err)
+        return
+      }
+
+      capacity = float64(energyFull*100) / float64(energyMax)
+      ttl = float64(energyNow) / float64(powerNow)
+
+      data := [][]string{
+        {"Battery capacity", "%", strconv.FormatFloat(capacity, 'f', 2, 64)},
+        {"Charge cycles", " ", strconv.Itoa(cycleCount)},
+        {"Battery time left", "hrs", strconv.FormatFloat(ttl, 'f', 2, 64)},
+      }
+
+      for i, header := range headers {
+        colWidths[i] = len(header)
+      }
+
+      for _, row := range data {
+        for i, col := range row {
+          if len(col) > colWidths[i] {
+            colWidths[i] = len(col)
+          }
+        }
+      }
+
+      printSeparator(colWidths)
+      printRow(headers, colWidths)
+      printSeparator(colWidths)
+      for _, row := range data {
+        printRow(row, colWidths)
+      }
+      printSeparator(colWidths)
+    }
+
+    ```
 
 and it will show something like this:
 
-```shell
-Battery capacity, %       85.88
-Charge cycles               419
-Battery time left, hrs     2.28
-```
+=== "Bash"
+
+    ``` shell
+    Battery capacity, %       85.88
+    Charge cycles               419
+    Battery time left, hrs     2.28
+    ```
+
+=== "Golang"
+
+    ``` shell
+    +-------------------+------+-------+
+    | Parameter         | Unit | Value |
+    +-------------------+------+-------+
+    | Battery capacity  | %    | 87.09 |
+    | Charge cycles     |      | 499   |
+    | Battery time left | hrs  | 4.16  |
+    +-------------------+------+-------+
+    ```
+
 
 But numbers are not everything. I would also like to modify my battery settings
 so it will last longer!
