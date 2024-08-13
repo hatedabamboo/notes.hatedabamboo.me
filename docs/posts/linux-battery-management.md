@@ -3,6 +3,7 @@ authors:
   - hatedabamboo
 date:
   created: 2024-04-13
+  updated: 2024-08-12
 slug: linux-battery-management
 tags:
   - hardware
