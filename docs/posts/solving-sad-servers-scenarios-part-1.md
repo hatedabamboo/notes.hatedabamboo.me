@@ -3,6 +3,7 @@ authors:
   - hatedabamboo
 date:
   created: 2024-08-07
+  updated: 2024-10-09
 slug: sad-servers-pt-1
 tags:
   - ctf
@@ -23,6 +24,16 @@ will be discussed in another article).
 <!-- more -->
 
 ![image](../assets/solving-sad-servers-scenarios.webp)
+
+!!! warning "09.10.2024 update"
+
+    Since the creation of this guide a few changes have been made to Sad
+    Servers: an old scenario has been removed ("Santiago"[^3]). Unfortunalety,
+    it cannot be reached anymore, so it will stay here in limbo. Forever.
+
+## Other parts
+
+- Scenarios 11 to 20: [part 2](https://notes.hatedabamboo.me/sad-servers-pt-2/)
 
 ## Intro
 
@@ -504,3 +515,4 @@ result, your solution is as good as mine.
 
 [^1]: [Linux Upskill Challenge](https://linuxupskillchallenge.org/)
 [^2]: [CKA or not CKA: my thoughts about certification and stuff](https://notes.hatedabamboo.me/cka-or-not-cka/)
+[^3]: ["Santiago": Find the secret combination](#scenario-3-santiago-find-the-secret-combination)
