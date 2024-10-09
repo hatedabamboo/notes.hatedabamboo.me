@@ -673,7 +673,7 @@ Part 2 includes scenarios 11 to 20.
 
 === "Description"
 
-    Link to the scenario to try out yourself: [Venice](https://sadservers.com/scenario/venice)
+    Link to the scenario to try out yourself: [Oaxaca](https://sadservers.com/scenario/oaxaca)
 
     In this scenario, we will remove the file descriptor to the file without
     killing the process.
