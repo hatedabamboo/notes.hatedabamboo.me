@@ -178,7 +178,7 @@ Part 2 includes scenarios 11 to 20.
     ```
 
     Hmm, not quite what I was expecting. But at the same time, it makes sense.
-    `/proc` is a pseudo-filesystem and thus does not have actual files written
+    `/proc` is a pseudo-filesystem[^1] and thus does not have actual files written
     to the disk or memory.
 
     Okay, let's try good old brute force:
