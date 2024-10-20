@@ -36,6 +36,7 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.tilde
+  - tables
   - toc:
       permalink: true
 

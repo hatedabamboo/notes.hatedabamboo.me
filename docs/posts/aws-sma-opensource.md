@@ -100,152 +100,164 @@ different methods.
 
 #### AWS Secrets Manager Agent
 
-```shell
-curl -v -H \
-    "X-Aws-Parameters-Secrets-Token: $(</var/run/awssmatoken)" \
-    'http://localhost:2773/secretsmanager/get?secretId=<YOUR_SECRET_ID>}'; \
-    echo
-```
+=== "Shell"
 
-```python
-import requests
-import json
+    ```shell
+    curl -v -H \
+        "X-Aws-Parameters-Secrets-Token: $(</var/run/awssmatoken)" \
+        'http://localhost:2773/secretsmanager/get?secretId=<YOUR_SECRET_ID>}'; \
+        echo
+    ```
 
-# Function that fetches the secret from Secrets Manager Agent for the provided secret id. 
-def get_secret():
-    # Construct the URL for the GET request
-    url = f"http://localhost:2773/secretsmanager/get?secretId=<YOUR_SECRET_ID>}"
+=== "Python"
 
-    # Get the SSRF token from the token file
-    with open('/var/run/awssmatoken') as fp:
-        token = fp.read() 
+    ```python
+    import requests
+    import json
 
-    headers = {
-        "X-Aws-Parameters-Secrets-Token": token.strip()
-    }
+    # Function that fetches the secret from Secrets Manager Agent for the provided secret id. 
+    def get_secret():
+        # Construct the URL for the GET request
+        url = f"http://localhost:2773/secretsmanager/get?secretId=<YOUR_SECRET_ID>}"
 
-    try:
-        # Send the GET request with headers
-        response = requests.get(url, headers=headers)
+        # Get the SSRF token from the token file
+        with open('/var/run/awssmatoken') as fp:
+            token = fp.read() 
 
-        # Check if the request was successful
-        if response.status_code == 200:
-            # Return the secret value
-            return response.text
-        else:
-            # Handle error cases
-            raise Exception(f"Status code {response.status_code} - {response.text}")
+        headers = {
+            "X-Aws-Parameters-Secrets-Token": token.strip()
+        }
 
-    except Exception as e:
-        # Handle network errors
-        raise Exception(f"Error: {e}")
-```
+        try:
+            # Send the GET request with headers
+            response = requests.get(url, headers=headers)
+
+            # Check if the request was successful
+            if response.status_code == 200:
+                # Return the secret value
+                return response.text
+            else:
+                # Handle error cases
+                raise Exception(f"Status code {response.status_code} - {response.text}")
+
+        except Exception as e:
+            # Handle network errors
+            raise Exception(f"Error: {e}")
+    ```
 
 #### Pure awscli, curl and python
 
 Now let's compare the aforementioned solutions with the ways we used before.
 
-```shell title="Using awscli"
-aws secretsmanager get-secret-value --secret-id "kryptonite"
-```
+=== "Shell with awscli"
 
-```shell title="Using curl"
-curl -sX POST "https://secretsmanager.eu-west-1.amazonaws.com" \
-  --user "${AWS_ACCESS_KEY_ID}:${AWS_SECRET_ACCESS_KEY}" \
-  --aws-sigv4 "aws:amz:eu-west-1:secretsmanager" \
-  --header "x-amz-security-token: ${AWS_SESSION_TOKEN}" \
-  --header "X-Amz-Target: secretsmanager.GetSecretValue" \
-  --header "Content-Type: application/x-amz-json-1.1" \
-  --data '{
-      "SecretId": "arn:aws:secretsmanager:eu-west-1:1234567890:secret:kryptonite/kryptonite-XCVQWE"
-  }'
-```
+    ```shell
+    aws secretsmanager get-secret-value --secret-id "kryptonite"
+    ```
 
-Holy shit, it's huge. Luckily we have awscli.
+=== "Shell with curl"
 
-```python title="Using boto3"
-import boto3
-from botocore.exceptions import ClientError
+    ```shell
+    curl -sX POST "https://secretsmanager.eu-west-1.amazonaws.com" \
+    --user "${AWS_ACCESS_KEY_ID}:${AWS_SECRET_ACCESS_KEY}" \
+    --aws-sigv4 "aws:amz:eu-west-1:secretsmanager" \
+    --header "x-amz-security-token: ${AWS_SESSION_TOKEN}" \
+    --header "X-Amz-Target: secretsmanager.GetSecretValue" \
+    --header "Content-Type: application/x-amz-json-1.1" \
+    --data '{
+        "SecretId": "arn:aws:secretsmanager:eu-west-1:1234567890:secret:kryptonite/kryptonite-XCVQWE"
+    }'
+    ```
 
-def get_kryptonite_secret():
-    secret_name = "kryptonite"
-    region_name = "eu-west-1"
+Holy shit, curl is huge. Luckily we have awscli.
 
-    session = boto3.session.Session()
-    client = session.client(
-        service_name='secretsmanager',
-        region_name=region_name
-    )
+=== "Python with boto3"
 
-    try:
-        get_secret_value_response = client.get_secret_value(
-            SecretId=secret_name
+    ```python
+    import boto3
+    from botocore.exceptions import ClientError
+
+    def get_kryptonite_secret():
+        secret_name = "kryptonite"
+        region_name = "eu-west-1"
+
+        session = boto3.session.Session()
+        client = session.client(
+            service_name='secretsmanager',
+            region_name=region_name
         )
-    except ClientError as e:
-        raise Exception(f"An error occurred: {e.response['Error']['Message']}")
 
-    if 'SecretString' in get_secret_value_response:
-        secret = get_secret_value_response['SecretString']
-        return secret
-    else:
-        decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
-        return decoded_binary_secret
+        try:
+            get_secret_value_response = client.get_secret_value(
+                SecretId=secret_name
+            )
+        except ClientError as e:
+            raise Exception(f"An error occurred: {e.response['Error']['Message']}")
 
-try:
-    kryptonite_secret = get_kryptonite_secret()
-    print("The secret value is:", kryptonite_secret)
-except Exception as e:
-    print("Error:", str(e))
-```
-
-```python title="Using requests"
-import requests
-import json
-import base64
-from requests_aws4auth import AWS4Auth
-import os
-
-def get_kryptonite_secret():
-    secret_name = "kryptonite"
-    region_name = "eu-west-1"
-    service = 'secretsmanager'
-    
-    access_key = os.environ.get('AWS_ACCESS_KEY_ID')
-    secret_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
-    
-    if not (access_key and secret_key):
-        raise Exception("AWS credentials not found in environment variables")
-
-    auth = AWS4Auth(access_key, secret_key, region_name, service, session_token=session_token)
-
-    endpoint = f"https://secretsmanager.{region_name}.amazonaws.com"
-    
-    headers = {
-        'Content-Type': 'application/x-amz-json-1.1',
-        'X-Amz-Target': 'secretsmanager.GetSecretValue'
-    }
-    payload = json.dumps({"SecretId": secret_name})
+        if 'SecretString' in get_secret_value_response:
+            secret = get_secret_value_response['SecretString']
+            return secret
+        else:
+            decoded_binary_secret = base64.b64decode(get_secret_value_response['SecretBinary'])
+            return decoded_binary_secret
 
     try:
-        response = requests.post(endpoint, headers=headers, data=payload, auth=auth)
-        response.raise_for_status()
+        kryptonite_secret = get_kryptonite_secret()
+        print("The secret value is:", kryptonite_secret)
+    except Exception as e:
+        print("Error:", str(e))
+    ```
 
-        secret_data = response.json()
+=== "Python with requests"
 
-        if 'SecretString' in secret_data:
-            return secret_data['SecretString']
-        else:
-            return base64.b64decode(secret_data['SecretBinary'])
+    ```python
+    import requests
+    import json
+    import base64
+    from requests_aws4auth import AWS4Auth
+    import os
 
-    except requests.exceptions.RequestException as e:
-        raise Exception(f"An error occurred while fetching the secret: {str(e)}")
+    def get_kryptonite_secret():
+        secret_name = "kryptonite"
+        region_name = "eu-west-1"
+        service = 'secretsmanager'
+        
+        access_key = os.environ.get('AWS_ACCESS_KEY_ID')
+        secret_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
+        
+        if not (access_key and secret_key):
+            raise Exception("AWS credentials not found in environment variables")
 
-try:
-    kryptonite_secret = get_kryptonite_secret()
-    print("The secret value is:", kryptonite_secret)
-except Exception as e:
-    print("Error:", str(e))
-```
+        auth = AWS4Auth(access_key, secret_key, region_name, service, session_token=session_token)
+
+        endpoint = f"https://secretsmanager.{region_name}.amazonaws.com"
+        
+        headers = {
+            'Content-Type': 'application/x-amz-json-1.1',
+            'X-Amz-Target': 'secretsmanager.GetSecretValue'
+        }
+        payload = json.dumps({"SecretId": secret_name})
+
+        try:
+            response = requests.post(endpoint, headers=headers, data=payload, auth=auth)
+            response.raise_for_status()
+
+            secret_data = response.json()
+
+            if 'SecretString' in secret_data:
+                return secret_data['SecretString']
+            else:
+                return base64.b64decode(secret_data['SecretBinary'])
+
+        except requests.exceptions.RequestException as e:
+            raise Exception(f"An error occurred while fetching the secret: {str(e)}")
+
+    try:
+        kryptonite_secret = get_kryptonite_secret()
+        print("The secret value is:", kryptonite_secret)
+    except Exception as e:
+        print("Error:", str(e))
+    ```
 
 All in all, querying a local HTTP service looks a bit simpler, both in size and
 in complexity of the code required.

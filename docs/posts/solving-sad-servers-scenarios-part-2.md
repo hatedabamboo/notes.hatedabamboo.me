@@ -5,6 +5,7 @@ date:
   created: 2024-10-09
 slug: sad-servers-pt-2
 tags:
+  - containers
   - ctf
   - docker
   - linux
