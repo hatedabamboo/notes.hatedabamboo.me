@@ -112,6 +112,17 @@ And there they are -- all these unknown, hidden, invisible objects in my bucket
 with just a single file. It took a while to notice the issue and see the
 updated metrics. Deleting the parts themselves was a piece of cake.
 
+```python
+>>> response = s3.abort_multipart_upload(Bucket="my-cool-bucket", Key="archive_2023.tar.gz", UploadId="[REDACTED]")
+>>> print(response)
+{'ResponseMetadata': {'RequestId': '[REDACTED]', 'HostId': '[REDACTED]', 'HTTPStatusCode': 204, 'HTTPHeaders': {'x-amz-id-2': '[REDACTED]', 'x-amz-request-id': '[REDACTED]', 'date': 'Fri, 25 Oct 2024 10:22:35 GMT', 'server': 'AmazonS3'}, 'RetryAttempts': 0}}
+>>> response = s3.list_multipart_uploads(Bucket="my-cool-bucket")
+>>> print(response)
+{'ResponseMetadata': {'RequestId': '[REDACTED]', 'HostId': '[REDACTED]', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amz-id-2': '[REDACTED]', 'x-amz-request-id': '[REDACTED]', 'date': 'Fri, 25 Oct 2024 10:23:39 GMT', 'content-type': 'application/xml', 'transfer-encoding': 'chunked', 'server': 'AmazonS3'}, 'RetryAttempts': 0}, 'Bucket': 'my-cool-bucket', 'KeyMarker': '', 'UploadIdMarker': '', 'NextKeyMarker': '', 'NextUploadIdMarker': '', 'MaxUploads': 1000, 'IsTruncated': False}
+```
+
+Poof! The multipart upload, along with all its parts, is now gone for good.
+
 ![After cleaning the parts](./../assets/2024-10-26-post-cleanup.png)
 
 ## Afterthought
