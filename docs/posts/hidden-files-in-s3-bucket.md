@@ -1,5 +1,4 @@
 ---
-draft: true # TODO remove
 authors:
   - hatedabamboo
 date:
@@ -17,7 +16,7 @@ to investigate what the issue was and how it happened.
 
 <!-- more -->
 
-![image](../assets/finding-invisible-objects-in-s3-bucket.webp)
+![image](../assets/hidden-files-in-s3-bucket.webp)
 
 ## Prologue
 
