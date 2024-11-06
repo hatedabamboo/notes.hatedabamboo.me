@@ -7,7 +7,7 @@ extra:
   generator: false
   social:
     - icon: fontawesome/solid/square-rss
-      link: /feed_rss_created.xml
+      link: /feed.xml
     - icon: fontawesome/brands/linkedin
       link: https://linkedin.com/in/hatedabamboo/
     - icon: fontawesome/brands/github
@@ -57,6 +57,8 @@ plugins:
       date_from_meta:
         as_creation: date.created
         as_update: date.updated
+      feeds_filenames:
+        rss_created: feed.xml
       match_path: "posts/.*"
   - tags:
       tags_file: tags.md
