@@ -19,6 +19,7 @@ extra:
 
 markdown_extensions: 
   - admonition
+  - attr_list
   - footnotes
   - md_in_html
   - pymdownx.caret
@@ -51,6 +52,9 @@ plugins:
       post_dir: posts
       post_excerpt: required
       post_url_format: "{slug}"
+  - glightbox:
+      touchNavigation: true
+      draggable: false
   - rss:
       categories:
         - tags
@@ -60,6 +64,8 @@ plugins:
       feeds_filenames:
         rss_created: feed.xml
       match_path: "posts/.*"
+  - social:
+      cards: true
   - tags:
       tags_file: tags.md
 
