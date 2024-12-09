@@ -250,7 +250,7 @@ The last thing remaining is to enable TLS for your website.
 
 This is the schema of the whole process:
 
-![Schema](../assets/2023-09-30-landing-and-blog-scheme.webp)
+![Schema](../assets/2023-09-30-landing-and-blog-scheme.webp){ loading=lazy }
 
 #### 3. HTTP and S
 

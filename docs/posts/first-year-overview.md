@@ -23,7 +23,7 @@ blog.
 
 ## Year in numbers 202{3,4}
 
-![Year in numbers](../assets/first-year-overview-year-in-numbers.png)
+![Year in numbers](../assets/first-year-overview-year-in-numbers.png){ loading=lazy }
 
 ## Let's take a closer look at some significant waypoints
 
@@ -34,10 +34,10 @@ blog.
 
 ## And some nice graphs
 
-![Code frequency](../assets/first-year-overview-code-frequency.png)
+![Code frequency](../assets/first-year-overview-code-frequency.png){ loading=lazy }
 
 <figure markdown="span">
-  ![Image title](../assets/first-year-overview-most-viewed-pages.png)
+  ![Image title](../assets/first-year-overview-most-viewed-pages.png){ loading=lazy }
   <figcaption>most visited address | views | unique visitors</figcaption>
 </figure>
 

@@ -43,12 +43,12 @@ Usually, I upload an archive to S3 when the backup is ready and forget about
 it, but this time something prompted me to click through all the tabs in the
 bucket view, and I discovered a curious finding.
 
-![Objects in a bucket](./../assets/2024-10-26-objects-in-a-bucket.png)
+![Objects in a bucket](./../assets/2024-10-26-objects-in-a-bucket.png){ loading=lazy }
 
 I am 100% sure that my bucket contains only one (1) file. Where did all these
 files come from?
 
-![Bucket size](./../assets/2024-10-26-bucket-size.png)
+![Bucket size](./../assets/2024-10-26-bucket-size.png){ loading=lazy }
 
 And why does my bucket weigh more than the size of that one object?
 
@@ -122,7 +122,7 @@ updated metrics. Deleting the parts themselves was a piece of cake.
 
 Poof! The multipart upload, along with all its parts, is now gone for good.
 
-![After cleaning the parts](./../assets/2024-10-26-post-cleanup.png)
+![After cleaning the parts](./../assets/2024-10-26-post-cleanup.png){ loading=lazy }
 
 ## Afterthought
 

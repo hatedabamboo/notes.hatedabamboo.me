@@ -179,11 +179,11 @@ git config commit.gpgsign true
 All this work is performed so that your commits in the web interface will have
 a nice symbol confirming that it's actually you who wrote this horrible code.
 
-![Verified commit](../assets/2024-05-08-signing-your-git-commits-with-gpg-key-2.webp)
+![Verified commit](../assets/2024-05-08-signing-your-git-commits-with-gpg-key-2.webp){ loading=lazy }
 
 And also it will allow you to avoid such things as this:
 
-![Someone has used your name to commit shit!](../assets/2024-05-08-signing-your-git-commits-with-gpg-key-3.webp)
+![Someone has used your name to commit shit!](../assets/2024-05-08-signing-your-git-commits-with-gpg-key-3.webp){ loading=lazy }
 
 !!! abstract "Closing remarks"
 

@@ -715,7 +715,7 @@ Part 2 includes scenarios 11 to 20.
     (rightfully so) think that this is nonsense and that all Linux engineers
     are madmen.
 
-    ![Stop using unix](./../assets/stop-using-unix.png)
+    ![Stop using unix](./../assets/stop-using-unix.png){ loading=lazy }
 
 >>>
 
