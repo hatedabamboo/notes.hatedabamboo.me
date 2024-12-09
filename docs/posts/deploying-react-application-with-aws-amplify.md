@@ -1,9 +1,8 @@
 ---
-draft: true # TODO: remove
 authors:
   - hatedabamboo
 date:
-  created: 2024-11-17
+  created: 2024-12-09
 slug: deploying-react-app-with-aws-amplify
 tags:
   - amplify
@@ -19,7 +18,7 @@ application utilizing its power.
 
 <!-- more -->
 
-![image](../assets/deploying-react-application-with-aws-amplify.webp)
+![React on Amplify](../assets/deploying-react-application-with-aws-amplify.webp)
 
 ## What is AWS Amplify?
 
@@ -89,7 +88,7 @@ and configuring aliases -- I opted for Amplify.
 However, I wasn’t entirely satisfied with this minimal effort for my new blog
 post. I started thinking: what project from my mental backlog could be complex
 enough to write about yet simple enough to implement? The result was the
-RSS Viewer[^5]: a single-page application designed to do one thing—display a
+RSS Viewer[^5]: a single-page application designed to do one thing -- display a
 nicely formatted RSS feed when provided with a link.
 
 I’m not a JavaScript developer, so I aimed to keep the project as simple and
@@ -120,10 +119,10 @@ access to your repository. Grant the necessary permissions and proceed to
 select the repository from the first window. Then, choose your main branch from
 the dropdown below. By default, the branch name is, well, "main".
 
-If your app is the only component in the repository, as in my case, it makes
-sense to check the "My app is a monorepo" box and specify the root directory of
-the application. For my application, the root directory is `src/`. After 
-selecting all the necessary options, you're ready to proceed. Click "Next".
+If you're using a monorepo approach, as I do, it makes sense to check the "My
+app is a monorepo" box and specify the root directory of the application. For
+my application, the root directory is `src/`. After  selecting all the
+necessary options, you're ready to proceed. Click "Next".
 
 ![App settings](../assets/deploying-react-app-with-aws-amplify-app-settings.png){ loading=lazy }
 
@@ -172,7 +171,7 @@ Let's focus on custom domains in more detail.
 
 At this point, we have only one address assigned to us by Amplify. This is
 hardly a nice-looking link for a production-ready application -- more like a 
-roject that's still a work in progress. Notice the URL: the `main` part after
+project that's still a work in progress. Notice the URL: the `main` part after
 the protocol indicates that this is the deployment of the `main` branch from
 the git repository. Very straightforward indeed! Let's add a custom domain to
 our application.
