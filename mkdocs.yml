@@ -66,6 +66,8 @@ plugins:
       match_path: "posts/.*"
   - social:
       cards: true
+      cards_layout_options:
+        font_family: Roboto
   - tags:
       tags_file: tags.md
 
