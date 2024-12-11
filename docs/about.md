@@ -23,6 +23,10 @@ creating a separate post for each update (or group of updates), I decided to
 add a changelog block here. After all, this page is about the blog, so it
 only feels logical.
 
+### 2024-12-11
+
+* Feature: adding changelog to "About" page ([#706e4a1](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/706e4a17a6dada66966db33c336908a016dc0078))
+
 ### 2024-12-09
 
 * Feature: adding lazy image loading for every post with 1+ image ([#ebc42c8](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/ebc42c8b235e907221bd8c122b9f85a2745f308b))
