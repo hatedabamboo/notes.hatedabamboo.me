@@ -23,6 +23,10 @@ creating a separate post for each update (or group of updates), I decided to
 add a changelog block here. After all, this page is about the blog, so it
 only feels logical.
 
+### 2025-01-07
+
+* Feature: removing lightbox from post title images ([#2fabbf1](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/2fabbf11723be9b3cab33a2750308c04295f063b))
+
 ### 2024-12-11
 
 * Feature: adding changelog to "About" page ([#706e4a1](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/706e4a17a6dada66966db33c336908a016dc0078))
