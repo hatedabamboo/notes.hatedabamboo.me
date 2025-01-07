@@ -15,7 +15,7 @@ will speculate on the topic and share my personal thoughts on certifications in
 
 <!-- more -->
 
-![CKA](../assets/2024-03-13-cka-or-not-cka.webp)
+![CKA](../assets/2024-03-13-cka-or-not-cka.webp){ .off-glb }
 
 ## It's Been 84 Years…
 

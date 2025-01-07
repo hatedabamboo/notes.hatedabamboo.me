@@ -14,7 +14,7 @@ challenging. In this note, I aim to find a convenient solution to this problem.
 
 <!-- more -->
 
-![Git hooks](../assets/2023-12-28-git-hooks.webp)
+![Git hooks](../assets/2023-12-28-git-hooks.webp){ .off-glb }
 
 ## Overview
 

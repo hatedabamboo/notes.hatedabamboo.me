@@ -24,7 +24,7 @@ Part 2 includes scenarios 11 to 20.
 
 <!-- more -->
 
-![image](../assets/solving-sad-servers-scenarios.webp)
+![image](../assets/solving-sad-servers-scenarios.webp){ .off-glb }
 
 ## Other parts
 

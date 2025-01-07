@@ -17,7 +17,7 @@ GitHub Pages).
 
 <!-- more -->
 
-![Horrible handwriting](../assets/2023-09-30-landing-and-blog.webp)
+![Horrible handwriting](../assets/2023-09-30-landing-and-blog.webp){ .off-glb }
 
 !!! warning "17.06.2024 update"
 

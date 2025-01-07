@@ -23,7 +23,7 @@ will be discussed in another article).
 
 <!-- more -->
 
-![image](../assets/solving-sad-servers-scenarios.webp)
+![image](../assets/solving-sad-servers-scenarios.webp){ .off-glb }
 
 !!! warning "09.10.2024 update"
 

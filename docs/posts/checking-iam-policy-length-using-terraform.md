@@ -19,7 +19,7 @@ length. So I decided to create one.
 
 <!-- more -->
 
-![image](../assets/checking-iam-policy-length-using-terraform.webp)
+![image](../assets/checking-iam-policy-length-using-terraform.webp){ .off-glb }
 
 ## The problem
 

@@ -20,7 +20,7 @@ build time.
 
 <!-- more -->
 
-![image](../assets/minimizing-containerized-applications.webp)
+![image](../assets/minimizing-containerized-applications.webp){ .off-glb }
 
 Let’s imagine we've developed an application that displays the weather based on
 our location. It’s a sleek and useful tool, and now we want to containerize it.

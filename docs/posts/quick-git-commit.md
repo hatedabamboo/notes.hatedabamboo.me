@@ -15,7 +15,7 @@ managed to create a quick way to write commit messages.
 
 <!-- more -->
 
-![Bash is cool](../assets/2023-09-14-quick-git-commit.webp)
+![Bash is cool](../assets/2023-09-14-quick-git-commit.webp){ .off-glb }
 
 I love aliases in bash. They're super convenient and useful and significantly
 increase the speed of work. Someday I hope to write finally a

@@ -18,7 +18,7 @@ application utilizing its power.
 
 <!-- more -->
 
-![React on Amplify](../assets/deploying-react-application-with-aws-amplify.webp)
+![React on Amplify](../assets/deploying-react-application-with-aws-amplify.webp){ .off-glb }
 
 ## What is AWS Amplify?
 

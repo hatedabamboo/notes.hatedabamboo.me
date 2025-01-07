@@ -16,7 +16,7 @@ accumulator batteries.
 
 <!-- more -->
 
-![Battery](../assets/2024-04-13-linux-battery-management.webp)
+![Battery](../assets/2024-04-13-linux-battery-management.webp){ .off-glb }
 
 !!! warning "12.08.2024 update"
 

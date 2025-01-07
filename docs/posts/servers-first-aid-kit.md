@@ -20,7 +20,7 @@ where it is.
 
 <!-- more -->
 
-![Server's first aid kit](../assets/2023-12-24-servers-first-aid-kit.webp)
+![Server's first aid kit](../assets/2023-12-24-servers-first-aid-kit.webp){ .off-glb }
 
 ## First things first: w
 

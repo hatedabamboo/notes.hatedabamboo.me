@@ -15,7 +15,7 @@ past year and publish them here for your, dear reader, joy, and my own clarity.
 
 <!-- more -->
 
-![image](../assets/first-year-overview.webp)
+![image](../assets/first-year-overview.webp){ .off-glb }
 
 Numbers are cool and all, but they're much cooler when they look nice. So
 here's an infographic I found on the internet filled with numbers related to my

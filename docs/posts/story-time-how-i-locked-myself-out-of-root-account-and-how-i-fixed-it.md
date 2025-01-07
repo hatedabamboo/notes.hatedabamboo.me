@@ -18,7 +18,7 @@ afterward (not easy).
 
 <!-- more -->
 
-![image](../assets/story-time-how-i-locked-myself-out-of-root-account-and-how-i-fixed-it.webp)
+![image](../assets/story-time-how-i-locked-myself-out-of-root-account-and-how-i-fixed-it.webp){ .off-glb }
 
 ## Preamble
 

@@ -16,7 +16,7 @@ to investigate what the issue was and how it happened.
 
 <!-- more -->
 
-![image](../assets/hidden-files-in-s3-bucket.webp)
+![image](../assets/hidden-files-in-s3-bucket.webp){ .off-glb }
 
 ## Prologue
 

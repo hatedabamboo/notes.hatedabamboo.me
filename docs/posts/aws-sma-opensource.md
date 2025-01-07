@@ -17,7 +17,7 @@ operations.
 
 <!-- more -->
 
-![image](../assets/aws-sma-opensource.webp)
+![image](../assets/aws-sma-opensource.webp){ .off-glb }
 
 ## What is the Secrets Manager Agent and what does it do?
 
