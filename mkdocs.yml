@@ -1,10 +1,9 @@
-copyright: Kirill Solovei &copy; 2023-2024
+copyright: Kirill Solovei &copy; 2023–2025
 
 extra:
   analytics:
     provider: google
     property: G-E9FSFDM6ER
-  generator: false
   social:
     - icon: fontawesome/solid/square-rss
       link: /feed.xml
