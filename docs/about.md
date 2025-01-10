@@ -43,6 +43,11 @@ creating a separate post for each update (or group of updates), I decided to
 add a changelog block here. After all, this page is about the blog, so it
 only feels logical.
 
+### 2025-01-10
+
+* Feature: added "Buy me a coffee" button at the bottom ([#8e06cbf](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/8e06cbfe8df7f6ddb83890d5e0cef8e54bcfbdc5))
+* Fix: updated the footer: moved "Not by AI" icon to [About](./about.md#not-by-ai) page; updated year ([#8e06cbf](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/8e06cbfe8df7f6ddb83890d5e0cef8e54bcfbdc5))
+
 ### 2025-01-07
 
 * Feature: removing lightbox from post title images ([#2fabbf1](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/2fabbf11723be9b3cab33a2750308c04295f063b))
