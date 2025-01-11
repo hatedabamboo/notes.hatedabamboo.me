@@ -71,7 +71,7 @@ plugins:
       tags_file: tags.md
 
 site_author: Kirill Solovei
-site_description: Personal notes on DevOps and systems engineering
+site_description: Personal notes on AWS, DevOps, Linux, and Systems Engineering
 site_name: hatedabamboo notes
 site_url: https://notes.hatedabamboo.me
 
