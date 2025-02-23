@@ -67,8 +67,7 @@ plugins:
       cards: true
       cards_layout_options:
         font_family: Roboto
-  - tags:
-      tags_file: tags.md
+  - tags
 
 site_author: Kirill Solovei
 site_description: Personal notes on AWS, DevOps, Linux, and Systems Engineering
