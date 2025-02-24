@@ -104,7 +104,7 @@ Now, let’s finally deploy the application using Amplify!
 
 The first step is to connect the application repository to the Amplify project.
 
-![Connect repository](../assets/deploying-react-app-with-aws-amplify-start.png){ loading = lazy }
+![Connect repository](../assets/deploying-react-app-with-aws-amplify-start.png){ loading=lazy }
 
 Select GitHub and click "Next". You can use any Git provider you prefer, or
 even an S3 bucket as the source for your code. My application is stored on

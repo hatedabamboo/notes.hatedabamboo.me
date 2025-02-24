@@ -35,7 +35,7 @@ around for centuries.
 What comes to mind when you hear the word "code"? Most of us (myself included)
 immediately think of a programming language.
 
-![The "code"](../assets/everything-as-code/code.webp){ loading = lazy }
+![The "code"](../assets/everything-as-code/code.webp){ loading=lazy }
 
 But the word "code" wasn’t originally popularized by programmers. Long before
 computers existed, humans developed ways to encode information, often to
@@ -74,7 +74,7 @@ infinity steps in their core process, each of which performs a certain action.
 And they have an output: a rocket engine that's starting, a package with part
 of a meme flying over fiber optics, or a number.
 
-![Algorithm](../assets/everything-as-code/algorithm.webp){ loading = lazy }
+![Algorithm](../assets/everything-as-code/algorithm.webp){ loading=lazy }
 
 And the logic presented in this very part is described via code.
 
@@ -215,7 +215,7 @@ just a text in one way or another.
 I can imagine many of you, like me, kept track of some text files in a way like
 this.
 
-![Version control](../assets/everything-as-code/version-control.webp){ loading = lazy }
+![Version control](../assets/everything-as-code/version-control.webp){ loading=lazy }
 
 This was long before I started working in IT. But you know what? This also was
 a version control system of sorts. Though it is not actually a system, it
@@ -312,7 +312,7 @@ And I must say, the developers of these tools did a marvelous job at allowing
 us, system engineers, to configure the software via the code. Can you imagine
 recreating all this manually each time you fuck up the Terraform deployment?
 
-![Dashboard](../assets/everything-as-code/grafana-dashboard.webp){ loading = lazy }
+![Dashboard](../assets/everything-as-code/grafana-dashboard.webp){ loading=lazy }
 
 Instead, we have a blessed possibility to just copy several thousand something
 JSON into the repository and never have to do it ever again. Thank you,
@@ -336,7 +336,7 @@ not as much as we should write.
 
 What comes to your mind when you think about documentation?
 
-![Confluence](../assets/everything-as-code/confluence.webp){ loading = lazy }
+![Confluence](../assets/everything-as-code/confluence.webp){ loading=lazy }
 
 Confluence. This is what I think of the most. And gods I hate this thing.
 
