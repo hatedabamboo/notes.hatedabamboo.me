@@ -6,6 +6,7 @@
 * Feature: increasing font size to improve readability ([#1c75236](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/1c752360bb534a3d543407510a684ae0fbef8629))
 * Feature: removing calls to GitHub to fetch userpic (also changing it to a new one) ([#1c75236](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/1c752360bb534a3d543407510a684ae0fbef8629))
 * Docs: moving changelog from "About" page to separate `CHANGELOG.md` file ([#c17880b](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/c17880b3324f579c656bcd92373295e42998f3d5))
+* Feature: changing Licence (GPL-3.0 => CC BY 4.0) ([#6b5ebab](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/6b5ebaba0d9f40cfe3d121b41902fe4f57b5fd54))
 
 ## 2025-02-23
 
