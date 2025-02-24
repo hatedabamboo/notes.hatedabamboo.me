@@ -5,7 +5,7 @@
 * Feature: removing calls to Google Fonts API by accessing local fonts ([#1c75236](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/1c752360bb534a3d543407510a684ae0fbef8629))
 * Feature: increasing font size to improve readability ([#1c75236](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/1c752360bb534a3d543407510a684ae0fbef8629))
 * Feature: removing calls to GitHub to fetch userpic (also changing it to a new one) ([#1c75236](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/1c752360bb534a3d543407510a684ae0fbef8629))
-* Docs: moving changelog from "About" page to separate `CHANGELOG.md` file ([#1c75236](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/1c752360bb534a3d543407510a684ae0fbef8629))
+* Docs: moving changelog from "About" page to separate `CHANGELOG.md` file ([#c17880b](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/c17880b3324f579c656bcd92373295e42998f3d5))
 
 ## 2025-02-23
 
