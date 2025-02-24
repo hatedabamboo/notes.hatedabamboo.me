@@ -1,0 +1,46 @@
+# CHANGELOG
+
+## 2025-02-24
+
+* Feature: removing calls to Google Fonts API by accessing local fonts ([#1c75236](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/1c752360bb534a3d543407510a684ae0fbef8629))
+* Feature: increasing font size to improve readability ([#1c75236](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/1c752360bb534a3d543407510a684ae0fbef8629))
+* Feature: removing calls to GitHub to fetch userpic (also changing it to a new one) ([#1c75236](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/1c752360bb534a3d543407510a684ae0fbef8629))
+* Docs: moving changelog from "About" page to separate `CHANGELOG.md` file ([#1c75236](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/1c752360bb534a3d543407510a684ae0fbef8629))
+
+## 2025-02-23
+
+* Fix: bringing back broken tags thanks to Material for MkDocs update ([#ea77498](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/ea77498897d4507551fc3b460a449f90063e0705))
+
+## 2025-01-10
+
+* Feature: added "Buy me a coffee" button at the bottom ([#8e06cbf](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/8e06cbfe8df7f6ddb83890d5e0cef8e54bcfbdc5))
+* Fix: updated the footer: moved "Not by AI" icon to [About](./about.md#not-by-ai) page; updated year ([#8e06cbf](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/8e06cbfe8df7f6ddb83890d5e0cef8e54bcfbdc5))
+
+## 2025-01-07
+
+* Feature: removing lightbox from post title images ([#2fabbf1](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/2fabbf11723be9b3cab33a2750308c04295f063b))
+
+## 2024-12-11
+
+* Feature: adding changelog to "About" page ([#706e4a1](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/706e4a17a6dada66966db33c336908a016dc0078))
+
+## 2024-12-09
+
+* Feature: adding lazy image loading for every post with 1+ image ([#ebc42c8](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/ebc42c8b235e907221bd8c122b9f85a2745f308b))
+
+## 2024-12-08
+
+* Feature: adding social cards ([#b586519](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/b586519109ec7f34466b02298f15dff9cdf681ca))
+* Feature: enabling lazy image loading for test ([#b586519](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/b586519109ec7f34466b02298f15dff9cdf681ca))
+
+## 2024-12-06
+
+* Fix: fixing wrong pubDate parameter in RSS feed for random post, which would fetch pubDate of latest redeploy instead of the actual publication date ([#9cdcf2f](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/9cdcf2f847f2c57ebd3938c26df02cd1d5ff6552))
+
+## 2024-11-23
+
+* Feature: adding "Not by AI" icon at the bottom of the page ([#aff1bb8](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/aff1bb811d3196b3e5c84458548a83176220cd5e))
+
+## 2024-11-06
+* Fix: changing address for RSS feed from clunky `feed_rss_created.xml` to reasonable `feed.xml` ([#bc0d93a](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/bc0d93a987568e9a8bed09c995f027d8c5f34a90))
+
