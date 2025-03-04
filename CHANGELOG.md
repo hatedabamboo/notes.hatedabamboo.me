@@ -7,6 +7,7 @@
 * Chore: posts with more than 1 image are now organized by subfolers in assets ([#80a975f](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/80a975f59a1874fc4f9a197278ec0b25cb07d0f6))
 * Chore: updated script to create a new post ([#80a975f](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/80a975f59a1874fc4f9a197278ec0b25cb07d0f6))
 * Chore: updated anchor symbol ([#ca7b661](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/ca7b6616ddf021ab6e6ec35657a0593245c72b86))
+* Feature: added page view counter on each page ([#99ec073](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/99ec073e954e4856efa5cdb0349609fe73730a2f))
 
 ## 2025-02-24
 
