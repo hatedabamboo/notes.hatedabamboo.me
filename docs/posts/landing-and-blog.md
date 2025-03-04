@@ -8,6 +8,8 @@ slug: landing-and-blog
 tags:
   - aws
   - github
+categories:
+  - "⬢⬢⬢ Advanced"
 title: "Landing and blog: how-to and why at all"
 ---
 A short story about why I decided to create a personal website and blog and how
@@ -17,7 +19,7 @@ GitHub Pages).
 
 <!-- more -->
 
-![Horrible handwriting](../assets/2023-09-30-landing-and-blog.webp){ .off-glb }
+![Horrible handwriting](../assets/2023-09-30-landing-and-blog/2023-09-30-landing-and-blog.webp){ .off-glb }
 
 !!! warning "17.06.2024 update"
 
@@ -250,7 +252,7 @@ The last thing remaining is to enable TLS for your website.
 
 This is the schema of the whole process:
 
-![Schema](../assets/2023-09-30-landing-and-blog-scheme.webp){ loading=lazy }
+![Schema](../assets/2023-09-30-landing-and-blog/2023-09-30-landing-and-blog-scheme.webp){ loading=lazy }
 
 #### 3. HTTP and S
 

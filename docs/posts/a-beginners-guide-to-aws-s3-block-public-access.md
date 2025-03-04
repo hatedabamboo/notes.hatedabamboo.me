@@ -7,6 +7,8 @@ slug: s3-block-public-access
 tags:
   - aws
   - s3
+categories:
+  - "⬢⬢⬡ Intermediate"
 title: "A Beginner's Guide to AWS S3 Block Public Access"
 ---
 S3 is an incredibly useful service for storing and sharing a vast variety of

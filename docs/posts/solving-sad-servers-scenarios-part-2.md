@@ -13,6 +13,8 @@ tags:
   - postgres
   - troubleshooting
   - ssl
+categories:
+  - "⬢⬢⬢ Advanced"
 title: "Solving Sad Servers scenarios: part 2"
 ---
 In this series of articles, I will attempt to solve scenarios from the website

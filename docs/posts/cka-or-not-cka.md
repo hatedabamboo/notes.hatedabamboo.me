@@ -7,6 +7,8 @@ slug: cka-or-not-cka
 tags:
   - certification
   - kubernetes
+categories:
+  - "⬢⬡⬡ Beginner"
 title: "CKA or not CKA: my thoughts about certification and stuff"
 ---
 To certify or not to certify? That is a complicated question. In this post, I

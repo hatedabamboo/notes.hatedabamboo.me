@@ -46,11 +46,13 @@ plugins:
       archive: true
       archive_date_format: YYYY
       blog_dir: .
+      categories_slugify_separator: ""
       pagination: true
       pagination_per_page: 10
       post_date_format: long
       post_dir: posts
       post_excerpt: required
+      post_excerpt_max_categories: 1
       post_url_format: "{slug}"
   - glightbox:
       touchNavigation: true

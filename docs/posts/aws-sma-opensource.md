@@ -7,6 +7,8 @@ slug: aws-sma-opensource
 tags:
   - aws
   - secrets
+categories:
+  - "⬢⬢⬡ Intermediate"
 title: "AWS open-sourced Secrets Manager Agent: what does that mean?"
 ---
 A few days ago, AWS open-sourced[^1] its Secrets Manager Agent, which is designed

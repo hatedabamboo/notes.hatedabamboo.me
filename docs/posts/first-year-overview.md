@@ -15,7 +15,7 @@ past year and publish them here for your, dear reader, joy, and my own clarity.
 
 <!-- more -->
 
-![image](../assets/first-year-overview.webp){ .off-glb }
+![image](../assets/first-year-overview/first-year-overview.webp){ .off-glb }
 
 Numbers are cool and all, but they're much cooler when they look nice. So
 here's an infographic I found on the internet filled with numbers related to my
@@ -23,7 +23,7 @@ blog.
 
 ## Year in numbers 202{3,4}
 
-![Year in numbers](../assets/first-year-overview-year-in-numbers.png){ loading=lazy }
+![Year in numbers](../assets/first-year-overview/first-year-overview-year-in-numbers.png){ loading=lazy }
 
 ## Let's take a closer look at some significant waypoints
 
@@ -34,10 +34,10 @@ blog.
 
 ## And some nice graphs
 
-![Code frequency](../assets/first-year-overview-code-frequency.png){ loading=lazy }
+![Code frequency](../assets/first-year-overview/first-year-overview-code-frequency.png){ loading=lazy }
 
 <figure markdown="span">
-  ![Image title](../assets/first-year-overview-most-viewed-pages.png){ loading=lazy }
+  ![Image title](../assets/first-year-overview/first-year-overview-most-viewed-pages.png){ loading=lazy }
   <figcaption>most visited address | views | unique visitors</figcaption>
 </figure>
 

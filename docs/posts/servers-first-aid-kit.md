@@ -8,6 +8,8 @@ tags:
   - hardware
   - servers
   - troubleshooting
+categories:
+  - "⬢⬢⬡ Intermediate"
 title: "Server's first aid kit: a quick way to determine if your server is alive and well"
 ---
 There are a lot of posts in the internet regarding which program or tool does

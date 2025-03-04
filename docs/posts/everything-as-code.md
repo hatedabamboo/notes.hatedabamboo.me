@@ -10,6 +10,8 @@ tags:
   - iac
   - observability
   - other
+categories:
+  - "⬢⬢⬡ Intermediate"
 title: "Everything* as code"
 glightbox: false
 ---

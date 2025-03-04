@@ -6,6 +6,8 @@ slug: signing-your-git-commits-with-gpg-key
 tags:
   - git
   - gpg
+categories:
+  - "⬢⬢⬡ Intermediate"
 title: "Signing your git commits with GPG key"
 ---
 We all use git. We all are familiar with pull, push and commit commands and we
@@ -15,7 +17,7 @@ Let's find out!
 
 <!-- more -->
 
-![git commit -m Verified](../assets/2024-05-08-signing-your-git-commits-with-gpg-key-1.webp){ .off-glb }
+![git commit -m Verified](../assets/2024-05-08-signing-your-git-commits-with-gpg-key/2024-05-08-signing-your-git-commits-with-gpg-key-1.webp){ .off-glb }
 
 ## git commit -m 'Initial commit'
 
@@ -179,11 +181,11 @@ git config commit.gpgsign true
 All this work is performed so that your commits in the web interface will have
 a nice symbol confirming that it's actually you who wrote this horrible code.
 
-![Verified commit](../assets/2024-05-08-signing-your-git-commits-with-gpg-key-2.webp){ loading=lazy }
+![Verified commit](../assets/2024-05-08-signing-your-git-commits-with-gpg-key/2024-05-08-signing-your-git-commits-with-gpg-key-2.webp){ loading=lazy }
 
 And also it will allow you to avoid such things as this:
 
-![Someone has used your name to commit shit!](../assets/2024-05-08-signing-your-git-commits-with-gpg-key-3.webp){ loading=lazy }
+![Someone has used your name to commit shit!](../assets/2024-05-08-signing-your-git-commits-with-gpg-key/2024-05-08-signing-your-git-commits-with-gpg-key-3.webp){ loading=lazy }
 
 !!! abstract "Closing remarks"
 

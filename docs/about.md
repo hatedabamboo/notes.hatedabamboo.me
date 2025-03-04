@@ -1,5 +1,5 @@
 ---
-slug:  about
+slug: about
 ---
 ![Winter is coming](./assets/about.webp){ .off-glb }
 

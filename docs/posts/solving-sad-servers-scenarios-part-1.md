@@ -11,6 +11,8 @@ tags:
   - linux
   - postgres
   - troubleshooting
+categories:
+  - "⬢⬢⬡ Intermediate"
 title: "Solving Sad Servers scenarios: part 1"
 ---
 In this series of articles, I will attempt to solve scenarios from the website
