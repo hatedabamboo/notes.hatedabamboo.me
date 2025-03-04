@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 2025-03-04
+
+* Feature: added horizontal status bar that shows the progress of the page ([#80a975f](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/80a975f59a1874fc4f9a197278ec0b25cb07d0f6))
+* Feature: added categories to sort posts by complexity ([#80a975f](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/80a975f59a1874fc4f9a197278ec0b25cb07d0f6))
+* Chore: posts with more than 1 image are now organized by subfolers in assets ([#80a975f](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/80a975f59a1874fc4f9a197278ec0b25cb07d0f6))
+* Chore: updated script to create a new post ([#80a975f](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/80a975f59a1874fc4f9a197278ec0b25cb07d0f6))
+* Chore: updated anchor symbol ([#ca7b661](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/ca7b6616ddf021ab6e6ec35657a0593245c72b86))
+
 ## 2025-02-24
 
 * Feature: removing calls to Google Fonts API by accessing local fonts ([#1c75236](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/1c752360bb534a3d543407510a684ae0fbef8629))

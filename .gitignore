@@ -6,3 +6,4 @@
 .cache/
 *.zip
 *.tar.gz
+.aws/
