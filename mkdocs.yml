@@ -39,7 +39,7 @@ markdown_extensions:
   - pymdownx.tilde
   - tables
   - toc:
-      permalink: true
+      permalink: '#'
 
 plugins:
   - blog:
