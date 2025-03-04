@@ -8,6 +8,8 @@ tags:
   - aws
   - iam
   - terraform
+categories:
+  - "⬢⬡⬡ Beginner"
 title: "Checking IAM policy length using Terraform"
 ---
 Terraform, apart from being an incredible tool overall, is very good for

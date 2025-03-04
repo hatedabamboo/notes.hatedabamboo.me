@@ -7,6 +7,8 @@ slug: locking-myself-off-root-access
 tags:
   - linux
   - other
+categories:
+  - "⬢⬢⬡ Intermediate"
 title: "Story time: how I locked myself out of root account and how I fixed it"
 ---
 Yet another reason why I love Linux is the ability to shoot myself in the leg

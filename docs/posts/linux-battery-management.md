@@ -8,6 +8,8 @@ slug: linux-battery-management
 tags:
   - hardware
   - linux
+categories:
+  - "⬢⬢⬡ Intermediate"
 title: "Linux battery management"
 ---
 Yet another reason why I love Linux: everything is a file. Today I would like

@@ -7,6 +7,8 @@ slug: minimizing-containerized-applications
 tags:
   - containers
   - docker
+categories:
+  - "⬢⬢⬢ Advanced"
 title: "How to minimize docker image size: 4 key approaches"
 ---
 Containers have been a dominant force in the Internet landscape for nearly two

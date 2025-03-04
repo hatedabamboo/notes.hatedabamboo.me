@@ -6,6 +6,8 @@ date:
 slug: git-hooks
 tags:
   - git
+categories:
+  - "⬢⬡⬡ Beginner"
 title: "Git hooks: a painless way to use them"
 ---
 Git hooks are a very handy feature in development. However, because of their

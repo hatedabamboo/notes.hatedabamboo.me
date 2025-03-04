@@ -9,6 +9,8 @@ tags:
   - cicd
   - gitlab
   - secrets
+categories:
+  - "⬢⬢⬢ Advanced"
 title: "Using AWS Parameter Store instead of Gitlab CICD Variables"
 ---
 This note is dedicated to showing how one can store CI/CD variables and secret

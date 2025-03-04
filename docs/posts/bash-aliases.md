@@ -6,6 +6,8 @@ date:
 slug: bash-aliases
 tags:
   - bash
+categories:
+  - "⬢⬡⬡ Beginner"
 title: Bash aliases and why I love them
 ---
 I love bash. A tool as trivial as command line interface (CLI, or just console)

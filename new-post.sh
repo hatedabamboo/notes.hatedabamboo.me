@@ -21,15 +21,19 @@ date:
 slug: TODO fill in
 tags:
   - TODO fill in
+categories: # TODO leave only one
+  - "⬢⬡⬡ Beginner"
+  - "⬢⬢⬡ Intermediate"
+  - "⬢⬢⬢ Advanced"
 title: "$@"
 ---
->>> Here be intro paragraph
+<!-- Here be intro paragraph -->
 
 <!-- more -->
 
 ![image](../assets/${image})
 
->>> Here be text
+<!-- Here be text -->
 
 !!! abstract "Closing remarks"
 
@@ -40,4 +44,4 @@ title: "$@"
 EOF
 
 touch "docs/assets/$image"
-vim "$postfile"
+

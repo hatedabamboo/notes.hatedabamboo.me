@@ -7,6 +7,8 @@ slug: automatic-git-commit
 tags:
   - bash
   - git
+categories:
+  - "⬢⬡⬡ Beginner"
 title: "Automatic git commit"
 ---
 How often you find yourself in the situation, when you're too bored to write a
