@@ -44,7 +44,7 @@ computers existed, humans developed ways to encode information, often to
 preserve knowledge, communicate securely. One of the earliest examples comes
 from cryptography.
 
-Ctyptography is one of my many interests. Ciphers, cryptography algorithms,
+Cryptography is one of my many interests. Ciphers, cryptography algorithms,
 encryption, all that jazz. The practice of encoding information goes back to
 Ancient Egypt, but one of the earliest well-known encryption methods is
 Caesar’s Cipher (also called Caesar’s Code).
