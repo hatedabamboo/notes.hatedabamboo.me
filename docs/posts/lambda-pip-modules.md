@@ -12,25 +12,33 @@ categories:
   - "⬢⬡⬡ Beginner"
 title: "Installing Python dependencies in AWS Lambda: easy pip guide"
 ---
-Two easy ways to include a pip package for your python Lambda function.
+Two easy ways to include a pip package for your Python Lambda function.
 
 <!-- more -->
 
-![image](../assets/lambda-pip-modules/title.webp)
+![image](../assets/lambda-pip-modules/title.webp){ .off-glb }
 
 ## Defining the problem
 
-I love AWS Lambda functions. For me they provide a very handy functionality to run ad-hoc tasks when I need them, and basically for free. To some extent I see them as a replacement for cron tasks when I don't have a 24/7 running server somewhere. Which, I think, most of us don't.
+I love AWS Lambda functions. For me, they provide a very handy way to run
+ad-hoc tasks when I need them, and basically for free. To some extent, I see
+them as a replacement for cron tasks when I don't have a 24/7 running server
+somewhere -- which, I think, most of us don't.
 
-Lambda is platform-agnostic, multi-language asynchronous[^1] code execution runtime. It allows a vast variety of applications, starting from simple notification forwarding and ending in full-scale serverless applications.
+Lambda is a platform-agnostic, multi-language, (a)synchronous[^1] code
+execution runtime. It allows for a vast variety of applications, ranging from
+simple notification forwarding to full-scale serverless applications.
 
-But what Lambdas lack is a dependency management.
+However, what Lambda lacks is built-in dependency management.
 
-## Method 1: installing pip package inside the lambda function
+## Method 1: Installing a pip package inside the Lambda function
 
-The easiest way to include the necessary pip package is to install it in the Lambda function itself.
+The easiest way to include the necessary pip package is to install it within
+the Lambda function itself.
 
-We have a limited possibilities to configure the function runtime, however we do have write access to `/tmp` location of an underlying environment. And this is exactly what we are going to use to install necessary packages to.
+We have limited possibilities for configuring the function runtime. However, we
+do have write access to the `/tmp` location of the underlying environment, and
+this is exactly what we will use to install the necessary packages.
 
 ```python
 import subprocess
@@ -48,23 +56,32 @@ sys.path.insert(1, "/tmp/")
 import requests
 ```
 
-At first we install `subprocess` and `sys` modules to call the subprocess and insert a package location into the search path to access it.
+First, we use the `subprocess` and `sys` modules to call a subprocess and
+modify the search path so that the installed package can be accessed.
 
-Then we call `subprocess` function to install pip package into the `/tmp` folder.
+Then, we call the `subprocess` function to install the pip package into the
+`/tmp` folder.
 
-And, finally, we import the freshly installed package as usual.
+Finally, we import the freshly installed package as usual.
 
 ### Considerations and limitations
 
-This method is quite easy and straightforward. It allows to add several lines of code to function without necessity to manage external dependencies (which we will discuss further).
+This method is quite easy and straightforward. It allows us to add a few lines
+of code to a function without the necessity of managing external dependencies
+(which we will discuss later).
 
-However, this solution may not be very helpful in situations when you have complex dependencies which are used throughout multiple functions. As lambdas are billed for their time running, the more dependencies are installed this way, the pricier it's going to get.
 
-## Method 2: creating Lambda layers
+However, this solution may not be ideal in situations where you have complex
+dependencies used across multiple functions. Since Lambda functions are billed
+based on their execution time, the more dependencies are installed this way,
+the higher the cost will be and the slower the code will execute.
+
+## Method 2: Creating Lambda layers
 
 This method is a bit more complicated.
 
-In order to properly create a Lambda layer that will properly provide necessary dependencies, the package for it has to be structured in a certain way.
+To properly create a Lambda layer that provides the necessary dependencies, the
+package must be structured in a specific way.
 
 First, we create a virtual environment for the required package (or packages):
 
@@ -74,7 +91,7 @@ source lambda_layer/bin/activate
 pip install requests
 ```
 
-In result we have a following directory structure in our lambda layer to be:
+As a result, we get the following directory structure in our Lambda layer:
 
 ```shell
 lambda_layer/
@@ -111,7 +128,8 @@ lambda_layer/
 └── pyvenv.cfg
 ```
 
-But we don't need all of the contents. What we need is, actually, only `lib` directory. So we take and and archive it:
+However, we don’t need all of these contents. What we actually need is only the
+`lib` directory. So, we take it and archive it:
 
 ```shell
 mkdir python
@@ -119,7 +137,7 @@ cp -r lambda_layer/lib/ python/
 zip -r python-requests.zip python/
 ```
 
-And the last step is to upload this layer to AWS:
+The last step is to upload this layer to AWS:
 
 ```shell
 aws lambda publish-layer-version --layer-name python-requests-layer \
@@ -128,16 +146,21 @@ aws lambda publish-layer-version --layer-name python-requests-layer \
     --compatible-architectures "arm64"
 ```
 
-Now this layer will be available for us to use in our functions:
+Now, this layer will be available for us to use in our functions:
 
-![Lambda layer](../assets/lambda-pip-modules/layer.png)
+![Lambda layer](../assets/lambda-pip-modules/layer.webp){ loading=lazy }
 
 ### Considerations and limitations
 
-This method allows for more complex and plentiful dependencies inside your Lambda functions. It provides immutable package versions in your runtime. However, this creates a necessity to manage external dependencies and their versions manually.[^2]
+This method allows for more complex and extensive dependencies inside your
+Lambda functions. It provides immutable package versions in your runtime.
+However, it requires managing external dependencies and their versions
+manually[^2].
 
-In situations with multiple interconnected package dependencies the most sure way is to create a single Lambda layer with all the installed packages as on your local machine. Just make sure that the code and it's dependencies work in a way that you intend.
-
+In situations involving multiple interconnected package dependencies, the
+safest approach is to create a single Lambda layer containing all the required
+packages from your local machine. Just make sure that the code and its
+dependencies work as intended.
 
 !!! abstract "Closing remarks"
 
@@ -146,5 +169,6 @@ In situations with multiple interconnected package dependencies the most sure wa
     me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my
     mistakes and befriend me on one of the social media platforms listed below.
 
-[^1]: Lambda functions can be executed both synchronously and asynchronous.
-[^2]: Which also can be automated pretty easily: upload a new layer is just 7 lines of shell script and requirements.txt file.
+[^1]: Lambda functions can be executed both synchronously and asynchronously.
+[^2]: Which also can be automated pretty easily: uploading a new layer requires
+just seven lines of a shell script and a `requirements.txt` file.
