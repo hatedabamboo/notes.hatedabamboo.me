@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2025-04-04
+
+* Feature: added views counter in metadata block on every blog post page ([#c57d695](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/c57d695b99bc4f23d1853910ab445de346130ea2))
+
 ## 2025-03-04
 
 * Feature: added horizontal status bar that shows the progress of the page ([#80a975f](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/80a975f59a1874fc4f9a197278ec0b25cb07d0f6))
