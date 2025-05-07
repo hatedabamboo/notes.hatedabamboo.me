@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2025-05-07
+
+* Feature: changed footer for future articles to reply by email ([#e79d172](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/e79d172ca14694757460aeb52408f13a45b5cb1a))
+* Fix: removed unnecessary space in footer ([#cc34775](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/cc347751ef985c46621cf3f0a224a0658f0b9eee))
+
 ## 2025-04-04
 
 * Feature: added views counter in metadata block on every blog post page ([#c57d695](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/c57d695b99bc4f23d1853910ab445de346130ea2))
