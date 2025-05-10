@@ -44,7 +44,6 @@ title: "{title}"
 <p style="text-align: center;">
 <a href="mailto:reply@hatedabamboo.me?subject={email_subject}">Reply to this post ✉️</a>
 </p>
-
 """
 
 with open(postfile, "w") as f:
