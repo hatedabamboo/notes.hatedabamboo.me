@@ -10,7 +10,7 @@ categories:
   - "⬢⬡⬡ Beginner"
 title: "Bash functions"
 ---
-Some time ago [I wrote](./bash-aliases.md) about bash aliases and how they
+Some time ago [I wrote](https://notes.hatedabamboo.me/bash-aliases) about bash aliases and how they
 reduce the complexity of long commands by replacing them with several symbols.
 But aliases are not the only things that can ease the usage of shell. In this
 article I will share with you the magic of bash functions and provide several

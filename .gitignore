@@ -8,3 +8,4 @@
 *.tar.gz
 .aws/
 devto.md
+.ropeproject/
