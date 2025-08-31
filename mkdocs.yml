@@ -17,13 +17,14 @@ extra:
 extra_css:
   - stylesheets/extra.css
 
-markdown_extensions: 
+markdown_extensions:
   - admonition
   - attr_list
   - footnotes
   - md_in_html
   - pymdownx.caret
   - pymdownx.critic
+  - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
       auto_title: true
@@ -39,7 +40,7 @@ markdown_extensions:
   - pymdownx.tilde
   - tables
   - toc:
-      permalink: '#'
+      permalink: "#"
 
 plugins:
   - blog:
