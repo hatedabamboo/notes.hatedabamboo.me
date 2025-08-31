@@ -14,32 +14,31 @@ categories:
   - "⬢⬢⬡ Intermediate"
 title: "Kubernetes to RDS: secure connections via IAM roles without passwords"
 ---
-Databases are a cornerstone of any meaningful business application. Or not meaningful. Or not even business. They keep things consistent. Yes, that's the one.
+Databases are a cornerstone of any meaningful business application. Or not meaningful. Or not even business. They keep things consistent. Yes, that’s the one.
 
-For decades we've been using usernames and passwords to connect to databases inside the application. While consistent and secure enough, sometimes we want a different, more secure way, to access the sensitive data. And in this article I'm going to show you the entire process of configuring the database connection using AWS native tools -- IAM roles and policies.
+For decades, we’ve been using usernames and passwords to connect to databases inside applications. While consistent and secure enough, sometimes we want a different, more secure way to access sensitive data. And in this article, I’m going to show you the entire process of configuring a database connection using AWS native tools -- IAM roles and policies.
 
 <!-- more -->
 
-![image](../assets/kubernetes-to-rds-secure-connections-via-iam-roles-without-passwords/title.webp)
+![image](../assets/kubernetes-to-rds-secure-connections-via-iam-roles-without-passwords/title.webp){ .off-glb }
 
 ## The setup
 
-This article is going to focus on applications running in Elastic Kubernetes Service (EKS) in AWS. Surely enough the same approach can be used to allow connection from other compute resources -- be that plain EC2 instance or ECS container, but the details will slightly differ. For example, instead of Pod Identity Association for EKS pod, EC2 instance will have to have Instance Profile.
+This article is going to focus on applications running in Elastic Kubernetes Service (EKS) in AWS. Of course, the same approach can be used to allow connections from other compute resources -- whether that’s a plain EC2 instance or an ECS container -- but the details will differ slightly. For example, instead of a Pod Identity Association for an EKS pod, an EC2 instance will need an Instance Profile.
 
-Since the second part of the connection is the database, we're going to use an RDS database -- specifically Postgres, but it can be any other for your liking.
-And, of course, the glue that ties it all together will be the IAM roles and policies.
+Since the second part of the connection is the database, we’re going to use an RDS database -- specifically Postgres, though it can be any other you prefer. And, of course, the glue that ties it all together will be the IAM roles and policies.
 
 ## Setting up the database
 
-In order to access the database using the IAM role, first we have to allow this way of connections. It doesn't matter if your database is already running or you're creating a new one -- this setting can be enabled at any time.
+To access the database using an IAM role, we first have to allow this type of connection. It doesn’t matter if your database is already running or if you’re creating a new one -- this setting can be enabled at any time.
 
 !!! info
 
-    This setting requires database restart, so be mindful about it.
+    This setting requires a database restart, so keep that in mind.
 
-![Database authentication](../assets/kubernetes-to-rds-secure-connections-via-iam-roles-without-passwords/db-auth.png)
+![Database authentication](../assets/kubernetes-to-rds-secure-connections-via-iam-roles-without-passwords/db-auth.webp)
 
-For my fellow CLI enjoyers, here how you can do it with the `awscli` tool:
+For my fellow CLI enjoyers, here’s how you can do it with the `awscli` tool:
 
 ```shell
 # creating a new cluster
@@ -47,25 +46,27 @@ aws rds create-db-cluster \
   --db-cluster-identifier my-test-cluster \
   --engine aurora-postgresql \
   --enable-iam-database-authentication
-# modifying existing cluster
+# modifying an existing cluster
 aws rds modify-db-cluster \
   --db-cluster-identifier my-test-cluster \
   --enable-iam-database-authentication
 ```
 
-After enabling this setting (and applying it), we can proceed with the setup further.
-What do we need to connect to the database? That's right, the user! Let's create one. For the sake of simplicity, I'll call it `database_user`.
+After enabling this setting (and applying it), we can continue with the setup.
+
+What do we need to connect to the database? That’s right -- the user! Let’s create one. For simplicity, let's call it `database_user`.
 
 ```sql
 CREATE USER database_user;
 GRANT rds_iam TO database_user;
 ```
 
-The second clause enables `database_user` the ability to access RDS via IAM roles.
+The second clause grants `database_user` the ability to access RDS via IAM roles.
 
-## Creating policy and role
+## Creating a policy and role
 
-IAM role is the entry ticket that will allow the application to connect to the database. It's very important to configure it properly. By properly I mean not only correctly, which is, in fact, crucial, but also keep the necessary permissions to bare minimum. The famous Principle of Least Privilege in action.
+An IAM role is the entry ticket that allows the application to connect to the database. It’s very important to configure it properly. By properly, I mean not only correctly -- which is, of course, crucial -- but also with the necessary permissions kept to a bare minimum. The famous Principle of Least Privilege in action.
+
 The main policy should look like this:
 
 ```json
@@ -88,20 +89,23 @@ The main policy should look like this:
 
 A few things to notice here:
 
-- The `/database_user` in the end of resource string indicates that this policy is meant only for this particular user.
-- The permission `rds-db:connect` differs from regular `rds:*` permissions, as it's responsible only for grant to connect to the database as designated user. You can see for yourself, there's only [one](https://www.awsiamactions.io/?o=rds-db) such action.
-- The resource ARN has a `:cluster-ABCDEFGHIJKL01234/` resource reference, which allows the connection to the cluster in general.  It can be a specific database with the resource ID looking like `:db-ABCDEFGHIJKL01234/`, or even a [RDS Proxy](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy-setup.html) with the resource identifier looking like `:prx-ABCDEFGHIJKL01234/`.
+- The `/database_user` at the end of the resource string indicates that this policy is meant only for this particular user.
+- The permission `rds-db:connect` differs from regular `rds:*` permissions, as it is responsible only for granting the ability to connect to the database as the designated user. You can see for yourself -- there’s only [one](https://www.awsiamactions.io/?o=rds-db) such action.
+- The resource ARN includes a `:cluster-ABCDEFGHIJKL01234/` reference, which allows the connection to the cluster in general. It can also reference a specific database with an ID like `:db-ABCDEFGHIJKL01234/`, or even an [RDS Proxy](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy-setup.html) with an identifier like `:prx-ABCDEFGHIJKL01234/`.
 
-The policy can utilize wildcards as well, giving a variety of options:
+The policy can utilize wildcards as well, providing various options:
 
-- The policy can allow any user to access the specific database by using resource `arn:aws:rds-db:us-west-2:123456789012:dbuser:cluster-ABCDEFGHIJKL01234/*`
-- The policy can allow a particular user to access any database in any region: `arn:aws:rds-db:*:123456789012:dbuser:*/database_user`
-- The policy can also just allow to anyone to connect to any database: `arn:aws:rds-db:us-west-2:123456789012:dbuser:*/*`
+- The policy can allow any user to access a specific database using the resource `arn:aws:rds-db:us-west-2:123456789012:dbuser:cluster-ABCDEFGHIJKL01234/*`.
+- The policy can allow a particular user to access any database in any region: `arn:aws:rds-db:*:123456789012:dbuser:*/database_user`.
+- The policy can also allow anyone to connect to any database: `arn:aws:rds-db:us-west-2:123456789012:dbuser:*/*`.
 
-The possibilities are vast, but one have to always be cognizant of too broad permissions -- it's a [security concern](https://notes.hatedabamboo.me/the-big-iam-challenge/) first and foremost.
-Okay, that's enough with the role policy.
-Second part of setting up the correct role for the application is the Assume Role Policy. The configuration that allows a particular actor to get that role. This is the policy that shows on "Trust relationships" tab at the role page.
-As mentioned above, this article focuses on accessing the database from EKS pods. Thus, for this specific case, assume role policy will look like this:
+The possibilities are vast, but one must always be mindful of overly broad permissions -- it’s a [security concern](https://notes.hatedabamboo.me/the-big-iam-challenge/) first and foremost.
+
+Okay, that’s enough about the role policy.
+
+The second part of setting up the correct role for the application is the Assume Role Policy -- the configuration that allows a particular actor to assume that role. This is the policy that appears on the "Trust relationships" tab on the role page.
+
+As mentioned above, this article focuses on accessing the database from EKS pods. For this specific case, the assume role policy will look like this:
 
 ```json
 {
@@ -123,23 +127,23 @@ As mentioned above, this article focuses on accessing the database from EKS pods
 
 Basically, we allow pods from EKS to assume the role and tag the session.
 
-And that's that!
+And that’s that!
 
-## Configuring pod identity associations
+## Configuring Pod Identity Associations
 
-Pod Identity Association is the convenient AWS-native way to assign the IAM role to the pod in a specific namespace by associating this role with a service account. This is the thing that acts like an EC2 instance profile.
+Pod Identity Association is a convenient AWS-native way to assign an IAM role to a pod in a specific namespace by associating the role with a service account. This acts like an EC2 Instance Profile.
 
-Assuming you have an existing EKS cluster, head to "Access" tab an find "Pod Identity associations" block. Hit "Create" button an proceed with the creation.
+Assuming you have an existing EKS cluster, head to the "Access" tab and find the "Pod Identity Associations" block. Click the "Create" button and proceed with the creation.
 
-![Pod identity association](../assets/kubernetes-to-rds-secure-connections-via-iam-roles-without-passwords/pod-identity.png)
+![Pod identity association](../assets/kubernetes-to-rds-secure-connections-via-iam-roles-without-passwords/pod-identity.webp)
 
-In the first "IAM role" field select the role you've created at the [previous step](#Creating policy and role). "Target IAM role" is a new feature that allows for a nested permission grants -- slightly confusing feature, if you ask me, but sometimes may be helpful. "Kubernetes namespace" is the namespace in which we will allow the pod to assume the role. And, finally, "Kubernetes service account" is the name of the service account that will be associated with the desired role.
+In the first "IAM role" field, select the role you created in the [previous step](#creating-a-policy-and-role). "Target IAM role" is a new feature that allows for nested permission grants -- slightly confusing, if you ask me, but sometimes helpful. "Kubernetes namespace" is the namespace in which we will allow the pod to assume the role. Finally, "Kubernetes service account" is the name of the service account that will be associated with the desired role.
 
-Hit "Create" one more time -- and we're done here. Let's head for the penultimate part -- kubernetes tickling.
+Click "Create" one more time -- and we’re done here. Let’s move on to the penultimate part: Kubernetes tickling.
 
-## Configuring kubernetes ServiceAccount and workload
+## Configuring Kubernetes ServiceAccount and workload
 
-ServiceAccount is a pretty simple kubernetes resource. It's manifest should look like this:
+A ServiceAccount is a pretty simple Kubernetes resource. Its manifest should look like this:
 
 ```yaml
 apiVersion: v1
@@ -149,13 +153,13 @@ metadata:
   namespace: rds-app
 ```
 
-Keep in mind that name of the service account and namespace should be exactly the same as in the previous step, otherwise the pod identity won't be able to assume the role.
+Keep in mind that the name of the service account and namespace should match exactly what was used in the previous step; otherwise, the pod identity won’t be able to assume the role.
 
-Now  for the actual workload.
+Now, for the actual workload.
 
-This can be a simple `awscli` + `psql` connection test, or a full-scale application, for example written in Python. I will go with the second approach, since it's more interesting and handles necessary authorization and authentication steps in one application.
+This can be a simple `awscli` + `psql` connection test, or a full-scale application, for example written in Python. I’ll go with the second approach, since it’s more interesting and handles the necessary authorization and authentication steps in a single application.
 
-For the python app we can create a simple pod:
+For the Python app, we can create a simple pod:
 
 ```yaml
 apiVersion: v1
@@ -181,9 +185,9 @@ spec:
   restartPolicy: Always
 ```
 
-In this manifest we spin up a pod with python 3.11, installing necessary libraries (`boto3` and `psycopg2-binary`, because we need to connect to AWS API and to the Postgres database) and then go to sleep. This will allow us to connect to the pod via shell and execute the script that will help us perform the testing.
+In this manifest, we spin up a pod with Python 3.11, installing the necessary libraries (`boto3` and `psycopg2-binary`, since we need to connect to the AWS API and the Postgres database) and then put it to sleep. This allows us to connect to the pod via shell and execute the script that will help us perform the testing.
 
-??? example "Python code"
+??? example "Python script to test the connection"
 
     ```python
     import boto3
@@ -308,7 +312,8 @@ In this manifest we spin up a pod with python 3.11, installing necessary librari
         print("🏁 Test completed")
     ```
 
-This is an extremely over-engineered script that, however, does its thing -- it helps to check if the permissions are set correctly and the connection is working.
+This is an extremely over-engineered script that, nevertheless, does its job -- it helps verify that the permissions are set correctly and the connection is working.
+
 The output of the script will look something like this:
 
 ```shell
@@ -344,17 +349,19 @@ The output of the script will look something like this:
 🏁 Test completed
 ```
 
-While not performing any meaningful actions, this script helps us to understand if all of our preparations were successful.
-To use the same approach in actual business application, you need to perform one extra step, in comparison with regular connection: acquire a database access token via `generate_db_auth_token()` method and use this token as a password in connection settings.
+While not performing any meaningful actions, this script helps us understand if all of our preparations were successful.
+
+To use the same approach in an actual business application, you need to perform one extra step compared with a regular connection: acquire a database access token via the `generate_db_auth_token()` method and use this token as the password in the connection settings.
 
 ## Afterthought
 
-While working on this article, I kept asking myself: "Who may need it, if it's all available in the documentation?" Technically correct, but AWS documentation likes to separate connected topics to different articles, making it harder to compile a coherent manual on performing a certain action. Here, you have everything you need in one place, from start to finish, helping you along all the way.
+While working on this article, I kept asking myself: "Who may need this if it’s all available in the documentation?" Technically correct, but AWS documentation tends to separate connected topics into different articles, making it harder to compile a coherent manual for performing a certain action. Here, you have everything you need in one place, from start to finish, guiding you along the way.
 
-Why is this approach good? For several reasons.
+Why is this approach good? For several reasons:
 
-Abolishing password-based authorization removes this vector of attack. It  also offloads password management tasks: no rotation, no revoking, nothing.
-Using IAM roles and policies for authorization allows to utilize the power of IaC approach, keeping policies transparent, consistent, accessible for static code analysis tools and audit. Apart from all of that, assuming IAM role means that the sessions are actually short-timed, which increases security of the connection .Security above all!
+Abolishing password-based authorization removes this vector of attack. It also offloads password management tasks: no rotation, no revoking, nothing.
+
+Using IAM roles and policies for authorization allows you to leverage the power of the IaC approach, keeping policies transparent, consistent, and accessible for static code analysis tools and audits. Apart from all that, assuming an IAM role means that sessions are actually short-lived, which increases the security of the connection. Security above all!
 
 ---
 

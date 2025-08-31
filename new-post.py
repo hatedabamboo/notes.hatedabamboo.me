@@ -35,7 +35,7 @@ title: "{title}"
 
 <!-- more -->
 
-![image](../assets/{image})
+![image](../assets/{image}){ .off-glb }
 
 <!-- Here be text -->
 
