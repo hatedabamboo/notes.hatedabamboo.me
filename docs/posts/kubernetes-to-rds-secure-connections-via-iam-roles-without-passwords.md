@@ -353,6 +353,11 @@ While not performing any meaningful actions, this script helps us understand if 
 
 To use the same approach in an actual business application, you need to perform one extra step compared with a regular connection: acquire a database access token via the `generate_db_auth_token()` method and use this token as the password in the connection settings.
 
+!!! warning
+
+    Keep in mind that you can't use password-based and IAM-based authentication simultaneously. IAM-based authentication takes precedence, and even if you enter the correct password, authentication will fail due to a lack of necessary permissions. To re-enable password-based authentication, you need to revoke the `rds_iam` grant from the user.
+
+
 ## Afterthought
 
 While working on this article, I kept asking myself: "Who may need this if it’s all available in the documentation?" Technically correct, but AWS documentation tends to separate connected topics into different articles, making it harder to compile a coherent manual for performing a certain action. Here, you have everything you need in one place, from start to finish, guiding you along the way.
