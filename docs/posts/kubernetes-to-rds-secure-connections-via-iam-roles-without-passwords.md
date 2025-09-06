@@ -3,6 +3,7 @@ authors:
   - hatedabamboo
 date:
   created: 2025-08-31
+  updated: 2025-09-06
 slug: kubernetes-to-rds-without-passwords
 tags:
   - aws
