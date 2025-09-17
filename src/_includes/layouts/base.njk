@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% include "partials/head.njk" %}
+  </head>
+  <body>
+    <div id="progress-container">
+      <div id="progress-bar"></div>
+    </div>
+
+    {% include "partials/header.njk" %}
+
+    {% block content %}
+    <div class="container">
+      <div class="left-sidebar"></div>
+      <div class="main-content">
+        {{ content | safe }}
+      </div>
+      <div class="right-sidebar"></div>
+    </div>
+    {% endblock %}
+
+    {% include "partials/footer.njk" %}
+
+    {% include "partials/scripts.njk" %}
+  </body>
+</html>

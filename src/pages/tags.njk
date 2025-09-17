@@ -1,0 +1,50 @@
+---
+title: Tags
+layout: layouts/tags.njk
+permalink: /tags/
+---
+
+<div class="post-container">
+  <div class="post-left-sidebar"></div>
+  
+  <div class="post-main">
+    <article class="tags-content tags-typeset">
+      <h1 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">#</a></h1>
+      
+      {% for tag in collections.tagList %}
+        {% set taggedPosts = [] %}
+        {% for post in collections.posts %}
+          {% if post.data.tags and tag in post.data.tags %}
+            {% set taggedPosts = (taggedPosts.push(post), taggedPosts) %}
+          {% endif %}
+        {% endfor %}
+        {% if taggedPosts.length > 0 %}
+          <h3 id="tag:{{ tag | slug }}">
+            {{ tag }}
+            <a class="headerlink" href="#tag:{{ tag | slug }}" title="Permanent link">#</a>
+          </h3>
+          <ul>
+            {% for post in taggedPosts %}
+              <li>
+                <a href="{{ post.url }}">
+                  {{ post.data.title }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endfor %}
+    </article>
+  </div>
+  
+  <div class="post-right-sidebar">
+    <div class="post-toc">
+      <h3>Tags</h3>
+      <ul>
+        {% for tag in collections.tagList %}
+          <li><a href="#tag:{{ tag | slug }}">{{ tag }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>

@@ -9,3 +9,6 @@
 .aws/
 devto.md
 .ropeproject/
+**/site/
+**/node_modules/
+**/dist/

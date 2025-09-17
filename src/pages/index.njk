@@ -1,0 +1,63 @@
+---
+layout: layouts/base.njk
+<<<<<<< HEAD
+title: Notes
+=======
+title: Home
+>>>>>>> 3274395 (Added	 src/pages/about.md)
+pagination:
+  data: collections.posts
+  size: 10
+  alias: posts
+permalink: "{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumber + 1 }}/{% endif %}index.html"
+---
+<div class="post-list">
+  {% for post in posts %}
+  <article class="post-item">
+    <h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
+    <div class="post-meta-inline">
+      <time datetime="{{ post.date | postDate('YYYY-MM-DD') }}">{{ post.date | postDate }}</time>
+      • {{ post.content | readingTime }} minute read
+      {% if post.data.tags %}
+        • {% for tag in post.data.tags | sort %}<a href="/tags/#tag:{{ tag | slug }}">#{{ tag }}</a>{% if not loop.last %} {% endif %}{% endfor %}
+      {% endif %}
+    </div>
+    <div class="post-excerpt">
+      {{ post | excerpt | safe }}
+      <p><a href="{{ post.url }}" class="continue-reading">Continue reading →</a></p>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+
+{% if pagination.href.previous or pagination.href.next %}
+<nav class="post-nav" aria-label="Page navigation">
+  {% if pagination.href.previous %}
+  <a href="{{ pagination.href.previous }}" class="post-nav-link post-nav-link--prev" aria-label="Previous page">
+    <div class="post-nav-button">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
+        <path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"></path>
+      </svg>
+    </div>
+    <div class="post-nav-title">
+      <span class="post-nav-direction">Previous</span>
+      <div class="post-nav-text">Page {{ pagination.pageNumber }}</div>
+    </div>
+  </a>
+  {% endif %}
+  
+  {% if pagination.href.next %}
+  <a href="{{ pagination.href.next }}" class="post-nav-link post-nav-link--next" aria-label="Next page">
+    <div class="post-nav-title">
+      <span class="post-nav-direction">Next</span>
+      <div class="post-nav-text">Page {{ pagination.pageNumber + 2 }}</div>
+    </div>
+    <div class="post-nav-button">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
+        <path fill="currentColor" d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"></path>
+      </svg>
+    </div>
+  </a>
+  {% endif %}
+</nav>
+{% endif %}
