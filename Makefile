@@ -1,2 +1,6 @@
+build:
+	/usr/bin/npx @11ty/eleventy
+
 serve:
-	mkdocs serve
+	/usr/bin/npx @11ty/eleventy --serve
+
