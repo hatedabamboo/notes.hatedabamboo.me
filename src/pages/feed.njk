@@ -20,7 +20,8 @@ eleventyExcludeFromCollections: true
     <link href="{{ absolutePostUrl }}"/>
     <updated>{{ post.date | dateToRfc3339 }}</updated>
     <id>{{ absolutePostUrl }}</id>
-    <content type="html">{{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) | safe }}</content>
+    <content type="html">{{ post | excerpt | htmlToAbsoluteUrls(absolutePostUrl) | safe }}
+    <p><a href="{{ absolutePostUrl }}">Continue reading</a></p></content>
   </entry>
   {% endfor %}
 </feed>
