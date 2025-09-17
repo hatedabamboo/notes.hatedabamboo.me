@@ -1,0 +1,8 @@
+---
+title: Archive
+layout: layouts/base.njk
+permalink: /archive/
+---
+<script>
+  window.location.href = '/archive/{{ (collections.postsByYear | reverse)[0].year }}/';
+</script>
