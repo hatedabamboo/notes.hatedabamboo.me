@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2025-09-17
+
+* Major release: changing platform from Material for MkDocs to 11ty ([#5a2b5aa](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/5a2b5aaabe699798d2586cb9833c065b2fccf1a8))
+
 ## 2025-05-07
 
 * Feature: changed footer for future articles to reply by email ([#e79d172](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/e79d172ca14694757460aeb52408f13a45b5cb1a))
