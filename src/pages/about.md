@@ -1,4 +1,8 @@
 ---
+<<<<<<< HEAD
+=======
+title: About
+>>>>>>> 3274395 (Added	 src/pages/about.md)
 layout: layouts/about.njk
 permalink: /about/
 ---
