@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2025-09-18
+
+* Feature: added Plausible analytics instead of Google + self-made solution (hopefully) ([#03753fc](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/03753fcf4520bf50f12ab49cdb60802a8dc3aa72))
+
 ## 2025-09-17
 
 * Major release: changing platform from Material for MkDocs to 11ty ([#5a2b5aa](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/5a2b5aaabe699798d2586cb9833c065b2fccf1a8))
