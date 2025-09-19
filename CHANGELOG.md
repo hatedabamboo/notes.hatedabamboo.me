@@ -3,6 +3,7 @@
 ## 2025-09-19
 
 * Revert: remove custom pageviews counter at each page ([#97ecf64](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/97ecf641f89762d567bcbe9a53f68e2318282e96))
+* Refactor: optimize CSS, remove multiple font loadings ([#84650d7](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/84650d704a752d35eabc2cea6d77876f26e9795f))
 
 ## 2025-09-18
 
