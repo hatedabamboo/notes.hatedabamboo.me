@@ -1,0 +1,19 @@
+---
+permalink: ./pages.json
+permalinkBypassOutputDir: true
+eleventyExcludeFromCollections: true
+---
+[
+{%- for pages in collections.posts %}
+  {
+      "title":"{% if pages.data.title %}{{ pages.data.title | addNbsp | safe }}{% endif %}",
+      "imgName":"{% if pages.data.permalink %}{{ pages.data.permalink | slug }}{% endif %}",
+      "variables": {
+        "postdate": "{{ pages.data.postdate }}"
+        {%- if pages.data.description %},
+        "description": "{{ pages.data.description }}"
+        {% endif %}
+      }
+  }{% if loop.last == false %},{% endif -%}
+{% endfor %}
+]
