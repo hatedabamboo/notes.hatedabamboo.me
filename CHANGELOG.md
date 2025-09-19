@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2025-09-19
+
+* Revert: remove custom pageviews counter at each page ([#97ecf64](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/97ecf641f89762d567bcbe9a53f68e2318282e96))
+
 ## 2025-09-18
 
 * Feature: added Plausible analytics instead of Google + self-made solution (hopefully) ([#03753fc](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/03753fcf4520bf50f12ab49cdb60802a8dc3aa72))
