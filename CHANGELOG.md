@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2025-09-20
+
+* Feat: introduce custom-tailored social cards ([#c36d7ed](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/c36d7ed27a1ca71348ac00e801a0cfec45ba50ee))
+
 ## 2025-09-19
 
 * Revert: remove custom pageviews counter at each page ([#97ecf64](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/97ecf641f89762d567bcbe9a53f68e2318282e96))
