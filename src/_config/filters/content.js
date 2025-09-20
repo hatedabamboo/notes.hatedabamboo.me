@@ -1,5 +1,5 @@
 export const excerpt = (post) => {
-  const content = post.content;
+  const content = post.templateContent || post.content || '';
   if (content.includes("<!-- more -->")) {
     return content.split("<!-- more -->")[0];
   }

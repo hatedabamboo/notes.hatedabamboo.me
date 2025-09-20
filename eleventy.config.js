@@ -9,6 +9,8 @@ import markdownItLinkAttributes from "markdown-it-link-attributes";
 import Prism from "prismjs";
 import markdownItAnchor from "markdown-it-anchor";
 import loadLanguages from "prismjs/components/index.js";
+import EleventyPluginOgImage from 'eleventy-plugin-og-image';
+import fs from 'fs';
 loadLanguages([
   "yaml",
   "python",
@@ -27,6 +29,13 @@ loadLanguages([
 ]);
 
 export default async function (eleventyConfig) {
+  eleventyConfig.addGlobalData("permalink", () => (data) => {
+    if (data.page.inputPath.includes("/posts/")) {
+      return `/${data.slug || data.page.fileSlug}/`;
+    }
+    return false;
+  });
+
   eleventyConfig.addPlugin(pluginRss);
   eleventyConfig.addPlugin(IdAttributePlugin, {
     selector: "h1,h2,h3,h4",
@@ -39,6 +48,21 @@ export default async function (eleventyConfig) {
       }
       return true;
     },
+  });
+  eleventyConfig.addPlugin(EleventyPluginOgImage, {
+    satoriOptions: {
+      fonts: [
+        {
+          name: 'Inter',
+          data: fs.readFileSync('./src/css/OpenSans600.ttf'),
+          weight: 600,
+          style: 'normal',
+        },
+      ],
+    },
+    shortcodeOutput: async (ogImage) => {
+      return ogImage.outputUrl();
+    }
   });
 
   eleventyConfig.addPassthroughCopy("src/assets");
@@ -102,13 +126,6 @@ export default async function (eleventyConfig) {
   };
 
   eleventyConfig.setLibrary("md", markdownLib);
-
-  eleventyConfig.addGlobalData("permalink", () => (data) => {
-    if (data.page.inputPath.includes("/posts/")) {
-      return `/${data.slug || data.page.fileSlug}/`;
-    }
-    return false;
-  });
 
   // Collections
   eleventyConfig.addCollection("posts", collections.posts);
