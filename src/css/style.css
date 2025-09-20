@@ -302,6 +302,10 @@ pre {
   overflow-x: auto;
   margin: 1.5rem 0;
   white-space: pre-wrap;
+  max-width: 100%;
+  box-sizing: border-box;
+  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 pre code {
@@ -805,6 +809,10 @@ pre[class*="language-"] {
   margin: 1.5rem 0;
   position: relative;
   white-space: pre-wrap;
+  max-width: 100%;
+  box-sizing: border-box;
+  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 .code-lang {
@@ -825,6 +833,8 @@ code[class*="language-"] {
   font-family: "Roboto Mono", monospace;
   font-size: 0.9em;
   white-space: pre-wrap;
+  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 .token.comment {
