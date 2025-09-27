@@ -50,6 +50,7 @@ export default async function (eleventyConfig) {
     },
   });
   eleventyConfig.addPlugin(EleventyPluginOgImage, {
+    previewMode: false,
     satoriOptions: {
       fonts: [
         {
