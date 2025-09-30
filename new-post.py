@@ -22,7 +22,8 @@ title: "{title}"
 date: {date.today().strftime('%Y-%m-%d')}
 tags:
   - TODO fill in
-permalink: TODO fill in
+layout: layouts/post.njk
+permalink: /TODO fill in/
 ---
 <!-- Here be intro paragraph -->
 
