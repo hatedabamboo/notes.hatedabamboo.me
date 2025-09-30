@@ -1,5 +1,5 @@
 ---
-title: "EKS Cluster Games"
+title: "Solving EKS Cluster Games"
 date: 2025-09-30
 tags:
   - aws
@@ -9,7 +9,7 @@ tags:
 layout: layouts/post.njk
 permalink: /eks-cluster-games/
 ---
-CTF challenges [continue](/the-big-iam-challenge/) to be one of my interests for their ability to show me even more ways in which my allegedly "secure" and "solid" infrastructure setup can be accessed by a malicious actor. This time we're gonna discuss the second challenge in a series of CTFs made by [WIZ](https://www.wiz.io/ctf): [EKS Cluster Games](https://eksclustergames.com/).
+CTF challenges [continue](https://notes.hatedabamboo.me/the-big-iam-challenge/) to be one of my interests for their ability to show me even more ways in which my allegedly "secure" and "solid" infrastructure setup can be accessed by a malicious actor. This time we're gonna discuss the second challenge in a series of CTFs made by [WIZ](https://www.wiz.io/ctf): [EKS Cluster Games](https://eksclustergames.com/).
 
 <!-- more -->
 
