@@ -11,7 +11,7 @@ How often you find yourself in the situation, when you're too bored to write a c
 
 <!-- more -->
 
-![Bash is cool](/assets/2023-09-14-quick-git-commit.webp)
+![Title image](/assets/2023-09-14-quick-git-commit.webp)
 
 I love aliases in bash. They're super convenient and useful and significantly increase the speed of work. Someday I hope to write finally a post about them[^1], but for now you can check my dotfiles repository[^2] with aliases.
 

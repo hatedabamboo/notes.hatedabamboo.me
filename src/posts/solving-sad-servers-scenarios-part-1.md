@@ -16,7 +16,7 @@ Part 1 includes scenarios 1 to 11 (scenario 10 is locked behind a paywall and wi
 
 <!-- more -->
 
-![image](/assets/solving-sad-servers-scenarios.webp)
+![Title image](/assets/solving-sad-servers-scenarios.webp)
 
 ::: warning "09.10.2024 update"
 

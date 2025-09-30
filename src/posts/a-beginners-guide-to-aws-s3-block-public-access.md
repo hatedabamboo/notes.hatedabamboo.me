@@ -11,7 +11,7 @@ S3 is an incredibly useful service for storing and sharing a vast variety of fil
 
 <!-- more -->
 
-![image](/assets/s3-block-public-access.webp)
+![Title image](/assets/s3-block-public-access.webp)
 
 ## Why bother
 

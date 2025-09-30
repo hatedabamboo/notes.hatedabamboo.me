@@ -10,7 +10,7 @@ Git hooks are a very handy feature in development. However, because of their loc
 
 <!-- more -->
 
-![Git hooks](/assets/2023-12-28-git-hooks.webp)
+![Title image](/assets/2023-12-28-git-hooks.webp)
 
 ## Overview
 

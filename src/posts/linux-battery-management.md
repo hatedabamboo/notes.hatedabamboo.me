@@ -11,7 +11,7 @@ Yet another reason why I love Linux: everything is a file. Today I would like to
 
 <!-- more -->
 
-![Battery](/assets/2024-04-13-linux-battery-management.webp)
+![Title image](/assets/2024-04-13-linux-battery-management.webp)
 
 ::: warning 12.08.2024 update
 

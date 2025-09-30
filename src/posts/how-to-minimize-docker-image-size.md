@@ -11,7 +11,7 @@ Containers have been a dominant force in the Internet landscape for nearly two d
 
 <!-- more -->
 
-![image](/assets/minimizing-containerized-applications.webp)
+![Title image](/assets/minimizing-containerized-applications.webp)
 
 Let’s imagine we've developed an application that displays the weather based on our location. It’s a sleek and useful tool, and now we want to containerize it. To achieve this, we'll explore different approaches for running the application inside a container. Let's dive into the options and see which approach works best for our needs.
 

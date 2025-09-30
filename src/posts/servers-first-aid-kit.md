@@ -12,7 +12,7 @@ There are a lot of posts in the internet regarding which program or tool does wh
 
 <!-- more -->
 
-![Server's first aid kit](/assets/2023-12-24-servers-first-aid-kit.webp)
+![Title image](/assets/2023-12-24-servers-first-aid-kit.webp)
 
 ## First things first: w
 

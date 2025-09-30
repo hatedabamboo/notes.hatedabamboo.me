@@ -13,7 +13,7 @@ CTF challenges [continue](https://notes.hatedabamboo.me/the-big-iam-challenge/) 
 
 <!-- more -->
 
-![image](/assets/solving-eks-cluster-games.webp)
+![Title image](/assets/solving-eks-cluster-games.webp)
 
 ## Secret Seeker
 

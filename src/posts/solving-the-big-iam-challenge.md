@@ -12,7 +12,7 @@ CTF (Capture The Flag) challenges are a fun and safe way to stretch a stale brai
 
 <!-- more -->
 
-![image](/assets/solving-the-big-iam-challenge.webp)
+![Title image](/assets/solving-the-big-iam-challenge.webp)
 
 # Intro
 

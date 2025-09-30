@@ -11,7 +11,7 @@ A short story about why I decided to create a personal website and blog and how 
 
 <!-- more -->
 
-![Horrible handwriting](/assets/2023-09-30-landing-and-blog/2023-09-30-landing-and-blog.webp)
+![Title image](/assets/2023-09-30-landing-and-blog/2023-09-30-landing-and-blog.webp)
 
 ::: warning 17.06.2024 update
 

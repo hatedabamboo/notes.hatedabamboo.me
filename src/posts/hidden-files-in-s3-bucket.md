@@ -11,7 +11,7 @@ Recently, during a routine backup procedure for personal files, I discovered tha
 
 <!-- more -->
 
-![image](/assets/hidden-files-in-s3-bucket/hidden-files-in-s3-bucket.webp)
+![Title image](/assets/hidden-files-in-s3-bucket/hidden-files-in-s3-bucket.webp)
 
 ## Prologue
 

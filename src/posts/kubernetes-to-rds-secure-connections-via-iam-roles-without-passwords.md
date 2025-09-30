@@ -16,7 +16,7 @@ For decades, we’ve been using usernames and passwords to connect to databases 
 
 <!-- more -->
 
-![image](/assets/kubernetes-to-rds-secure-connections-via-iam-roles-without-passwords/title.webp)
+![Title image](/assets/kubernetes-to-rds-secure-connections-via-iam-roles-without-passwords/title.webp)
 
 ## The setup
 

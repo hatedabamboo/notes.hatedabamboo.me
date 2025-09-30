@@ -10,7 +10,7 @@ Exactly one year ago, on August 24, 2023, I published my first blog post. Since 
 
 <!-- more -->
 
-![image](/assets/first-year-overview/first-year-overview.webp)
+![Title image](/assets/first-year-overview/first-year-overview.webp)
 
 Numbers are cool and all, but they're much cooler when they look nice. So here's an infographic I found on the internet filled with numbers related to my blog.
 

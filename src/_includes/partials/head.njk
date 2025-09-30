@@ -32,14 +32,22 @@
 <meta property="og:title" content="{{ title or site.name }}">
 <meta property="og:description" content="{{ description or site.description }}">
 <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+{% if content %}
+{% set titleImage = content | extractTitleImage %}
+{% endif %}
+{% if titleImage %}
+<meta property="og:image" content="{{ site.url }}{{ titleImage }}">
+<meta name="twitter:image" content="{{ site.url }}{{ titleImage }}">
+{% else %}
 {% setAsync "ogImageUrl" -%}
   {% ogImage "/_includes/partials/og-image.og.njk", { title: title , name: site.name, description: site.description } %}
 {%- endsetAsync %}
 <meta property="og:image" content="{{ site.url }}{{ ogImageUrl }}">
+<meta name="twitter:image" content="{{ site.url }}{{ ogImageUrl }}">
+{% endif %}
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:site_name" content="{{ site.name }}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ title or site.name }}">
 <meta name="twitter:description" content="{{ description or site.description }}">
-<meta name="twitter:image" content="{{ site.url }}{{ ogImageUrl }}">

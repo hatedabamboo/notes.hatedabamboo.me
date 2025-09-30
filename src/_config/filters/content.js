@@ -11,3 +11,9 @@ export const readingTime = (content) => {
   const words = content.replace(/<[^>]*>/g, "").split(/\s+/).length;
   return Math.ceil(words / wordsPerMinute);
 };
+
+export const extractTitleImage = (content) => {
+  const imgRegex = /<img[^>]+src="([^"]+)"[^>]+alt="Title image"[^>]*>/i;
+  const match = content.match(imgRegex);
+  return match ? match[1] : null;
+};

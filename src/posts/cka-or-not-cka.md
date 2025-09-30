@@ -11,7 +11,7 @@ To certify or not to certify? That is a complicated question. In this post, I wi
 
 <!-- more -->
 
-![CKA](/assets/2024-03-13-cka-or-not-cka.webp)
+![Title image](/assets/2024-03-13-cka-or-not-cka.webp)
 
 ## It's Been 84 Years…
 

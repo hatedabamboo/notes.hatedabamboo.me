@@ -11,7 +11,7 @@ Yet another reason why I love Linux is the ability to shoot myself in the leg an
 
 <!-- more -->
 
-![image](/assets/story-time-how-i-locked-myself-out-of-root-account-and-how-i-fixed-it.webp)
+![Title image](/assets/story-time-how-i-locked-myself-out-of-root-account-and-how-i-fixed-it.webp)
 
 ## Preamble
 

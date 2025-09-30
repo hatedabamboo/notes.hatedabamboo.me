@@ -138,6 +138,7 @@ export default async function (eleventyConfig) {
   eleventyConfig.addFilter("currentYear", filters.currentYear);
   eleventyConfig.addFilter("excerpt", filters.excerpt);
   eleventyConfig.addFilter("readingTime", filters.readingTime);
+  eleventyConfig.addFilter("extractTitleImage", filters.extractTitleImage);
   eleventyConfig.addFilter("groupBy", filters.groupBy);
   eleventyConfig.addFilter("getPostNavigation", filters.getPostNavigation);
   eleventyConfig.addFilter("toIsoString", filters.toISOString);

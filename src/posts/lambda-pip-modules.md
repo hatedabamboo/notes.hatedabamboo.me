@@ -12,7 +12,7 @@ Two easy ways to include a pip package for your Python Lambda function.
 
 <!-- more -->
 
-![image](/assets/lambda-pip-modules/title.webp)
+![Title image](/assets/lambda-pip-modules/title.webp)
 
 ## Defining the problem
 

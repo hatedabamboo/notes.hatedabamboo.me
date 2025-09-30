@@ -14,7 +14,7 @@ Hello, dear visitor. Seeing you here today means you're likely a developer, engi
 
 <!-- more -->
 
-![image](/assets/everything-as-code/everything-as-code.webp)
+![Title image](/assets/everything-as-code/everything-as-code.webp)
 
 ## Information as code
 

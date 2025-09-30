@@ -12,7 +12,7 @@ Terraform, apart from being an incredible tool overall, is very good for managin
 
 <!-- more -->
 
-![image](/assets/checking-iam-policy-length-using-terraform.webp)
+![Title image](/assets/checking-iam-policy-length-using-terraform.webp)
 
 ## The problem
 

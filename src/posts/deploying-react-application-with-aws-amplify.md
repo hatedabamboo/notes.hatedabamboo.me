@@ -12,7 +12,7 @@ AWS has long allowed users to host their static websites using S3 buckets. While
 
 <!-- more -->
 
-![React on Amplify](/assets/deploying-react-app-with-aws-amplify/deploying-react-application-with-aws-amplify.webp)
+![Title image](/assets/deploying-react-app-with-aws-amplify/deploying-react-application-with-aws-amplify.webp)
 
 ## What is AWS Amplify?
 

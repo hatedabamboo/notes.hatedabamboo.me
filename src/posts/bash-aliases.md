@@ -10,7 +10,7 @@ I love bash. A tool as trivial as command line interface (CLI, or just console) 
 
 <!-- more -->
 
-![Bash aliases and where to find them](/assets/2023-11-27-bash-aliases.webp)
+![Title image](/assets/2023-11-27-bash-aliases.webp)
 
 ## A little detour
 

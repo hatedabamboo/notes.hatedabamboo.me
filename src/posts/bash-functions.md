@@ -10,7 +10,7 @@ Some time ago [I wrote](https://notes.hatedabamboo.me/bash-aliases/) about bash 
 
 <!-- more -->
 
-![image](/assets/bash-functions.webp)
+![Title image](/assets/bash-functions.webp)
 
 ## Bash functions
 
