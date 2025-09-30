@@ -13,7 +13,7 @@ CTF challenges [continue](/the-big-iam-challenge/) to be one of my interests for
 
 <!-- more -->
 
-![image](/assets/eks-cluster-games.webp)
+![image](/assets/solving-eks-cluster-games.webp)
 
 ## Secret Seeker
 
