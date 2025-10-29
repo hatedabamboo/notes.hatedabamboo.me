@@ -1,5 +1,5 @@
-export const excerpt = (post) => {
-  const content = post.templateContent || post.content || '';
+export const excerpt = (input) => {
+  const content = typeof input === 'string' ? input : (input?.content || '');
   if (content.includes("<!-- more -->")) {
     return content.split("<!-- more -->")[0];
   }
