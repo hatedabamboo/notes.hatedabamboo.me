@@ -1,9 +1,8 @@
 #!/usr/bin/python3
 
 import sys
-import os
-from datetime import date
 import urllib.parse
+from datetime import date
 
 if len(sys.argv) < 2:
     print("Please provide a title for the topic")
