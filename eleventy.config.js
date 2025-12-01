@@ -130,6 +130,7 @@ export default async function (eleventyConfig) {
 
   // Collections
   eleventyConfig.addCollection("posts", collections.posts);
+  eleventyConfig.addCollection("pinnedPosts", collections.pinnedPosts);
   eleventyConfig.addCollection("tagList", collections.tagList);
   eleventyConfig.addCollection("postsByYear", collections.postsByYear);
 

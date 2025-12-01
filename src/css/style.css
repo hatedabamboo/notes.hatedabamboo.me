@@ -431,6 +431,37 @@ img {
     margin: 1.5rem auto;
 }
 
+/* Pinned posts */
+.pinned-posts {
+    margin-bottom: 2rem;
+}
+
+.pinned-post {
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    background: var(--hover-bg);
+    border-radius: 5px;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.pinned-post svg {
+    width: 16px;
+    height: 16px;
+    margin-right: 0.25rem;
+    fill: var(--color-text-light);
+}
+
+.pinned-post a {
+    color: var(--color-text);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.pinned-post a:hover {
+    color: var(--color-primary);
+}
+
 /* Post list */
 .post-list {
     list-style: none;
