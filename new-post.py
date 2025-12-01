@@ -28,7 +28,7 @@ permalink: /TODO fill in/
 
 <!-- more -->
 
-![image](/assets/{image})
+![Title image](/assets/{image})
 
 <!-- Here be text -->
 

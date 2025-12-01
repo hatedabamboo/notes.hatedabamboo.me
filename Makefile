@@ -3,4 +3,3 @@ build:
 
 serve:
 	/usr/bin/npx @11ty/eleventy --serve
-

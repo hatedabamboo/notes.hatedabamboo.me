@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2025-12-01
+
+* Feat: introduce pinned posts ([#50bfe3c](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/50bfe3c797348859a012dbe88cd584d17fcd6c28))
+
 ## 2025-09-20
 
 * Feat: introduce custom-tailored social cards ([#c36d7ed](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/c36d7ed27a1ca71348ac00e801a0cfec45ba50ee))
