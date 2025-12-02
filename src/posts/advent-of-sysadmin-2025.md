@@ -2,27 +2,29 @@
 title: "Advent of Sysadmin 2025"
 date: 2025-12-02
 tags:
+  - docker
+  - nginx
   - troubleshooting
 layout: layouts/post.njk
 permalink: /advent-of-sysadmin-2025/
 ---
-Advent season is here! And that means that advent challenges as well!
+Advent season is here! And that means advent challenges as well!
 
-After [disasterous attempt](https://github.com/hatedabamboo/AoC2024) at Advent of Code last year, this year I was very happy to see that Sad Servers started the Advent challenge of their own -- [Advent of Sysadmin](https://sadservers.com/advent)! And this means more challenges for us to tackle! 12, to be precise. The Advent will consist of 12 challenges. To keep things slightly more interesting, I will publish the solution of the task the next day it was published: for example today, on December 2, I will solve task from December 1, and so on. Have fun!
+After a [disastrous attempt](https://github.com/hatedabamboo/AoC2024) at Advent of Code last year, this year I was very happy to see that Sad Servers started an Advent challenge of their own -- [Advent of Sysadmin](https://sadservers.com/advent)! And this means more challenges for us to tackle. The Advent will consist of 12 challenges. To keep things slightly more interesting, I will publish the solution to each task the day after it's released: for example, today, on December 2, I will solve the task from December 1, and so on. Have fun!
 
 <!-- more -->
 
-![Title image](/assets/advent-of-sysadmin-2025.webp)
+![Title image](/assets/solving-sad-servers-scenarios.webp)
 
 ## Auderghem: containers miscommunication
 
-::: info Description
+::: note Description
 
     There is an nginx Docker container that listens on port 80, the purpose of which is to redirect the traffic to two other containers statichtml1 and statichtml2 but this redirection is not working. Fix the problem.
 
 :::
 
-We connect to the server and first thing we check is running docker containers:
+We connect to the server, and the first thing we check is the running Docker containers:
 
 ```bash
 admin@i-03fc55a1924a48445:~$ docker ps
@@ -32,7 +34,7 @@ CONTAINER ID   IMAGE          COMMAND                  CREATED        STATUS    
 7440094fc321   nginx          "/docker-entrypoint.…"   26 hours ago   Up 8 seconds   0.0.0.0:80->80/tcp, [::]:80->80/tcp   nginx
 ```
 
-We can see that statichtml containers are opened to serve port 3000. Let's check if we can curl them:
+We can see that the `statichtml` containers are set up to serve port 3000. Let's check if we can curl them:
 
 ```bash
 admin@i-03fc55a1924a48445:~$ curl -v localhost/1
@@ -50,7 +52,7 @@ admin@i-03fc55a1924a48445:~$ curl -v localhost/1
 * Request completely sent off
 ```
 
-Okay, so the problem is that the `nginx` container can't reach `statichtml{1,2}` containers. Duh. Let's see how they are configured in the web server.
+Okay, so the problem is that the `nginx` container can't reach the `statichtml{1,2}` containers. Duh. Let's see how they're configured in the web server.
 
 ```bash
 admin@i-03fc55a1924a48445:~$ docker exec -ti nginx cat /etc/nginx/conf.d/default.conf
@@ -76,7 +78,7 @@ admin@i-03fc55a1924a48445:~$ docker exec -ti nginx cat /etc/nginx/conf.d/default
         }
 ```
 
-Web server is configured to connect to the backends on port 80. Let's see if we can change the `default.conf`.
+The web server is configured to connect to the backends on port 80. Let's see if we can change the `default.conf`.
 
 ```bash
 admin@i-03fc55a1924a48445:~$ docker inspect nginx | jq .[0].Mounts
@@ -98,7 +100,7 @@ admin@i-03fc55a1924a48445:~$ docker exec -ti nginx cat /etc/nginx/conf.d/default
             proxy_pass http://statichtml2.sadservers.local:3000;
 ```
 
-We found that `default.conf` is actually mounted from the home directory of the VM we're working on, which means we can change the file and restart the container, which we executed. Let's see if it helped:
+We can see that `default.conf` is actually mounted from the home directory of the VM we're working on, which means we can modify the file and restart the container -- which we did. Let's see if it helped:
 
 ```bash
 admin@i-03fc55a1924a48445:~$ curl -v localhost/1
@@ -117,9 +119,7 @@ admin@i-03fc55a1924a48445:~$ curl -v localhost/1
 ^C
 ```
 
-No, still no luck.
-
-Let's see how the containers network is configured.
+No, still no luck. Let's check how the containers' network is configured.
 
 ```bash
 admin@i-03fc55a1924a48445:~$ docker inspect nginx | jq .[0].NetworkSettings.Networks
@@ -138,7 +138,7 @@ admin@i-03fc55a1924a48445:~$ docker inspect statichtml1 | jq .[0].NetworkSetting
 }
 ```
 
-Oh, so the containers are in different networks! That's a bummer, but we can fix this. As per task, we're only allowed to restart containers. This means we can't recreate the container in a new network and we will have to hot-swap networks. Luckily, with bridge networks we can do that. And since both statichtml containers share the same network, it's much more convenient for us to connect `nginx` container to the `static-net` network: 
+Oh, so the containers are in different networks! That's a bummer, but we can fix this. As per the task, we're only allowed to restart containers. This means we can't recreate a container in a new network, so we'll have to hot-swap networks. Luckily, with bridge networks, we can do that. And since both statichtml containers share the same network, it's much more convenient to connect the `nginx` container to the `static-net` network:
 
 ```bash
 admin@i-03fc55a1924a48445:~$ docker network connect static-net nginx
@@ -146,7 +146,7 @@ admin@i-03fc55a1924a48445:~$ ./agent/check.sh
 OK
 ```
 
-And we've successfully finished the first task!
+And just like that, we've successfully finished the first task!
 
 ---
 
