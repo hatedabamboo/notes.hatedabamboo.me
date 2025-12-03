@@ -148,6 +148,126 @@ OK
 
 And just like that, we've successfully finished the first task!
 
+## Marseille: Rocky Security
+
+::: note Description
+
+    As the Christmas shopping season approaches, the security team has asked Mary and John to implemente more security measures. Unfortunately, this time they have broken the LAMP stack; the frontend is unable get an answer from upstream, thus they need your help again to fix it.
+
+    The application should be able to serve the content from the webserver. 
+
+:::
+
+Oh, the ol' reliable. I have to say, I never actually spent meaningful time with the LAMP stack (thankfully?). My go-to web server has always been nginx, database -- Postgres, and backend language -- Python and Go. Perhaps that's why my hair is so soft and shiny, and my body smells like flower blossoms. Regardless, let's see what we're dealing with.
+
+```bash
+[admin@i-0e0450878ee67b460 etc]$ journalctl -feu httpd
+Dec 02 19:44:29 i-0e0450878ee67b460.us-east-2.compute.internal systemd[1]: Starting httpd.service - The Apache HTTP Server...
+Dec 02 19:44:29 i-0e0450878ee67b460.us-east-2.compute.internal (httpd)[1009]: httpd.service: Referenced but unset environment variable evaluates to an empty string: OPTIONS
+Dec 02 19:44:29 i-0e0450878ee67b460.us-east-2.compute.internal systemd[1]: Started httpd.service - The Apache HTTP Server.
+Dec 02 19:44:29 i-0e0450878ee67b460.us-east-2.compute.internal httpd[1009]: Server configured, listening on: port 80
+^C
+[admin@i-0e0450878ee67b460 etc]$ curl localhost
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>503 Service Unavailable</title>
+</head><body>
+<h1>Service Unavailable</h1>
+<p>The server is temporarily unable to service your
+request due to maintenance downtime or capacity
+problems. Please try again later.</p>
+</body></html>
+```
+
+Interesting -- we're getting a 503. That's unusual. Let's see what the logs have to tell us.
+
+```bash
+[admin@i-0e0450878ee67b460 etc]$ cd /var/log/httpd
+bash: cd: /var/log/httpd: Permission denied
+```
+
+Are you cereal.
+
+```bash
+[admin@i-0e0450878ee67b460 etc]$ sudo su
+cdcd[root@i-0e0450878ee67b460 etc]# cd /var/log/httpd
+[root@i-0e0450878ee67b460 httpd]# ls -la
+total 12
+drwx------.  2 root root   41 Dec  2 03:38 .
+drwxr-xr-x. 11 root root 4096 Dec  2 02:52 ..
+-rw-r--r--.  1 root root   80 Dec  2 19:45 access_log
+-rw-r--r--.  1 root root 1786 Dec  2 19:45 error_log
+[root@i-0e0450878ee67b460 httpd]# cat error_log | tail -n 5
+[Tue Dec 02 19:44:29.672346 2025] [suexec:notice] [pid 1009:tid 1009] AH01232: suEXEC mechanism enabled (wrapper: /usr/sbin/suexec)
+[Tue Dec 02 19:44:29.701088 2025] [lbmethod_heartbeat:notice] [pid 1009:tid 1009] AH02282: No slotmem from mod_heartmonitor
+[Tue Dec 02 19:44:29.703021 2025] [systemd:notice] [pid 1009:tid 1009] SELinux policy enabled; httpd running as context system_u:system_r:httpd_t:s0
+[Tue Dec 02 19:44:29.718645 2025] [mpm_event:notice] [pid 1009:tid 1009] AH00489: Apache/2.4.63 (Rocky Linux) configured -- resuming normal operations
+[Tue Dec 02 19:44:29.718687 2025] [core:notice] [pid 1009:tid 1009] AH00094: Command line: '/usr/sbin/httpd -D FOREGROUND'
+[Tue Dec 02 19:45:05.837552 2025] [proxy:error] [pid 1038:tid 1111] (13)Permission denied: AH00957: FCGI: attempt to connect to 127.0.0.1:9001 (127.0.0.1:9001) failed
+[Tue Dec 02 19:45:05.837594 2025] [proxy_fcgi:error] [pid 1038:tid 1111] [client ::1:39934] AH01079: failed to make connection to backend: 127.0.0.1
+```
+
+This looks like a misconfiguration -- let's double-check if we're right.
+
+```bash
+[root@i-0e0450878ee67b460 ~]# ss -ntupl | grep 900
+tcp   LISTEN 0      4096       127.0.0.1:9000      0.0.0.0:*    users:(("php-fpm",pid=1029,fd=9),("php-fpm",pid=1028,fd=9),("php-fpm",pid=1027,fd=9),("php-fpm",pid=1026,fd=9),("php-fpm",pid=1025,fd=9),("php-fpm",pid=969,fd=7))
+[root@i-0e0450878ee67b460 ~]# cd /etc/httpd/conf.d/
+[root@i-0e0450878ee67b460 conf.d]# ls -la
+total 24
+drwxr-xr-x. 2 root root  122 Dec  2 02:52 .
+drwxr-xr-x. 5 root root  105 Dec  2 02:52 ..
+-rw-r--r--. 1 root root  157 Dec  2 02:52 000-default.conf
+-rw-r--r--. 1 root root 2916 Aug 16 00:00 autoindex.conf
+-rw-r--r--. 1 root root 1577 Apr  9  2025 php.conf
+-rw-r--r--. 1 root root  400 Aug 16 00:00 README
+-rw-r--r--. 1 root root 1252 Aug 16 00:00 userdir.conf
+-rw-r--r--. 1 root root  653 Aug 16 00:00 welcome.conf
+[root@i-0e0450878ee67b460 conf.d]# vi 000-default.conf 
+[root@i-0e0450878ee67b460 conf.d]# systemctl restart httpd
+```
+
+Yes, Apache was configured to proxy requests to `127.0.0.1:9001`, but `php-fpm` served the backend on port `9000`. I changed the port to the correct one. Unfortunately, to no avail.
+
+```bash
+[root@i-0e0450878ee67b460 ~]# curl localhost
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>503 Service Unavailable</title>
+</head><body>
+<h1>Service Unavailable</h1>
+<p>The server is temporarily unable to service your
+request due to maintenance downtime or capacity
+problems. Please try again later.</p>
+</body></html>
+```
+
+And this is where I got stuck. Not only have I never actually administered in‑depth Apache servers with a PHP backend, I've never seen Rocky Linux, and I had basically no idea where to look or what to look for. Fifteen minutes dedicated to solving the task seemed like a mockery. I crawled through every step once again, trying to find keywords to lead me. In the httpd logs I actually found one: SELinux.
+
+What is SELinux? It's a Security‑Enhanced Linux kernel module that often causes more trouble than help if configured improperly -- something I've encountered many times, this time included. A quick search for "selinux apache 503" showed that the default SELinux policy blocks httpd network requests, which causes exactly this error. Oh, security, you never fail to amaze me!
+
+```bash
+[root@i-0e0450878ee67b460 conf.d]# getsebool httpd_can_network_connect 
+httpd_can_network_connect --> off
+```
+
+And, of course, it was forbidden! Let's fix this issue.
+
+```bash
+[root@i-0e0450878ee67b460 conf.d]# setsebool httpd_can_network_connect 1
+[root@i-0e0450878ee67b460 conf.d]# getsebool httpd_can_network_connect 
+httpd_can_network_connect --> on
+[root@i-0e0450878ee67b460 conf.d]# curl localhost | head -1
+SadServers - LAMP Stack
+[root@i-0e0450878ee67b460 conf.d]# cd
+[root@i-0e0450878ee67b460 ~]# 
+exit
+[admin@i-0e0450878ee67b460 ~]$ ./agent/check.sh 
+OK
+```
+
+And this, my friends, is a successful solution to the second task!
+
 ---
 
 <p style="text-align: center; margin: 24px 0 24px 0;"><a href="mailto:reply@hatedabamboo.me?subject=Reply%20to%3A%20Advent%20of%20Sysadmin%202025">Reply to this post ✉️</a></p>
