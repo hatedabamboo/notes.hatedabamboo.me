@@ -4,6 +4,7 @@ date: 2025-12-02
 tags:
   - docker
   - nginx
+  - selinux
   - troubleshooting
 layout: layouts/post.njk
 permalink: /advent-of-sysadmin-2025/
