@@ -3,6 +3,7 @@ title: "Advent of Sysadmin 2025"
 date: 2025-12-02
 tags:
   - docker
+  - linux
   - nginx
   - selinux
   - troubleshooting
@@ -13,7 +14,7 @@ Advent season is here! And that means advent challenges as well!
 
 After a [disastrous attempt](https://github.com/hatedabamboo/AoC2024) at Advent of Code last year, this year I was very happy to see that Sad Servers started an Advent challenge of their own -- [Advent of Sysadmin](https://sadservers.com/advent)! And this means more challenges for us to tackle. The Advent will consist of 12 challenges. To keep things slightly more interesting, I will publish the solution to each task the day after it's released: for example, today, on December 2, I will solve the task from December 1, and so on. Have fun!
 
-*Task from December 2 is now available!*
+*Task from December 3 is now available!*
 
 <!-- more -->
 
