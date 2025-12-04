@@ -271,6 +271,84 @@ OK
 
 And this, my friends, is a successful solution to the second task!
 
+## Kortenberg: Can't touch this!
+
+::: note Description
+
+    Is "All I want for Christmas is you" already everywhere?. A bit unrelated, someone messed up the permissions in this server, the admin user can't list new directories and can't write into new files. Fix the issue.
+
+    **NOTE**: Besides solving the problem in your current admin shell session, you need to fix it permanently, as in a new login shell for user "admin" (like the one initiated by the scenario checker) should have the problem fixed as well.
+
+:::
+
+Oh boy, this is going to be one of those tasks, isn't it? Let's see what exactly we're dealing with here.
+
+```bash
+admin@i-038be5ca7a3896dec:~$ ls -la
+total 32
+drwx------ 5 admin admin 4096 Dec  1 00:31 .
+drwxr-xr-x 3 root  root  4096 Sep  7 16:29 ..
+drwx------ 3 admin admin 4096 Sep  7 16:31 .ansible
+-rw-r--r-- 1 admin admin  220 Jul 30 19:28 .bash_logout
+-rw-r--r-- 1 admin admin 3526 Jul 30 19:28 .bashrc
+-rw-r--r-- 1 admin admin  796 Dec  1 00:31 .profile
+drwx------ 2 admin admin 4096 Sep  7 16:29 .ssh
+-rw-r--r-- 1 admin admin    0 Sep  7 16:31 .sudo_as_admin_successful
+drwxrwxrwx 2 admin admin 4096 Dec  1 00:31 agent
+admin@i-038be5ca7a3896dec:~$ touch file
+admin@i-038be5ca7a3896dec:~$ ls -la file
+---------- 1 admin admin 0 Dec  3 21:27 file
+admin@i-038be5ca7a3896dec:~$ echo >> file
+bash: file: Permission denied
+```
+
+Interesting. So right from the get-go, the admin user creates a file with `000` permissions. This looks a whole lot like yet another obscure way to utilize one of the many Linux security features. But this time it's `umask` tricks. Let's check if my assumption is correct.
+
+```bash
+admin@i-038be5ca7a3896dec:~$ umask
+0777
+```
+
+Yep, this is `umask` all right. But where does it get set? The description was quite straightforward that the solution has to be permanent, so changing the umask mode in the current shell won't do. This means one of the shell configuration files has to be found and altered.
+
+```bash
+admin@i-038be5ca7a3896dec:~$ cat .bashrc | grep umask
+admin@i-038be5ca7a3896dec:~$ cat .profile | grep umask
+# the default umask is set in /etc/profile; for setting the umask
+# for ssh logins, install and configure the libpam-umask package.
+admin@i-038be5ca7a3896dec:~$ grep umask /etc/profile
+umask 777
+admin@i-038be5ca7a3896dec:~$ sudo sed -i '/umask/d' /etc/profile
+admin@i-038be5ca7a3896dec:~$ sudo su
+root@i-038be5ca7a3896dec:/home/admin# su - admin
+admin@i-038be5ca7a3896dec:~$ touch file2
+admin@i-038be5ca7a3896dec:~$ ls -l file2
+---------- 1 admin admin 0 Dec  3 21:28 file2
+admin@i-038be5ca7a3896dec:~$ umask
+0777
+```
+
+Dang it. I will have to be more eloquent after all.
+
+```bash
+admin@i-038be5ca7a3896dec:~$ 
+logout
+root@i-038be5ca7a3896dec:/home/admin# echo 'umask 0011' >> .bashrc 
+root@i-038be5ca7a3896dec:/home/admin# su - admin
+admin@i-038be5ca7a3896dec:~$ umask
+0011
+admin@i-038be5ca7a3896dec:~$ touch file3
+admin@i-038be5ca7a3896dec:~$ ls -l file3
+-rw-rw-rw- 1 admin admin 0 Dec  3 21:30 file3
+admin@i-038be5ca7a3896dec:~$ bash agent/check.sh 
+OK
+```
+
+Oh well, good enough to solve the scenario -- good enough for me.
+
+On a sidenote, time and time again I catch myself thinking, "Oh wow, what a variety of ways Linux can be confusing and unfriendly to the user." But then again, things happen for a reason. I wanted to complain here about the ubiquitous nature of `umask` and how it's so much more confusing than the good old `chmod`, but then I realized that they serve different purposes and aren't entirely antagonistic in nature -- they're complementary. While `chmod` helps keep permissions under control after a file or directory has been created, `umask` enforces them right from the start. Effectively, it's a safety belt for when you forget a too-permissive directory somewhere in `/bin`.
+
+
 ---
 
 <p style="text-align: center; margin: 24px 0 24px 0;"><a href="mailto:reply@hatedabamboo.me?subject=Reply%20to%3A%20Advent%20of%20Sysadmin%202025">Reply to this post ✉️</a></p>
