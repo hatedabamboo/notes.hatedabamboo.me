@@ -14,7 +14,7 @@ Advent season is here! And that means advent challenges as well!
 
 After a [disastrous attempt](https://github.com/hatedabamboo/AoC2024) at Advent of Code last year, this year I was very happy to see that Sad Servers started an Advent challenge of their own -- [Advent of Sysadmin](https://sadservers.com/advent)! At last, a challenge I can (hopefully) progress further than task 3. And this means more challenges for us to tackle. The Advent will consist of 12 challenges. To keep things slightly more interesting, I will publish the solution to each task the day after it's released: for example, today, on December 2, I will solve the task from December 1, and so on. Have fun!
 
-*Task from December 3 is now available!*
+*Task from December 4 is now available!*
 
 <!-- more -->
 
@@ -349,6 +349,56 @@ Oh well, good enough to solve the scenario -- good enough for me.
 
 On a sidenote, time and time again I catch myself thinking, "Oh wow, what a variety of ways Linux can be confusing and unfriendly to the user." But then again, things happen for a reason. I wanted to complain here about the ubiquitous nature of `umask` and how it's so much more confusing than the good old `chmod`, but then I realized that they serve different purposes and aren't entirely antagonistic in nature -- they're complementary. While `chmod` helps keep permissions under control after a file or directory has been created, `umask` enforces them right from the start. Effectively, it's a safety belt for when you forget a too-permissive directory somewhere in `/bin`.
 
+## Woluwe: Too many images
+
+::: note Description
+
+    A pipeline created a lot of Docker images locally for a web app. All these images except for one contain a typo introduced by a developer: there's an incorrect image instruction to pipe "HelloWorld" to "index.htmlz" instead of using the correct "index.html".
+    Find which image doesn't have the typo (and uses the correct "index.html"), tag this correct image as "prod" (rather than fixing the current prod image) and then deploy it with `docker run -d --name prod -p 3000:3000 prod` so it responds correctly to HTTP requests on port :3000 instead of "404 Not Found".
+
+:::
+
+From the description of the task, I could immediately tell that we would have to dive deep into the Docker image's layers.
+
+```bash
+admin@i-0bb15e2e2e010d1f8:~$ docker images | wc -l
+103
+```
+
+Man, that's a lot of Docker images. And we will have to find a needle in a haystack. Easy as pie! With only a hundred images, we can simply crawl through each of them looking for the layer with the correct command. As the task description was very nice and provided us the wrong string, we can grep it out and find the image with the correct one.
+
+```bash
+admin@i-0bb15e2e2e010d1f8:~$ for i in $(docker image list --format "table {% raw %}{{.ID}}{% endraw %}" | grep -v IMAGE); do echo -n $i; docker history $i --no-trunc | grep HelloWorld; done | grep -v htmlz
+3f8befa65f01<missing>                                                                 2 days ago    RUN |1 HW=529 /bin/sh -c echo "HelloWorld;$HW" > index.html # buildkit     15B       buildkit.dockerfile.v0
+dd15126afe8d
+```
+
+And there we have it! In the command above, we crawled through every docker image (printing only the image ID using formatted output), printed the layers of each image (using the very helpful `docker history` command -- it's very powerful for reverse-engineering and [vulnerability reconnaissance](https://notes.hatedabamboo.me/eks-cluster-games/#image-inquisition)) and filtered out the incorrect ones. Simple as that, and it only took us several seconds.
+
+Now we shall tag the correct image as a production image, as we're asked, and check the correctness of the solution.
+
+```bash
+admin@i-0bb15e2e2e010d1f8:~$ docker image tag 3f8befa65f01 prod
+admin@i-0bb15e2e2e010d1f8:~$ docker images | grep prod
+prod         latest    3f8befa65f01   2 days ago    5.32MB
+admin@i-0bb15e2e2e010d1f8:~$ docker history --no-trunc prod
+IMAGE                                                                     CREATED       CREATED BY                                                                 SIZE      COMMENT
+sha256:3f8befa65f011134767c89fa24709ffa01ef81b055b894c8a0b0f43fe37dcd34   2 days ago    RUN |1 HW=529 /bin/sh -c head -c 1m /dev/urandom > index.data # buildkit   1.05MB    buildkit.dockerfile.v0
+<missing>                                                                 2 days ago    RUN |1 HW=529 /bin/sh -c echo "HelloWorld;$HW" > index.html # buildkit     15B       buildkit.dockerfile.v0
+<missing>                                                                 2 days ago    ARG HW=529                                                                 0B        buildkit.dockerfile.v0
+<missing>                                                                 4 weeks ago   CMD ["busybox" "httpd" "-f" "-v" "-p" "3000"]                              0B        buildkit.dockerfile.v0
+<missing>                                                                 4 weeks ago   WORKDIR /home/static                                                       0B        buildkit.dockerfile.v0
+<missing>                                                                 4 weeks ago   USER static                                                                0B        buildkit.dockerfile.v0
+<missing>                                                                 4 weeks ago   RUN /bin/sh -c adduser -D static # buildkit                                1.66kB    buildkit.dockerfile.v0
+<missing>                                                                 4 weeks ago   EXPOSE &{[{% raw %}{{3 0} {3 0}}{% endraw %}] 0xc000579b40}                                     0B        buildkit.dockerfile.v0
+<missing>                                                                 3 years ago   BusyBox 1.35.0 (glibc), Debian 12                                          4.27MB    
+admin@i-0bb15e2e2e010d1f8:~$ docker run -d --name prod -p 3000:3000 prod
+ea4a1670fd7c8917e5344cd0fc095e8e674afaaa6b96a45d95b4b68e0788126c
+admin@i-0bb15e2e2e010d1f8:~$ ./agent/check.sh 
+OK
+```
+
+The last two commands (before `docker run` and `check.sh`) were just to double-check that the image we found is correctly tagged and will be used to spin up the container. Way to go, my friends -- another puzzle solved!
 
 ---
 
