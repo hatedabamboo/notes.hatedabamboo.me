@@ -14,7 +14,7 @@ Advent season is here! And that means advent challenges as well!
 
 After a [disastrous attempt](https://github.com/hatedabamboo/AoC2024) at Advent of Code last year, this year I was very happy to see that Sad Servers started an Advent challenge of their own -- [Advent of Sysadmin](https://sadservers.com/advent)! At last, a challenge I can (hopefully) progress further than task 3. And this means more challenges for us to tackle. The Advent will consist of 12 challenges. To keep things slightly more interesting, I will publish the solution to each task the day after it's released: for example, today, on December 2, I will solve the task from December 1, and so on. Have fun!
 
-*Task from December 5 is now available!*
+*Task from December 6 is now available!*
 
 <!-- more -->
 
@@ -477,6 +477,100 @@ And that is the most complex task so far done!
 
 Out of the proposed 15 minutes to solve this task, I spent almost an hour trying to figure out what to do. The wording of the task made me think that somehow I could use `sudo` with certain commands without a password. Turns out, I was absolutely correct in the assumption, but not in the way I approached the challenge. I was trying to execute, with `sudo -n` (`-n` for non-interactive), every command in `/bin`, `/usr/bin`, and `/usr/local/bin`. What I should have done instead was read `sudo --help` to find the `-l` key, which shows the list of actions that are allowed for the current user with and without a password. Every day we learn something new! The rest of the task was slightly simpler. Figuring out what to do with `less` and conditional root access was on the first page of search results for "less privilege escalation." And the rest was just a technicality.
 
+## Hamburg: Find the AWS EC2 volume
+
+::: note Description
+
+    We have a lot of AWS EBS volumes, the description of which we have save to a file with: `aws ec2 describe-volumes > aws-volumes.json`.
+    One of the volumes contains important data and we need to identify which volume (its ID), but we only remember these characteristics: gp3, created before 31/09/2025 , Size < 64 , Iops < 1500, Throughput > 300.
+
+    Find the correct volume and put its "InstanceId" into the *~/mysolution* file, e.g.: `echo "vol-00000000000000000" > ~/mysolution`
+
+:::
+
+Wow, I think this is one of the rare tasks where we actually get to play with AWS (instead of relying on it to host the tasks). Let's start with a quick overview of how many volumes we actually have.
+
+```bash
+admin@i-00af238f258a599de:~$ aws ec2 describe-volumes > aws-volumes.json
+bash: aws-volumes.json: Permission denied
+admin@i-00af238f258a599de:~$ aws
+bash: aws: command not found
+admin@i-00af238f258a599de:~$ ls -l
+total 812
+drwxrwxrwx 2 admin admin   4096 Dec  5 23:13 agent
+-rwxr-xr-x 1 root  root  769417 Dec  4 20:19 aws-volumes.json
+-rw-rw-r-- 1 admin admin  56361 Dec  5 23:13 aws-volumes.tar.gz
+```
+
+Huh? That's new. Not only are we denied writing to the file (it already exists), we don't even have `awscli`! Oh bother, looks like we will have to crawl through the already prepared JSON with `jq`.
+
+```bash
+admin@i-00af238f258a599de:~$ wc -l aws-volumes.json 
+22377 aws-volumes.json
+```
+
+This is going to be fun.
+
+```bash
+admin@i-00af238f258a599de:~$ cat aws-volumes.json | jq -r .Volumes[].VolumeId | wc -l
+1000
+```
+
+Just a thousand volumes! Easy-peasy.
+
+All right, let's go step by step. First, we should figure out the fields we have in our possession.
+
+```bash
+admin@i-00af238f258a599de:~$ cat aws-volumes.json | jq '.Volumes[0]'
+{
+  "AvailabilityZoneId": "use2-az1",
+  "Iops": 1000,
+  "VolumeType": "io1",
+  "MultiAttachEnabled": false,
+  "Throughput": 250,
+  "Operator": {
+    "Managed": false
+  },
+  "VolumeId": "vol-c037761d6f9b4c7cb",
+  "Size": 8,
+  "SnapshotId": "snap-9110dc1676d545dbb",
+  "AvailabilityZone": "us-east-2c",
+  "State": "available",
+  "CreateTime": "2025-11-17T04:16:18.004823Z",
+  "Attachments": [],
+  "Encrypted": true
+}
+```
+
+That's a lot of variables we can work with. Next step -- we have to compile a proper search string to find the exact data we're looking for. `jq` has a very powerful [data manipulation mechanism](https://jqlang.org/manual/#conditionals-and-comparisons) which allows it to function effectively as a database query language[^1].
+
+Since the whole `aws-volumes.json` file is one huge list, we will start by querying all elements in it (`.Volumes[]`) and then select only elements meeting certain conditions: specific volume type, specific IOPS, throughput and size, and certain creation date. In the last step, we will select from all the results only the ID of the instance the volume is attached to (`.Attachments[0].InstanceId`).
+
+```bash
+admin@i-00af238f258a599de:~$ cat aws-volumes.json | jq -r '.Volumes[] | select(.VolumeType == "gp3" and .Size < 64 and .Iops < 1500 and .Throughput > 300 and .Attachments[].State == "attached" and .CreateTime < "2025-09-31") | .Attachments[0].InstanceId'
+i-371822c092b2470da
+admin@i-00af238f258a599de:~$ echo i-371822c092b2470da > mysolution 
+admin@i-00af238f258a599de:~$ ./agent/check.sh 
+OK
+```
+
+Looks complicated? Effectively, the string above is equivalent to the following SQL query:
+
+```sql
+SELECT instance_id
+FROM aws_volumes
+WHERE volume_type = 'gp3'
+AND size < 64
+AND iops < 1500
+AND throughput > 300
+AND attached = true
+AND create_time < '2025-09-31'
+```
+
+`jq` is awesome; I really like its simplicity and powerful functionality. I definitely would have solved this task faster than 29 minutes if I had read the description correctly the first time and hadn’t tried to force the Volume ID into the solution, wondering why it wasn’t working.
+
 ---
 
 <p style="text-align: center; margin: 24px 0 24px 0;"><a href="mailto:reply@hatedabamboo.me?subject=Reply%20to%3A%20Advent%20of%20Sysadmin%202025">Reply to this post ✉️</a></p>
+
+[^1]: [jq](https://jqlang.org/) is technically a JSON query language, so that figures.
