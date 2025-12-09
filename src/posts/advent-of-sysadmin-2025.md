@@ -14,7 +14,7 @@ Advent season is here! And that means advent challenges as well!
 
 After a [disastrous attempt](https://github.com/hatedabamboo/AoC2024) at Advent of Code last year, this year I was very happy to see that Sad Servers started an Advent challenge of their own -- [Advent of Sysadmin](https://sadservers.com/advent)! At last, a challenge I can (hopefully) progress further than task 3. And this means more challenges for us to tackle. The Advent will consist of 12 challenges. To keep things slightly more interesting, I will publish the solution to each task the day after it's released: for example, today, on December 2, I will solve the task from December 1, and so on. Have fun!
 
-*Task from December 7 is now available!*
+*Task from December 8 is now available!*
 
 <!-- more -->
 
@@ -648,6 +648,145 @@ OK
 ```
 
 And yet another task is solved! See you in the next one!
+
+## Podgorica: Docker to Podman migration
+
+::: note Description
+
+    You have been tasked with migrating this future web server from using Docker (which uses a daemon) to **rootless Podman**.
+    There is already an Nginx Podman image on the server, and your objective is to manage the container created from it using systemd, so the it starts automatically on reboot and continues running unless explicity stopped (the same behaviour expected from a Docker-managed container).
+    Create a systemd service named *container-nginx.service* that manages the Podman Nginx container. Enable and start this service.
+
+    NOTES: Although a quadlet file solution should be valid, the check script is still not accounting for it.
+
+    There is no need to reboot the VM, although if you want you could reboot it from the command line with `/sbin/shutdown -r` now and refresh or reopen the web console.
+
+:::
+
+This was a task and a half, I can tell you after spending almost 2 hours on it. Why so much? Simply because I didn’t have any previous experience with Podman in general and rootless Podman in particular. Turns out, it’s a very interesting program with very useful functionality -- if you know how to cook. I didn’t, so I had to learn on the fly (as one usually does). After figuring out the correct approach, the task was relatively simple.
+
+So what are we dealing with? For starters, we have a *rootless Podman*, whatever that means, and, presumably, a leftover Docker image somewhere.
+
+```bash
+admin@i-0e74c8fd8e2c2f638:~$ podman
+Failed to obtain podman configuration: lstat /run/user/1000: no such file or directory
+```
+
+This does not spark joy. When in doubt -- read the `check.sh` script!
+
+```bash
+admin@i-0e74c8fd8e2c2f638:~$ cat agent/check.sh 
+#!/usr/bin/bash
+# DO NOT MODIFY THIS FILE ("Check My Solution" will fail)
+
+export XDG_RUNTIME_DIR=/run/user/1000
+export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
+
+systemctl --user is-active container-nginx.service 2>/dev/null | grep -vq '^active$' && { echo -n "NO"; exit ; }
+systemctl --user is-enabled container-nginx.service 2>/dev/null | grep -vq '^enabled$' && { echo -n "NO"; exit ; }
+curl -s localhost:8888 2>/dev/null | grep -Eo "Welcome to nginx" >/dev/null 2>&1 || { echo -n "NO"; exit ; }
+systemctl --user stop container-nginx.service 2>/dev/null
+curl -s localhost:8888 2>/dev/null >/dev/null 2>&1 && { echo -n "NO"; exit ; }
+systemctl --user start container-nginx.service 2>/dev/null
+for i in {1..100}; do curl -s localhost:8888 2>/dev/null | grep -Eo "Welcome to nginx" >/dev/null 2>&1 && { echo -n "OK"; exit ; } ; done
+echo -n "NO"
+```
+
+Okay, good. Something we can start with -- for example, setting shell variables.
+
+```bash
+admin@i-0e74c8fd8e2c2f638:~$ export XDG_RUNTIME_DIR=/run/user/1000
+admin@i-0e74c8fd8e2c2f638:~$ export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
+admin@i-0e74c8fd8e2c2f638:~$ podman
+Failed to obtain podman configuration: lstat /run/user/1000: no such file or directory
+```
+
+Hmm, same error. What if we create the missing directory?
+
+```bash
+admin@i-0e74c8fd8e2c2f638:~$ mkdir -p /run/user/1000
+mkdir: cannot create directory ‘/run/user/1000’: Permission denied # because of course it is
+admin@i-0e74c8fd8e2c2f638:~$ sudo !!
+sudo mkdir -p /run/user/1000
+admin@i-0e74c8fd8e2c2f638:~$ podman ps
+Failed to obtain podman configuration: mkdir /run/user/1000/libpod: permission denied
+```
+
+Apparently, creating the missing directory for XDG_RUNTIME is not enough; it also has to be owned by our current user, admin.
+
+```bash
+admin@i-0e74c8fd8e2c2f638:~$ sudo chown -R admin:admin /run/user/1000
+admin@i-0e74c8fd8e2c2f638:~$ podman ps
+WARN[0000] The cgroupv2 manager is set to systemd but there is no systemd user session available 
+WARN[0000] For using systemd, you may need to log in using a user session 
+WARN[0000] Alternatively, you can enable lingering with: `loginctl enable-linger 1000` (possibly as root) 
+WARN[0000] Falling back to --cgroup-manager=cgroupfs    
+CONTAINER ID  IMAGE       COMMAND     CREATED     STATUS      PORTS       NAMES
+WARN[0000] Failed to add pause process to systemd sandbox cgroup: dial unix /run/user/1000/bus: connect: no such file or directory 
+```
+
+Oh wow, that sure is progress! At least now we can see the output of the (expectedly) empty Podman. Perhaps we can remediate the rest of the warning messages with the command it generously printed for us?
+
+```bash
+admin@i-0e74c8fd8e2c2f638:~$ loginctl enable-linger 1000
+admin@i-0e74c8fd8e2c2f638:~$ podman ps
+CONTAINER ID  IMAGE       COMMAND     CREATED     STATUS      PORTS       NAMES
+```
+
+Success! Now, let's see if we can actually view the user scope.
+
+```bash
+admin@i-0e74c8fd8e2c2f638:~$ systemctl --user status
+● i-0e74c8fd8e2c2f638
+    State: running
+    Units: 107 loaded (incl. loaded aliases)
+     Jobs: 0 queued
+   Failed: 0 units
+    Since: Tue 2025-12-09 14:56:47 UTC; 8s ago
+  systemd: 257.7-1
+  Tainted: unmerged-bin
+   CGroup: /user.slice/user-1000.slice/user@1000.service
+           ├─init.scope
+           │ ├─1502 /usr/lib/systemd/systemd --user
+           │ └─1505 "(sd-pam)"
+           ├─session.slice
+           │ └─dbus.service
+           │   └─1551 /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+           └─user.slice
+             └─podman-pause-7e0f233a.scope
+               └─1539 catatonit -P
+```
+
+And indeed we can! All right, this is starting to look doable after all!
+
+```bash
+admin@i-0e74c8fd8e2c2f638:~$ podman image ls
+REPOSITORY               TAG         IMAGE ID      CREATED      SIZE
+docker.io/library/nginx  latest      60adc2e137e7  3 weeks ago  155 MB
+admin@i-0e74c8fd8e2c2f638:~$ podman run -d -p 8888:80 --name nginx nginx:latest
+d0e0e0aa1e1c406e1f1b964fb6e7a4dd04c1fb1240bf065067af28cd17571a8c
+admin@i-0e74c8fd8e2c2f638:~$ podman generate systemd --name nginx --files --new
+
+DEPRECATED command:
+It is recommended to use Quadlets for running containers and pods under systemd.
+
+Please refer to podman-systemd.unit(5) for details.
+/home/admin/container-nginx.service
+admin@i-0e74c8fd8e2c2f638:~$ mkdir -p .config/systemd/user
+admin@i-0e74c8fd8e2c2f638:~$ mv container-nginx.service .config/systemd/user/
+admin@i-0e74c8fd8e2c2f638:~$ systemctl --user daemon-reload
+admin@i-0e74c8fd8e2c2f638:~$ systemctl --user enable container-nginx.service
+Created symlink '/home/admin/.config/systemd/user/default.target.wants/container-nginx.service' → '/home/admin/.config/systemd/user/container-nginx.service'.
+admin@i-0e74c8fd8e2c2f638:~$ systemctl --user start container-nginx.service
+admin@i-0e74c8fd8e2c2f638:~$ ./agent/check.sh 
+OK
+```
+
+And we did it!
+
+Before succumbing to a well-earned rest, let's review what was happening in the last block of shell commands.
+
+After checking the available images for our current user in Podman (turns out there is actually nginx), we spun up the image to create a systemd unit file for it in the next step. Surprisingly, Podman does have a command to generate a systemd unit file, even though it's deprecated, but still usable. The task explicitly asks us to do so. Then I spent several minutes searching for where user-scoped unit files should reside, created the directory, and moved the unit file there. After making the daemon reread the necessary directories, I enabled the service and marked it to start upon boot. And that was that!
 
 ---
 
