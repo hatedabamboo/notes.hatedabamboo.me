@@ -14,7 +14,7 @@ Advent season is here! And that means advent challenges as well!
 
 After a [disastrous attempt](https://github.com/hatedabamboo/AoC2024) at Advent of Code last year, this year I was very happy to see that Sad Servers started an Advent challenge of their own -- [Advent of Sysadmin](https://sadservers.com/advent)! At last, a challenge I can (hopefully) progress further than task 3. And this means more challenges for us to tackle. The Advent will consist of 12 challenges. To keep things slightly more interesting, I will publish the solution to each task the day after it's released: for example, today, on December 2, I will solve the task from December 1, and so on. Have fun!
 
-*Task from December 8 is now available!*
+*Task from December 9 is now available!*
 
 <!-- more -->
 
@@ -567,7 +567,7 @@ AND attached = true
 AND create_time < '2025-09-31'
 ```
 
-`jq` is awesome; I really like its simplicity and powerful functionality. I definitely would have solved this task faster than 29 minutes if I had read the description correctly the first time and hadn’t tried to force the Volume ID into the solution, wondering why it wasn’t working.
+`jq` is awesome; I really like its simplicity and powerful functionality. I definitely would have solved this task faster than 29 minutes if I had read the description correctly the first time and hadn't tried to force the Volume ID into the solution, wondering why it wasn't working.
 
 ## Annapurna: High privileges
 
@@ -594,7 +594,7 @@ User admin may run the following commands on i-05b3bee998a4a6d6c:
     (ALL) NOPASSWD: /sbin/shutdown
 ```
 
-Ah, not quite. This time we actually don’t have any superuser permissions. But let’s see what we do have.
+Ah, not quite. This time we actually don't have any superuser permissions. But let's see what we do have.
 
 ```bash
 admin@i-05b3bee998a4a6d6c:~$ id
@@ -663,7 +663,7 @@ And yet another task is solved! See you in the next one!
 
 :::
 
-This was a task and a half, I can tell you after spending almost 2 hours on it. Why so much? Simply because I didn’t have any previous experience with Podman in general and rootless Podman in particular. Turns out, it’s a very interesting program with very useful functionality -- if you know how to cook. I didn’t, so I had to learn on the fly (as one usually does). After figuring out the correct approach, the task was relatively simple.
+This was a task and a half, I can tell you after spending almost 2 hours on it. Why so much? Simply because I didn't have any previous experience with Podman in general and rootless Podman in particular. Turns out, it's a very interesting program with very useful functionality -- if you know how to cook. I didn't, so I had to learn on the fly (as one usually does). After figuring out the correct approach, the task was relatively simple.
 
 So what are we dealing with? For starters, we have a *rootless Podman*, whatever that means, and, presumably, a leftover Docker image somewhere.
 
@@ -705,7 +705,7 @@ Hmm, same error. What if we create the missing directory?
 
 ```bash
 admin@i-0e74c8fd8e2c2f638:~$ mkdir -p /run/user/1000
-mkdir: cannot create directory ‘/run/user/1000’: Permission denied # because of course it is
+mkdir: cannot create directory ‘/run/user/1000': Permission denied # because of course it is
 admin@i-0e74c8fd8e2c2f638:~$ sudo !!
 sudo mkdir -p /run/user/1000
 admin@i-0e74c8fd8e2c2f638:~$ podman ps
@@ -787,6 +787,124 @@ And we did it!
 Before succumbing to a well-earned rest, let's review what was happening in the last block of shell commands.
 
 After checking the available images for our current user in Podman (turns out there is actually nginx), we spun up the image to create a systemd unit file for it in the next step. Surprisingly, Podman does have a command to generate a systemd unit file, even though it's deprecated, but still usable. The task explicitly asks us to do so. Then I spent several minutes searching for where user-scoped unit files should reside, created the directory, and moved the unit file there. After making the daemon reread the necessary directories, I enabled the service and marked it to start upon boot. And that was that!
+
+## Torino: Optimize grande Docker image
+
+::: note Description
+
+    A Torino Node.js application is located in the ~torino-app directory.
+    You can run it directly with: `nohup node app.js > app.log 2>&1 &`. You can also verify that it works by running: `curl localhost:3000`
+
+    There is already a *torino* Docker image built with the Dockerfile in *~torino-app*, but the resulting image size is 916 MB.
+
+    Your task is to optimize the Docker image size:
+    1. Build a new Docker image for the Torino application, also called *torino:latest* but with a total size under 122 MB
+    2. Create and run a container using this optimized image.
+
+    NOTE: You can only use the existing Docker images in the server.
+    To build a Node application you need to COPY in your Dockerfile, besides the *app.js* , the *package*.json* files and without Internet access, the *node_modules* directory, since you cannot *RUN npm install*.
+
+:::
+
+At last, a task I'm both happy to tackle and have experience with (I even wrote [an article](https://notes.hatedabamboo.me/minimizing-containerized-applications/) on the topic). Let's get right into it.
+
+```bash
+admin@i-0f2d8e60f47f72874:~$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+admin@i-0f2d8e60f47f72874:~$ ls -l
+total 40
+drwxr-xr-x 2 admin root  4096 Dec  9 03:04 agent
+drwxr-xr-x 3 admin admin 4096 Dec  9 03:04 torino-app
+admin@i-0f2d8e60f47f72874:~$ cd torino-app/
+admin@i-0f2d8e60f47f72874:~/torino-app$ ls -la
+total 52
+drwxr-xr-x  3 admin admin  4096 Dec  9 03:04 .
+drwx------  7 admin admin  4096 Dec  9 03:04 ..
+-rw-r--r--  1 admin admin   116 Dec  9 03:04 Dockerfile
+-rw-r--r--  1 admin admin   248 Dec  9 03:03 app.js
+drwxrwxr-x 67 admin admin  4096 Dec  9 03:04 node_modules
+-rw-rw-r--  1 admin admin 27134 Dec  9 03:04 package-lock.json
+-rw-rw-r--  1 admin admin   271 Dec  9 03:04 package.json
+admin@i-0f2d8e60f47f72874:~/torino-app$ cat Dockerfile 
+FROM node:16
+
+WORKDIR /app
+
+COPY package.json .
+COPY app.js .
+
+RUN npm install
+
+EXPOSE 3000
+
+CMD ["node", "app.js"]
+admin@i-0f2d8e60f47f72874:~/torino-app$ docker images
+REPOSITORY   TAG         IMAGE ID       CREATED        SIZE
+torino       latest      79ab8632f03a   38 hours ago   916MB
+node         16          1ddc7e4055fd   2 years ago    909MB
+node         16-alpine   2573171e0124   2 years ago    118MB
+```
+
+All right, I see what you did there. Let's dissect the premises.
+
+Of course, the ginormous image is basic `node:16`. And just like the rifle on the wall, `node:16-alpine` seems like the intended image for us to use. And use it we will!
+
+```bash
+admin@i-0f2d8e60f47f72874:~/torino-app$ vim Dockerfile
+admin@i-0f2d8e60f47f72874:~/torino-app$ cat Dockerfile 
+FROM node:16-alpine
+
+WORKDIR /app
+
+COPY package.json .
+COPY app.js .
+COPY node_modules/ node_modules/
+
+EXPOSE 3000
+admin@i-0f2d8e60f47f72874:~/torino-app$ docker build -f  Dockerfile -t torino:latest .
+[+] Building 0.5s (10/10) FINISHED                                                                                           docker:default
+ => [internal] load build definition from Dockerfile                                                                                   0.0s
+ => => transferring dockerfile: 178B                                                                                                   0.0s
+ => [internal] load metadata for docker.io/library/node:16-alpine                                                                      0.0s
+ => [internal] load .dockerignore                                                                                                      0.0s
+ => => transferring context: 2B                                                                                                        0.0s
+ => [1/5] FROM docker.io/library/node:16-alpine                                                                                        0.0s
+ => [internal] load build context                                                                                                      0.1s
+ => => transferring context: 38.90kB                                                                                                   0.1s
+ => CACHED [2/5] WORKDIR /app                                                                                                          0.0s
+ => CACHED [3/5] COPY package.json .                                                                                                   0.0s
+ => CACHED [4/5] COPY app.js .                                                                                                         0.0s
+ => [5/5] COPY node_modules/ node_modules/                                                                                             0.2s
+ => exporting to image                                                                                                                 0.1s
+ => => exporting layers                                                                                                                0.1s
+ => => writing image sha256:054461c812cb04f2d5e9f5b13aea1506f8b624b37c94ffec15c3a6a4080cdf0f                                           0.0s
+ => => naming to docker.io/library/torino:latest                                                                                       0.0s
+admin@i-0f2d8e60f47f72874:~/torino-app$ docker images
+REPOSITORY   TAG         IMAGE ID       CREATED         SIZE
+torino       latest      054461c812cb   6 seconds ago   120MB
+<none>       <none>      49b7f8f19109   2 minutes ago   120MB
+<none>       <none>      79ab8632f03a   38 hours ago    916MB
+node         16          1ddc7e4055fd   2 years ago     909MB
+node         16-alpine   2573171e0124   2 years ago     118MB
+```
+
+There are differences between the new image and the old one. First, we use the `alpine` image instead of the default one -- it lacks the (sometimes) unnecessary bloat. Second, we omit running `npm install` and installing the whole internet, and instead just copy the `node_modules` directory into the final image. Surprisingly, the directory weighs only 4 MB.
+
+120 MB -- much better, and just the right amount to fit the task requirements! Let's wrap up the task.
+
+```bash
+admin@i-0f2d8e60f47f72874:~/torino-app$ docker run -p 3000:3000 -di torino:latest
+84f5f5a55d0e898235aa868ecde113319383bfb20f9ce463c0fe531fa481078f
+admin@i-0f2d8e60f47f72874:~/torino-app$ docker ps
+CONTAINER ID   IMAGE           COMMAND                  CREATED         STATUS         PORTS                                         NAMES
+84f5f5a55d0e   torino:latest   "docker-entrypoint.s…"   5 seconds ago   Up 4 seconds   0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp   eager_meitner
+admin@i-0f2d8e60f47f72874:~/torino-app$ docker logs eager_meitner
+Server running on port 3000
+admin@i-0f2d8e60f47f72874:~/torino-app$ ../agent/check.sh 
+OK
+```
+
+Success! Congratulations on another successfully completed task! If you're interested in the most popular ways to minimize a Docker image, I suggest you check out [my article](https://notes.hatedabamboo.me/minimizing-containerized-applications/).
 
 ---
 
