@@ -2,9 +2,11 @@
 title: "Advent of Sysadmin 2025"
 date: 2025-12-02
 tags:
+  - containers
   - docker
   - linux
   - nginx
+  - podman
   - selinux
   - troubleshooting
 layout: layouts/post.njk
@@ -14,7 +16,7 @@ Advent season is here! And that means advent challenges as well!
 
 After a [disastrous attempt](https://github.com/hatedabamboo/AoC2024) at Advent of Code last year, this year I was very happy to see that Sad Servers started an Advent challenge of their own -- [Advent of Sysadmin](https://sadservers.com/advent)! At last, a challenge I can (hopefully) progress further than task 3. And this means more challenges for us to tackle. The Advent will consist of 12 challenges. To keep things slightly more interesting, I will publish the solution to each task the day after it's released: for example, today, on December 2, I will solve the task from December 1, and so on. Have fun!
 
-*Task from December 9 is now available!*
+*Task from December 10 is now available!*
 
 <!-- more -->
 
@@ -906,8 +908,185 @@ OK
 
 Success! Congratulations on another successfully completed task! If you're interested in the most popular ways to minimize a Docker image, I suggest you check out [my article](https://notes.hatedabamboo.me/minimizing-containerized-applications/).
 
+## Socorro, NM: Optimize Podman image
+
+::: note Description
+
+    The podman image *localhost/prod:latest* contains a static website.
+    Initially the image size is 261 MB and contains 100 layers.
+
+    Your task:
+    1. Optimize the image *localhost/prod:latest* so that its size is less than 200 MB, using the same tag.
+    2. Run a container named "check" from the optimized image: `podman run -d --name check -p 8888:80 localhost/prod:latest` so that `curl localhost:8888` returns 100 lines.
+
+:::
+
+This is a weird task. I feel like I missed something, because:
+
+1. It felt too artificial for an actual viable problem (100 lines of random text? Really?)
+2. It was too easy to solve[^2].
+
+But anyway, let's see what we're dealing with today.
+
+```bash
+admin@i-0d2c5500082a69a52:~$ ls -l
+total 255120
+drwxrwxrwx 2 admin admin      4096 Dec 10 00:04 agent
+-rwxrwxr-x 1 admin admin      1120 Dec 10 00:02 generate.sh
+-rw-rw-r-- 1 admin admin 261227520 Dec 10 00:04 prod.tar
+admin@i-0d2c5500082a69a52:~$ cat generate.sh 
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+LAYERS="${1:-100}"
+
+IMAGE_NAME="${2:-prod}"
+
+# Base image
+BASE_IMAGE="docker.io/library/nginx:latest"
+
+echo "Creating image '${IMAGE_NAME}' with ${LAYERS} layers using base image '${BASE_IMAGE}'"
+
+# Create temporary build context
+BUILD_DIR="$(mktemp -d)"
+trap 'rm -rf "${BUILD_DIR}"' EXIT
+
+CONTAINERFILE="${BUILD_DIR}/Containerfile"
+
+# Start Containerfile with a base image
+cat > "${CONTAINERFILE}" <<EOF
+FROM ${BASE_IMAGE}
+
+# First layer: create a 100 MB file
+RUN dd if=/dev/zero of=/usr/share/nginx/html/index.html bs=1M count=100
+EOF
+
+echo "RUN echo 'this is layer 1' > /usr/share/nginx/html/index.html" >> "${CONTAINERFILE}"
+
+# Add remaining RUN instructions
+for ((i=2; i<=LAYERS; i++)); do
+  echo "RUN echo 'this is layer ${i}' >> /usr/share/nginx/html/index.html" >> "${CONTAINERFILE}"
+done
+
+echo "Generated Containerfile at ${CONTAINERFILE}"
+echo "First few lines:"
+head -n 10 "${CONTAINERFILE}"
+echo "..."
+tail -n 5 "${CONTAINERFILE}"
+
+# Build the image
+echo
+echo "Building image with podman..."
+podman build -t "${IMAGE_NAME}" "${BUILD_DIR}"
+
+echo
+echo "Build complete."
+```
+
+Hold on, what? Why are we presented with a script that already builds an image? I mean, thank you, task, but what's the point of the whole endeavour otherwise? Oh well. So we're dealing with useless text in a static "website" image. And on top of it, the file is prepended with 100 MB of zeroes. Woah, so cool. Let's reduce the amount.
+
+```bash
+admin@i-0d2c5500082a69a52:~$ vim generate.sh 
+admin@i-0d2c5500082a69a52:~$ cat generate.sh 
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+LAYERS="${1:-100}"
+
+IMAGE_NAME="${2:-prod}"
+
+# Base image
+BASE_IMAGE="docker.io/library/nginx:latest"
+
+echo "Creating image '${IMAGE_NAME}' with ${LAYERS} layers using base image '${BASE_IMAGE}'"
+
+# Create temporary build context
+BUILD_DIR="$(mktemp -d)"
+trap 'rm -rf "${BUILD_DIR}"' EXIT
+
+CONTAINERFILE="${BUILD_DIR}/Containerfile"
+
+# Start Containerfile with a base image
+cat > "${CONTAINERFILE}" <<EOF
+FROM ${BASE_IMAGE}
+
+# First layer: create a 10 MB file
+RUN dd if=/dev/zero of=/usr/share/nginx/html/index.html bs=100K count=100
+EOF
+
+echo "RUN echo 'this is layer 1' > /usr/share/nginx/html/index.html" >> "${CONTAINERFILE}"
+
+# Add remaining RUN instructions
+for ((i=2; i<=LAYERS; i++)); do
+  echo "RUN echo 'this is layer ${i}' >> /usr/share/nginx/html/index.html" >> "${CONTAINERFILE}"
+done
+
+echo "Generated Containerfile at ${CONTAINERFILE}"
+echo "First few lines:"
+head -n 10 "${CONTAINERFILE}"
+echo "..."
+tail -n 5 "${CONTAINERFILE}"
+
+# Build the image
+echo
+echo "Building image with podman..."
+podman build -t "${IMAGE_NAME}" "${BUILD_DIR}"
+
+echo
+echo "Build complete."
+admin@i-0d2c5500082a69a52:~$ bash generate.sh 
+Creating image 'prod' with 100 layers using base image 'docker.io/library/nginx:latest'
+Generated Containerfile at /tmp/tmp.Dka8t10Wd7/Containerfile
+First few lines:
+FROM docker.io/library/nginx:latest
+
+# First layer: create a 10 MB file
+RUN dd if=/dev/zero of=/usr/share/nginx/html/index.html bs=100K count=100
+RUN echo 'this is layer 1' > /usr/share/nginx/html/index.html
+RUN echo 'this is layer 2' >> /usr/share/nginx/html/index.html
+RUN echo 'this is layer 3' >> /usr/share/nginx/html/index.html
+RUN echo 'this is layer 4' >> /usr/share/nginx/html/index.html
+RUN echo 'this is layer 5' >> /usr/share/nginx/html/index.html
+RUN echo 'this is layer 6' >> /usr/share/nginx/html/index.html
+...
+RUN echo 'this is layer 96' >> /usr/share/nginx/html/index.html
+RUN echo 'this is layer 97' >> /usr/share/nginx/html/index.html
+RUN echo 'this is layer 98' >> /usr/share/nginx/html/index.html
+RUN echo 'this is layer 99' >> /usr/share/nginx/html/index.html
+RUN echo 'this is layer 100' >> /usr/share/nginx/html/index.html
+
+Building image with podman...
+STEP 1/102: FROM docker.io/library/nginx:latest
+STEP 2/102: RUN dd if=/dev/zero of=/usr/share/nginx/html/index.html bs=100K count=100
+100+0 records in
+100+0 records out
+10240000 bytes (10 MB, 9.8 MiB) copied, 0.018266 s, 561 MB/s
+--> e23880a95ef2
+STEP 3/102: RUN echo 'this is layer 1' > /usr/share/nginx/html/index.html
+...
+STEP 102/102: RUN echo 'this is layer 100' >> /usr/share/nginx/html/index.html
+COMMIT prod
+--> f00dee0d48d2
+Successfully tagged localhost/prod:latest
+f00dee0d48d2a5932a01172a4d56d06dde38cddd08e040aac361e4d412986a9a
+
+Build complete.
+admin@i-0d2c5500082a69a52:~$ podman images
+REPOSITORY               TAG         IMAGE ID      CREATED         SIZE
+localhost/prod           latest      f00dee0d48d2  18 seconds ago  166 MB
+<none>                   <none>      22dc6ef1cbc6  43 hours ago    261 MB
+docker.io/library/nginx  latest      177015cbaee5  2 days ago      155 MB
+admin@i-0d2c5500082a69a52:~$ ./agent/check.sh 
+OK
+```
+
+And that's it? This feels... off. Compared with previous days, it's just... underwhelming.
+
 ---
 
 <p style="text-align: center; margin: 24px 0 24px 0;"><a href="mailto:reply@hatedabamboo.me?subject=Reply%20to%3A%20Advent%20of%20Sysadmin%202025">Reply to this post ✉️</a></p>
 
 [^1]: [jq](https://jqlang.org/) is technically a JSON query language, so that figures.
+[^2]: In hindsight, I realized I was correct the first time -- I solved it slightly wrong, but got a working result nonetheless.
