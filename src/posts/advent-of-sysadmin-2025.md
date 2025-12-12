@@ -16,7 +16,7 @@ Advent season is here! And that means advent challenges as well!
 
 After a [disastrous attempt](https://github.com/hatedabamboo/AoC2024) at Advent of Code last year, this year I was very happy to see that Sad Servers started an Advent challenge of their own -- [Advent of Sysadmin](https://sadservers.com/advent)! At last, a challenge I can (hopefully) progress further than task 3. And this means more challenges for us to tackle. The Advent will consist of 12 challenges. To keep things slightly more interesting, I will publish the solution to each task the day after it's released: for example, today, on December 2, I will solve the task from December 1, and so on. Have fun!
 
-*Task from December 10 is now available!*
+*Task from December 11 is now available!*
 
 <!-- more -->
 
@@ -1083,6 +1083,398 @@ OK
 ```
 
 And that's it? This feels... off. Compared with previous days, it's just... underwhelming.
+
+## Sumé: Tied in a Knot
+
+::: note Description
+
+    A DNS server running Knot DNS is serving the zone *sadservers.internal* (see ls `/var/lib/knot/zones/`), but users are reporting that they cannot access *blog.sadservers.internal* neither *api.sadservers.internal*. Your task is to diagnose and fix the DNS issues so the services become accessible.
+    You can manage Knot DNS with `sudo knotc` commands.
+
+    Note: the 203.0.113.0/24 range is part of TEST-NET-3, a block reserved by RFC 5737 for documentation and examples, making it a Bogon IP range. 
+
+:::
+
+Now we're talking! At last, a DNS problem. Let's dive in and find what's wrong with the task. We'll start with a quick situation survey.
+
+```bash
+admin@ip-172-31-29-190:~$ ls /var/lib/knot/zones/
+sadservers.internal.zone
+admin@ip-172-31-29-190:~$ cat /var/lib/knot/zones/sadservers.internal.zone 
+$ORIGIN sadservers.internal.
+$TTL 3600
+
+@       IN  SOA ns1.sadservers.internal. admin.sadservers.internal. (
+            2024120901  ; Serial
+            3600        ; Refresh
+            1800        ; Retry
+            604800      ; Expire
+            86400 )     ; Minimum TTL
+
+; Name servers
+@       IN  NS  ns1.sadservers.internal.
+ns1.     IN  A   10.1.11.56
+
+www     IN  A   198.51.100.99
+blog    IN  CNAM www.sadservers.internal
+admin@ip-172-31-29-190:~$ systemctl status knot
+● knot.service - Knot DNS server
+     Loaded: loaded (/usr/lib/systemd/system/knot.service; enabled; preset: enabled)
+     Active: active (running) since Fri 2025-12-12 08:30:04 UTC; 59s ago
+ Invocation: 75628eb670514e5aa0fd4153c2a293e9
+       Docs: man:knotd(8)
+             man:knot.conf(5)
+             man:knotc(8)
+   Main PID: 823 (knotd)
+      Tasks: 16 (limit: 503)
+     Memory: 8.3M (peak: 9.3M, swap: 4K, swap peak: 4K)
+        CPU: 71ms
+     CGroup: /system.slice/knot.service
+             └─823 /usr/sbin/knotd -m 512
+
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: info: [sadservers.internal.] zone will be loaded
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: info: starting server
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: error: [sadservers.internal.] zone loader, error in zone, file '/var/lib/knot/zones/sadservers>
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: error: [sadservers.internal.] zone loader, error in zone, file '/var/lib/knot/zones/sadservers>
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: error: [sadservers.internal.] zone loader, failed to load zone, file '/var/lib/knot/zones/sads>
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: error: [sadservers.internal.] failed to parse zone file '/var/lib/knot/zones/sadservers.intern>
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: error: [sadservers.internal.] zone event 'load' failed (failed)
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: info: control, binding to '/run/knot/knot.sock'
+Dec 12 08:30:04 ip-172-31-29-190 systemd[1]: Started knot.service - Knot DNS server.
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: info: server started in the foreground, PID 823
+admin@ip-172-31-29-190:~$ journalctl -feu knot
+Dec 12 08:30:04 ip-172-31-29-190 systemd[1]: Starting knot.service - Knot DNS server...
+Dec 12 08:30:04 ip-172-31-29-190 knotc[762]: Configuration is valid
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: info: Knot DNS 3.4.6 starting
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: info: loaded configuration file '/etc/knot/knot.conf', mapsize 512 MiB
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: info: using UDP reuseport, incoming TCP Fast Open
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: info: binding to interface 0.0.0.0@53
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: info: binding to interface ::@53
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: info: loading 1 zones
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: info: [sadservers.internal.] zone will be loaded
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: info: starting server
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: error: [sadservers.internal.] zone loader, error in zone, file '/var/lib/knot/zones/sadservers.internal.zone', line 13 (invalid address character)
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: error: [sadservers.internal.] zone loader, error in zone, file '/var/lib/knot/zones/sadservers.internal.zone', line 16 (unsupported record type)
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: error: [sadservers.internal.] zone loader, failed to load zone, file '/var/lib/knot/zones/sadservers.internal.zone', 2 errors
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: error: [sadservers.internal.] failed to parse zone file '/var/lib/knot/zones/sadservers.internal.zone' (failed)
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: error: [sadservers.internal.] zone event 'load' failed (failed)
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: info: control, binding to '/run/knot/knot.sock'
+Dec 12 08:30:04 ip-172-31-29-190 systemd[1]: Started knot.service - Knot DNS server.
+Dec 12 08:30:04 ip-172-31-29-190 knotd[823]: info: server started in the foreground, PID 823
+^C
+admin@ip-172-31-29-190:~$ cat -n /var/lib/knot/zones/sadservers.internal.zone 
+     1  $ORIGIN sadservers.internal.
+     2  $TTL 3600
+     3
+     4  @       IN  SOA ns1.sadservers.internal. admin.sadservers.internal. (
+     5              2024120901  ; Serial
+     6              3600        ; Refresh
+     7              1800        ; Retry
+     8              604800      ; Expire
+     9              86400 )     ; Minimum TTL
+    10
+    11  ; Name servers
+    12  @       IN  NS  ns1.sadservers.internal.
+    13  ns1.     IN  A   10.1.11.56
+    14
+    15  www     IN  A   198.51.100.99
+    16  blog    IN  CNAM www.sadservers.internal
+```
+
+That's a good start: we see that the DNS service `knot` is working, but the configuration file is incorrect. If we look closer at the `.zone` file, we can see several issues:
+
+1. The most obvious one: a typo in the record type name -- it's `CNAME`, not `CNAM`.
+2. The not-so-obvious one: the `blog` subrecord points to `www.sadservers.internal`. Why is this an error? The final record name will be appended with `sadservers.internal`, making it the very unpleasant `www.sadservers.internal.sadservers.internal`. I highly doubt we need that domain.
+3. An extra dot in the `ns1.` record name. When creating records in web interfaces, such symbols usually get stripped, so let's also remove this dot.
+
+Let's check if our changes solved the issues.
+
+```bash
+admin@ip-172-31-29-190:~$ sudo vim /var/lib/knot/zones/sadservers.internal.zone
+admin@ip-172-31-29-190:~$ cat -n /var/lib/knot/zones/sadservers.internal.zone 
+     1  $ORIGIN sadservers.internal.
+     2  $TTL 3600
+     3
+     4  @       IN  SOA ns1.sadservers.internal. admin.sadservers.internal. (
+     5              2024120901  ; Serial
+     6              3600        ; Refresh
+     7              1800        ; Retry
+     8              604800      ; Expire
+     9              86400 )     ; Minimum TTL
+    10
+    11  ; Name servers
+    12  @       IN  NS  ns1.sadservers.internal.
+    13  ns1     IN  A   10.1.11.56
+    14
+    15  www     IN  A   198.51.100.99
+    16  blog    IN  CNAME www
+admin@ip-172-31-29-190:~$ sudo systemctl restart knot
+admin@ip-172-31-29-190:~$ systemctl status knot
+● knot.service - Knot DNS server
+     Loaded: loaded (/usr/lib/systemd/system/knot.service; enabled; preset: enabled)
+     Active: active (running) since Fri 2025-12-12 08:32:46 UTC; 4s ago
+ Invocation: 36f7463d84f14806abf48fb3a288a6ac
+       Docs: man:knotd(8)
+             man:knot.conf(5)
+             man:knotc(8)
+    Process: 1593 ExecStartPre=/usr/sbin/knotc conf-check (code=exited, status=0/SUCCESS)
+   Main PID: 1597 (knotd)
+      Tasks: 17 (limit: 503)
+     Memory: 3.1M (peak: 3.6M)
+        CPU: 46ms
+     CGroup: /system.slice/knot.service
+             └─1597 /usr/sbin/knotd -m 512
+
+Dec 12 08:32:46 ip-172-31-29-190 knotd[1597]: info: loading 1 zones
+Dec 12 08:32:46 ip-172-31-29-190 knotd[1597]: info: [sadservers.internal.] zone will be loaded
+Dec 12 08:32:46 ip-172-31-29-190 knotd[1597]: info: starting server
+Dec 12 08:32:46 ip-172-31-29-190 knotd[1597]: warning: [sadservers.internal.] zone loader, ignoring out-of-zone data, owner ns1.
+Dec 12 08:32:46 ip-172-31-29-190 knotd[1597]: warning: [sadservers.internal.] check, node sadservers.internal., missing glue record
+Dec 12 08:32:46 ip-172-31-29-190 knotd[1597]: info: [sadservers.internal.] zone file parsed, serial 2024120901
+Dec 12 08:32:46 ip-172-31-29-190 knotd[1597]: info: [sadservers.internal.] loaded, serial none -> 2024120901, 279 bytes
+Dec 12 08:32:46 ip-172-31-29-190 knotd[1597]: info: control, binding to '/run/knot/knot.sock'
+Dec 12 08:32:46 ip-172-31-29-190 knotd[1597]: info: server started in the foreground, PID 1597
+Dec 12 08:32:46 ip-172-31-29-190 systemd[1]: Started knot.service - Knot DNS server.
+admin@ip-172-31-29-190:~$ ./agent/check.sh 
+NO
+```
+
+Well, `knot` can properly parse the configuration now, but the task is still incomplete. Let's dive deeper to see why that is.
+
+```bash
+admin@ip-172-31-29-190:~$ dig blog.sadservers.internal
+
+; <<>> DiG 9.20.15-1~deb13u1-Debian <<>> blog.sadservers.internal
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 28647
+;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;blog.sadservers.internal.      IN      A
+
+;; ANSWER SECTION:
+blog.sadservers.internal. 3600  IN      CNAME   www.sadservers.internal.sadservers.internal.
+
+;; AUTHORITY SECTION:
+sadservers.internal.    3600    IN      SOA     ns1.sadservers.internal. admin.sadservers.internal. 2024120901 3600 1800 604800 86400
+
+;; Query time: 0 msec
+;; SERVER: 127.0.0.1#53(127.0.0.1) (UDP)
+;; WHEN: Fri Dec 12 08:33:15 UTC 2025
+;; MSG SIZE  rcvd: 137
+
+admin@ip-172-31-29-190:~$ host blog.sadservers.internal
+Host blog.sadservers.internal not found: 3(NXDOMAIN)
+admin@ip-172-31-29-190:~$ nslookup blog.sadservers.internal
+;; Got recursion not available from 127.0.0.1
+Server:         127.0.0.1
+Address:        127.0.0.1#53
+
+** server can't find blog.sadservers.internal: NXDOMAIN
+```
+
+All right, we still can't find the necessary domains.
+
+```bash
+admin@ip-172-31-29-190:~$ dig NS sadservers.internal
+
+; <<>> DiG 9.20.15-1~deb13u1-Debian <<>> NS sadservers.internal
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 11643
+;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;sadservers.internal.           IN      NS
+
+;; ANSWER SECTION:
+sadservers.internal.    3600    IN      NS      ns1.sadservers.internal.
+
+;; Query time: 0 msec
+;; SERVER: 127.0.0.1#53(127.0.0.1) (UDP)
+;; WHEN: Fri Dec 12 08:37:39 UTC 2025
+;; MSG SIZE  rcvd: 66
+
+admin@ip-172-31-29-190:~$ dig A www.sadservers.internal
+
+; <<>> DiG 9.20.15-1~deb13u1-Debian <<>> A www.sadservers.internal
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 53936
+;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;www.sadservers.internal.       IN      A
+
+;; ANSWER SECTION:
+www.sadservers.internal. 3600   IN      A       198.51.100.99
+
+;; Query time: 0 msec
+;; SERVER: 127.0.0.1#53(127.0.0.1) (UDP)
+;; WHEN: Fri Dec 12 08:37:50 UTC 2025
+;; MSG SIZE  rcvd: 68
+admin@ip-172-31-29-190:~$ dig A ns1.sadservers.internal
+
+; <<>> DiG 9.20.15-1~deb13u1-Debian <<>> A ns1.sadservers.internal
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 59867
+;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+;; WARNING: recursion requested but not available
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;ns1.sadservers.internal.       IN      A
+
+;; ANSWER SECTION:
+ns1.sadservers.internal. 3600   IN      A       10.1.11.56
+
+;; Query time: 0 msec
+;; SERVER: 127.0.0.1#53(127.0.0.1) (UDP)
+;; WHEN: Fri Dec 12 08:39:22 UTC 2025
+;; MSG SIZE  rcvd: 68
+```
+
+Okay. The NS record resolves correctly. But can we resolve the DNS server itself?
+
+```bash
+admin@ip-172-31-29-190:~$ telnet ns1.sadservers.internal 53
+Trying 10.1.11.56...
+Connected to ns1.sadservers.internal.
+Escape character is '^]'.
+^]
+telnet> 
+Connection closed.
+```
+
+Okay, it's working. The A records, however, show some interesting information: the `ns1` domain resolves to a local address, whereas `www` points to the outside internet. Perhaps it's unavailable?
+
+```bash
+admin@ip-172-31-29-190:~$ curl -v blog.sadservers.internal
+* Host blog.sadservers.internal:80 was resolved.
+* IPv6: (none)
+* IPv4: 198.51.100.99
+*   Trying 198.51.100.99:80...
+^C
+```
+
+Yeah, I thought as much. Okay, that has to be changed, but to what?
+
+```bash
+admin@ip-172-31-29-190:~$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet 203.0.113.10/32 scope global lo
+       valid_lft forever preferred_lft forever
+    inet 203.0.113.20/32 scope global lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute 
+       valid_lft forever preferred_lft forever
+2: ens5: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 9001 qdisc mq state UP group default qlen 1000
+    link/ether 02:94:b1:aa:84:97 brd ff:ff:ff:ff:ff:ff
+    altname enp0s5
+    altname enx0294b1aa8497
+    inet 10.1.11.56/24 metric 100 brd 10.1.11.255 scope global dynamic ens5
+       valid_lft 2581sec preferred_lft 2581sec
+    inet6 fe80::94:b1ff:feaa:8497/64 scope link proto kernel_ll 
+       valid_lft forever preferred_lft forever
+...
+```
+
+So the IP ranges mentioned in the task description are meant to be used, it seems. Let's adjust the `blog` and `api` records to point to the loopback address.
+
+```bash
+admin@ip-172-31-29-190:~$ sudo vim /var/lib/knot/zones/sadservers.internal.zone 
+admin@ip-172-31-29-190:~$ cat /var/lib/knot/zones/sadservers.internal.zone
+$ORIGIN sadservers.internal.
+$TTL 3600
+
+@       IN  SOA ns1.sadservers.internal. admin.sadservers.internal. (
+            2024120901  ; Serial
+            3600        ; Refresh
+            1800        ; Retry
+            604800      ; Expire
+            86400 )     ; Minimum TTL
+
+; Name servers
+@       IN  NS  ns1.sadservers.internal.
+ns1     IN  A   10.1.11.56
+
+www     IN  A   203.0.113.10
+blog    IN  CNAME www
+api     IN  CNAME www
+admin@ip-172-31-29-190:~$ sudo systemctl restart knot
+admin@ip-172-31-29-190:~$ curl blog.sadservers.internal
+Welcome to blog.sadservers.internal
+# yay
+admin@ip-172-31-29-190:~$ curl api.sadservers.internal
+curl: (6) Could not resolve host: api.sadservers.internal
+# nay
+```
+
+Ah, dang, we're so close! Luckily, we have a second ~~breakfast~~ loopback address.
+
+```bash
+admin@ip-172-31-29-190:~$ sudo vim /var/lib/knot/zones/sadservers.internal.zone 
+admin@ip-172-31-29-190:~$ cat /var/lib/knot/zones/sadservers.internal.zone
+$ORIGIN sadservers.internal.
+$TTL 3600
+
+@       IN  SOA ns1.sadservers.internal. admin.sadservers.internal. (
+            2024120901  ; Serial
+            3600        ; Refresh
+            1800        ; Retry
+            604800      ; Expire
+            86400 )     ; Minimum TTL
+
+; Name servers
+@       IN  NS  ns1.sadservers.internal.
+ns1     IN  A   10.1.11.56
+
+www     IN  A   203.0.113.10
+blog    IN  CNAME www
+api     IN  A   203.0.113.20
+admin@ip-172-31-29-190:~$ sudo systemctl restart knot
+admin@ip-172-31-29-190:~$ curl -v api.sadservers.internal
+* Host api.sadservers.internal:80 was resolved.
+* IPv6: (none)
+* IPv4: 203.0.113.20
+*   Trying 203.0.113.20:80...
+* Connected to api.sadservers.internal (203.0.113.20) port 80
+* using HTTP/1.x
+> GET / HTTP/1.1
+> Host: api.sadservers.internal
+> User-Agent: curl/8.14.1
+> Accept: */*
+> 
+* Request completely sent off
+< HTTP/1.1 200 OK
+< Server: nginx/1.29.4
+< Date: Fri, 12 Dec 2025 08:49:49 GMT
+< Content-Type: application/json
+< Content-Length: 55
+< Connection: keep-alive
+< 
+{"status": "ok", "service": "api.sadservers.internal"}
+* Connection #0 to host api.sadservers.internal left intact
+admin@ip-172-31-29-190:~$ ./agent/check.sh 
+OK
+```
+
+And there we have it! An oh-so-interesting task -- it was so much fun to think through and figure out the steps to complete it. Only one left to go this season!
 
 ---
 
