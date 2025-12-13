@@ -16,7 +16,7 @@ Advent season is here! And that means advent challenges as well!
 
 After a [disastrous attempt](https://github.com/hatedabamboo/AoC2024) at Advent of Code last year, this year I was very happy to see that Sad Servers started an Advent challenge of their own -- [Advent of Sysadmin](https://sadservers.com/advent)! At last, a challenge I can (hopefully) progress further than task 3. And this means more challenges for us to tackle. The Advent will consist of 12 challenges. To keep things slightly more interesting, I will publish the solution to each task the day after it's released: for example, today, on December 2, I will solve the task from December 1, and so on. Have fun!
 
-*Task from December 11 is now available!*
+*All tasks are available!*
 
 <!-- more -->
 
@@ -1476,9 +1476,149 @@ OK
 
 And there we have it! An oh-so-interesting task -- it was so much fun to think through and figure out the steps to complete it. Only one left to go this season!
 
+##  Karakorum: WTFIT – What The Fun Is This?
+
+::: note Description
+
+    There's a binary at `/home/admin/wtfit` that nobody knows how it works or what it does (*"what the fun is this"*). Someone remembers something about *wtfit* needing to communicate to a service in order to start.
+
+    Run this *wtfit* program so it doesn't exit with an error, fixing or working around things that you need but are broken in this server.
+
+:::
+
+The time is nigh. The final challenge approacheth. The toughest, ugliest of them all. Can't wait to solve it!
+
+As always, we start with an overview. What are we dealing with?
+
+```bash
+admin@ip-10-1-13-85:/$
+```
+
+Huh? Why are we in the root directory all of a sudden?
+
+```bash
+admin@ip-10-1-13-85:~$ ls -l 
+total 6236
+drwxr-xr-x 2 admin admin    4096 Sep 13  2022 agent
+-rw-r--r-- 1 admin admin 6381234 Sep 13  2022 wtfit
+admin@ip-10-1-13-85:~$ chmod +x wtfit 
+bash: /usr/bin/chmod: Permission denied
+admin@ip-10-1-13-85:~$ sudo !!
+sudo chmod +x wtfit 
+sudo: chmod: command not found
+```
+
+There's our crown jewel -- a binary file that we have to figure out. I see that it's not executable yet, let's fix this and... Is that?.. Is that what I think this is? Is that my favourite comic[^3] come true?
+
+I'VE BEEN PREPARING FOR THIS MOMENT MY WHOLE LIFE
+
+```bash
+admin@ip-10-1-13-85:~$ sudo /usr/lib64/ld-linux-x86-64.so.2 /usr/bin/chmod +x /usr/bin/chmod
+admin@ip-10-1-13-85:~$ chmod +x wtfit 
+admin@ip-10-1-13-85:~$ ./wtfit 
+ERROR: can't open config file
+```
+
+Aw yiss, finally, memes come in handy!
+
+And the rest is a walk in the park (I assume). From the beginning, I thought we would have to work with `strace`, as this program shows all the system calls -- including the ones we may need: opening files.
+
+```bash
+admin@ip-10-1-13-85:~$ strace -f -e trace=file ./wtfit 
+execve("./wtfit", ["./wtfit"], 0x7ffcaa6ec5f8 /* 14 vars */) = 0
+openat(AT_FDCWD, "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size", O_RDONLY) = 3
+strace: Process 875 attached
+strace: Process 876 attached
+strace: Process 877 attached
+[pid   874] openat(AT_FDCWD, "/home/admin/wtfitconfig.conf", O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)
+ERROR: can't open config file
+[pid   875] +++ exited with 1 +++
+[pid   876] +++ exited with 1 +++
+[pid   877] +++ exited with 1 +++
++++ exited with 1 +++
+admin@ip-10-1-13-85:~$ touch /home/admin/wtfitconfig.conf
+admin@ip-10-1-13-85:~$ ./wtfit 
+ERROR: can't connect to server
+```
+
+Yep, there actually was a file we were missing -- `wtfitconfig.conf`. I created it; luckily, its existence was enough. But to proceed further, we need some more actions -- specifically, the binary has to connect to a server. Let's figure out which server it looks for. Again -- with the help of `strace`. I use the `-f` flag to follow child process calls as well, along with `-e trace=network` to track only certain traces.
+
+```bash
+admin@ip-10-1-13-85:~$ strace -f -e trace=network ./wtfit 
+strace: Process 891 attached
+strace: Process 892 attached
+strace: Process 893 attached
+[pid   890] socket(AF_INET, SOCK_STREAM|SOCK_CLOEXEC|SOCK_NONBLOCK, IPPROTO_IP) = 3
+[pid   890] connect(3, {sa_family=AF_INET, sin_port=htons(7777), sin_addr=inet_addr("127.0.0.1")}, 16) = -1 EINPROGRESS (Operation now in progress)
+[pid   890] getsockopt(3, SOL_SOCKET, SO_ERROR, [ECONNREFUSED], [4]) = 0
+ERROR: can't connect to server
+[pid   893] +++ exited with 1 +++
+[pid   892] +++ exited with 1 +++
+[pid   891] +++ exited with 1 +++
++++ exited with 1 +++
+```
+
+From the output, we can see that the program is looking for a server running on `127.0.0.1:7777`. A quick survey with `ss` shows that it's actually empty:
+
+```bash
+admin@ip-10-1-13-85:~$ sudo ss -tunlp | grep 7777
+admin@ip-10-1-13-85:~$
+```
+
+Well, since we need only *a* server, perhaps we can use `nginx`?
+
+```bash
+admin@ip-10-1-13-85:~$ cd /etc/nginx
+admin@ip-10-1-13-85:/etc/nginx$ ls -l
+total 64
+drwxr-xr-x 2 root root 4096 May 14  2022 conf.d
+-rw-r--r-- 1 root root 1125 May 29  2021 fastcgi.conf
+-rw-r--r-- 1 root root 1055 May 29  2021 fastcgi_params
+-rw-r--r-- 1 root root 2837 May 29  2021 koi-utf
+-rw-r--r-- 1 root root 2223 May 29  2021 koi-win
+-rw-r--r-- 1 root root 3957 May 29  2021 mime.types
+drwxr-xr-x 2 root root 4096 May 14  2022 modules-available
+drwxr-xr-x 2 root root 4096 Sep 13  2022 modules-enabled
+-rw-r--r-- 1 root root 1447 May 29  2021 nginx.conf
+-rw-r--r-- 1 root root  180 May 29  2021 proxy_params
+-rw-r--r-- 1 root root  636 May 29  2021 scgi_params
+drwxr-xr-x 2 root root 4096 Sep 13  2022 sites-available
+drwxr-xr-x 2 root root 4096 Sep 13  2022 sites-enabled
+drwxr-xr-x 2 root root 4096 Sep 13  2022 snippets
+-rw-r--r-- 1 root root  664 May 29  2021 uwsgi_params
+-rw-r--r-- 1 root root 3071 May 29  2021 win-utf
+admin@ip-10-1-13-85:/etc/nginx$ grep listen sites-enabled/default 
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        # listen 443 ssl default_server;
+        # listen [::]:443 ssl default_server;
+#       listen 80;
+#       listen [::]:80;
+admin@ip-10-1-13-85:/etc/nginx$ sudo sed -i 's/80/7777/' sites-enabled/default 
+admin@ip-10-1-13-85:/etc/nginx$ grep listen sites-enabled/default 
+        listen 7777 default_server;
+        listen [::]:7777 default_server;
+        # listen 443 ssl default_server;
+        # listen [::]:443 ssl default_server;
+#       listen 7777;
+#       listen [::]:7777;
+admin@ip-10-1-13-85:/etc/nginx$ sudo systemctl restart nginx
+admin@ip-10-1-13-85:/etc/nginx$ ss -ntupl | grep 7777
+tcp   LISTEN 0      511                            0.0.0.0:7777      0.0.0.0:*                                     
+tcp   LISTEN 0      511                               [::]:7777         [::]:*                                     
+admin@ip-10-1-13-85:/etc/nginx$ cd
+admin@ip-10-1-13-85:~$ ./wtfit 
+OK.
+```
+
+And we in fact can! Truth be told, I wasn't expecting to solve the "hard" task that easily. After figuring out the proper tool (`strace`) and probing several possible solutions, it was a breeze. I think the major roadblock would have been the non-executable `chmod`, but boy was I glad to put my meme degree to good use!
+
+With the successful completion of the last task, Advent of Sysadmin 2025 is officially over! Thanks to everyone who joined me over the last 12 days -- it was challenging work (as many updates as the whole previous year combined), but I also had so much fun solving certain challenges. See you in the next one!
+
 ---
 
 <p style="text-align: center; margin: 24px 0 24px 0;"><a href="mailto:reply@hatedabamboo.me?subject=Reply%20to%3A%20Advent%20of%20Sysadmin%202025">Reply to this post ✉️</a></p>
 
 [^1]: [jq](https://jqlang.org/) is technically a JSON query language, so that figures.
 [^2]: In hindsight, I realized I was correct the first time -- I solved it slightly wrong, but got a working result nonetheless.
+[^3]: [The comic](/assets/chmod-x-chmod.jpg) reads: "Hey doggos!" -- "Whot" -- "chmod -x chmod" -- "sudo /lib/ld-linux.so.2 /bin/chmod 755 /bin/chmod"
