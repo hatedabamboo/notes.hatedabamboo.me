@@ -1,5 +1,5 @@
 ---
-title: "Secure Your Wi‑Fi Privacy: Randomize MAC Address with Bash"
+title: "Secure Your Wi-Fi Privacy: Randomize MAC Address with Bash"
 date: 2025-12-01
 tags:
   - bash

@@ -9,7 +9,7 @@ tags:
 layout: layouts/post.njk
 permalink: /centralized-cross-account-eks-monitoring/
 ---
-Complex systems require extensive monitoring and observability. Systems as complex as Kubernetes clusters have so many moving parts that sometimes it's a task and a half just to configure their monitoring properly. Today I'm going to talk in depth about cross-account observability for multiple EKS clusters, explore various implementation options, outline the pros and cons of each approach, and explain one of them in close detail. Whether you’re an aspiring engineer seeking best-practice advice, a seasoned professional ready to disagree with everything, or a manager looking for ways to optimize costs -- this article might be just right for you.
+Complex systems require extensive monitoring and observability. Systems as complex as Kubernetes clusters have so many moving parts that sometimes it's a task and a half just to configure their monitoring properly. Today I'm going to talk in depth about cross-account observability for multiple EKS clusters, explore various implementation options, outline the pros and cons of each approach, and explain one of them in close detail. Whether you're an aspiring engineer seeking best-practice advice, a seasoned professional ready to disagree with everything, or a manager looking for ways to optimize costs -- this article might be just right for you.
 
 <!-- more -->
 
@@ -761,6 +761,6 @@ allowed_principals = [
 
 <p style="text-align: center; margin: 24px 0 24px 0;"><a href="mailto:reply@hatedabamboo.me?subject=Reply%20to%3A%20Centralized%20EKS%20Monitoring%20Across%20Multiple%20AWS%20Accounts">Reply to this post ✉️</a></p>
 
-[^1]:It doesn’t matter all that much which approach you choose to implement for monitoring your monitoring. In light of [recent events](https://blog.cloudflare.com/18-november-2025-outage/), some folks even created a [downdetector for a downdetector’s downdetector](https://downdetectorsdowndetectorsdowndetector.com/). I mean, it’s hilariously fun, but the key point remains solid: you need to know whether your eyes and ears (infrastructure-wise) are even working.
+[^1]:It doesn't matter all that much which approach you choose to implement for monitoring your monitoring. In light of [recent events](https://blog.cloudflare.com/18-november-2025-outage/), some folks even created a [downdetector for a downdetector's downdetector](https://downdetectorsdowndetectorsdowndetector.com/). I mean, it's hilariously fun, but the key point remains solid: you need to know whether your eyes and ears (infrastructure-wise) are even working.
 [^2]: We assume 100% cross-AZ traffic in this example to maximize potential traffic costs and avoid complicating the calculations with percentages of same-AZ versus cross-AZ traffic.
 [^3]: Direct Connect may also require a specific partner to enable and perform the physical connection to the AWS network, so expect to add a few hundred (or even thousands) of dollars on top of the initial bill for setup.

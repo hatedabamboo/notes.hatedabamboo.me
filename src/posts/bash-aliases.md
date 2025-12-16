@@ -6,7 +6,7 @@ tags:
 layout: layouts/post.njk
 permalink: /bash-aliases/
 ---
-I love bash. A tool as trivial as command line interface (CLI, or just console) holds so many secrets, that even after 9 years of experience I still sometime find something wonderful. But today I want to talk a bit about one of my favourite tricks — aliases.
+I love bash. A tool as trivial as command line interface (CLI, or just console) holds so many secrets, that even after 9 years of experience I still sometime find something wonderful. But today I want to talk a bit about one of my favourite tricks -- aliases.
 
 <!-- more -->
 

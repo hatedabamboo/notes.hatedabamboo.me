@@ -521,6 +521,17 @@ img {
     color: var(--color-primary);
 }
 
+.post-item.featured h2::before {
+    content: '★';
+    position: absolute;
+    left: -2.5rem;
+    color: var(--color-primary);
+}
+
+.post-item.featured h2 {
+    position: relative;
+}
+
 .post-meta-inline {
     font-size: var(--font-size-lg);
     color: var(--color-text-light);

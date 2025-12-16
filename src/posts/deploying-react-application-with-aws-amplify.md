@@ -24,17 +24,17 @@ As AWS puts it:
 
 :::
 
-All this sounds very modern, fancy, and desirable. But that’s not what I want to hear. In fact, I’m more interested in how it works, what opportunities this service creates for me as an engineer, and how it can improve or simplify existing solutions. Let’s take a look.
+All this sounds very modern, fancy, and desirable. But that's not what I want to hear. In fact, I'm more interested in how it works, what opportunities this service creates for me as an engineer, and how it can improve or simplify existing solutions. Let's take a look.
 
-The bulk of Amplify’s functionality is built around TypeScript and its frameworks. This allows a huge number of JavaScript developers to use a familiar language to build full-stack applications, including their UI. Amplify handles the chores of setting up, configuring, and maintaining the underlying infrastructure, deploying, and hosting the application, leaving developers to focus solely on writing the code.
+The bulk of Amplify's functionality is built around TypeScript and its frameworks. This allows a huge number of JavaScript developers to use a familiar language to build full-stack applications, including their UI. Amplify handles the chores of setting up, configuring, and maintaining the underlying infrastructure, deploying, and hosting the application, leaving developers to focus solely on writing the code.
 
 Amplify supports connections to several Git providers: CodeCommit (of course), GitHub, GitLab, and Bitbucket. Integration with VCS simplifies development, as each new branch maps directly to a new environment. This makes it easier to use multiple preview branches simultaneously without needing to configure each environment separately.
 
-This approach isn’t new in the public cloud space oriented toward JavaScript development. Several major players, such as Vercel, Fly.io, Netlify, and Heroku (to name a few), have been providing similar functionality for quite some time. Some have even gone as far as creating their own framework for web applications[^1].
+This approach isn't new in the public cloud space oriented toward JavaScript development. Several major players, such as Vercel, Fly.io, Netlify, and Heroku (to name a few), have been providing similar functionality for quite some time. Some have even gone as far as creating their own framework for web applications[^1].
 
-So, what does AWS Amplify offer that its competitors don’t already have?
+So, what does AWS Amplify offer that its competitors don't already have?
 
-I feel that the most important Amplify’s advantages is that it’s an AWS product. This is evident in its preconfigured integration with services like Cognito for authentication, DynamoDB for data storage, S3 for document storage, AWS Lambda for function execution, and many, many more[^2].
+I feel that the most important Amplify's advantages is that it's an AWS product. This is evident in its preconfigured integration with services like Cognito for authentication, DynamoDB for data storage, S3 for document storage, AWS Lambda for function execution, and many, many more[^2].
 
 Another nice bonus from AWS is the ability to configure your own hosted zone using Route 53, which simplifies domain name management. You can create as many domains and subdomains as you like, all automated through Amplify. And the cherry on top: automated TLS certificate management. No more Certbot crons -- just seamless HTTPS!
 
@@ -46,13 +46,13 @@ I decided to give it a try and compare the results. This experiment led to the c
 
 Instead of the traditional setup -- creating a bucket with the static website contents, configuring a CloudFront distribution pointing to that bucket, creating a second bucket with a `www` address redirecting to the main bucket, and configuring aliases -- I opted for Amplify.
 
-However, I wasn’t entirely satisfied with this minimal effort for my new blog post. I started thinking: what project from my mental backlog could be complex enough to write about yet simple enough to implement? The result was the RSS Viewer[^5]: a single-page application designed to do one thing -- display a nicely formatted RSS feed when provided with a link.
+However, I wasn't entirely satisfied with this minimal effort for my new blog post. I started thinking: what project from my mental backlog could be complex enough to write about yet simple enough to implement? The result was the RSS Viewer[^5]: a single-page application designed to do one thing -- display a nicely formatted RSS feed when provided with a link.
 
-I’m not a JavaScript developer, so I aimed to keep the project as simple and minimalistic as possible, with minimal overhead. (Oh, silly, young, and naive me wasn't yet fully aware of the world of JavaScript dependency hell.)
+I'm not a JavaScript developer, so I aimed to keep the project as simple and minimalistic as possible, with minimal overhead. (Oh, silly, young, and naive me wasn't yet fully aware of the world of JavaScript dependency hell.)
 
-I asked my fellow writing assistant to describe the application’s structure and generate the necessary boilerplate code so I could fix it and make it work. After several attempts and about an hour of effort, a working application emerged and made its way to GitHub.
+I asked my fellow writing assistant to describe the application's structure and generate the necessary boilerplate code so I could fix it and make it work. After several attempts and about an hour of effort, a working application emerged and made its way to GitHub.
 
-Now, let’s finally deploy the application using Amplify!
+Now, let's finally deploy the application using Amplify!
 
 The first step is to connect the application repository to the Amplify project.
 
@@ -119,7 +119,7 @@ After several minutes of waiting, the new custom domain should be available, and
 
 ## Conclusion
 
-And thus concludes the guide to deploying your own React application with the help of AWS Amplify. As you can see, the whole process is very straightforward and easy to repeat. AWS handles all the heavy lifting, and trust me as an experienced DevOps engineer: I've had my fair share of deployment configurations and setting up pipelines. It warms my heart to see that more and more people will be able to leverage the advancement of 1-click deployments, instead of spending countless hours, sweat, tears, and blood trying to figure out why the project isn’t being built correctly (hello, missing backslash in multiline YAML!).
+And thus concludes the guide to deploying your own React application with the help of AWS Amplify. As you can see, the whole process is very straightforward and easy to repeat. AWS handles all the heavy lifting, and trust me as an experienced DevOps engineer: I've had my fair share of deployment configurations and setting up pipelines. It warms my heart to see that more and more people will be able to leverage the advancement of 1-click deployments, instead of spending countless hours, sweat, tears, and blood trying to figure out why the project isn't being built correctly (hello, missing backslash in multiline YAML!).
 
 Happy developing, happy holidays, and most likely, see ya next year!
 

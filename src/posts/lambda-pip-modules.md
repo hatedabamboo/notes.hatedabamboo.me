@@ -7,6 +7,7 @@ tags:
 - python
 layout: layouts/post.njk
 permalink: /lambda-pip-modules/
+featured: true
 ---
 Two easy ways to include a pip package for your Python Lambda function.
 
@@ -108,7 +109,7 @@ lambda_layer/
 └── pyvenv.cfg
 ```
 
-However, we don’t need all of these contents. What we actually need is only the `lib` directory. So, we take it and archive it:
+However, we don't need all of these contents. What we actually need is only the `lib` directory. So, we take it and archive it:
 
 ```bash
 mkdir python

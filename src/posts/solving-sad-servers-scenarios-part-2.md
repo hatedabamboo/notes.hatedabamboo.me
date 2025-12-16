@@ -12,6 +12,7 @@ tags:
 - troubleshooting
 layout: layouts/post.njk
 permalink: /sad-servers-pt-2/
+featured: true
 ---
 In this series of articles, I will attempt to solve scenarios from the website "Sad Servers" and provide detailed explanations of the tasks and solutions. The website is described as "Like LeetCode for Linux", offering opportunities to train and improve debugging and operating skills with Linux.
 
@@ -158,7 +159,7 @@ $ find . -type f | xargs grep secret 2>/dev/null
 
 Here, I redirect `stderr` to `/dev/null` so that I only get files containing the string and not errors indicating that I have no access to certain files.
 
-And there it is—our secret password. Let's wrap it up by populating the secret file and checking the solution.
+And there it is--our secret password. Let's wrap it up by populating the secret file and checking the solution.
 
 ```bash
 $ realpath kernel/core_pattern
@@ -178,11 +179,11 @@ In this scenario, we will update the SSL certificate of the running server.
 
 ### Solution
 
-I’m going to be honest: I Googled the solution to this task, as I don’t remember (and nobody does, I think) the specific commands to issue a self-signed certificate. Actually, it’s just one command, but still.
+I'm going to be honest: I Googled the solution to this task, as I don't remember (and nobody does, I think) the specific commands to issue a self-signed certificate. Actually, it's just one command, but still.
 
 So, the logic is as follows: we have to generate a self-signed pair of a certificate and key to verify that our TLS connection is safe and sound. Additionally, we need to preserve the original subject of the certificate (issuer company, location, country, etc.).
 
-My solution looks like this: First, we check the subject of the existing certificate. Then we generate a new certificate and key pair with the aforementioned subject, using the RSA algorithm, with a 10-year expiration (don’t do this in production; it’s very unsafe) and no DES (no prompt for a passphrase). After that, we back up the existing certificates (for safety's sake) and replace them with our newly generated ones. Lastly, we reload Nginx and check for the validity of the solution.
+My solution looks like this: First, we check the subject of the existing certificate. Then we generate a new certificate and key pair with the aforementioned subject, using the RSA algorithm, with a 10-year expiration (don't do this in production; it's very unsafe) and no DES (no prompt for a passphrase). After that, we back up the existing certificates (for safety's sake) and replace them with our newly generated ones. Lastly, we reload Nginx and check for the validity of the solution.
 
 ```bash
 $ echo | openssl s_client -connect localhost:443 2>/dev/null | openssl x509 -noout -subject
@@ -212,7 +213,7 @@ $ bash /home/admin/agent/check.sh
 OK
 ```
 
-In modern administration, the manual renewal of SSL certificates is a thing of the past, thanks to Certbot[^2] and Let's Encrypt[^3]. Because of this, we usually don't have to use the `openssl` program that much. Personally, I use it only to check certificate dates, verify website certificates, and sometimes to generate random strings. For these purposes, it’s more than sufficient to write some custom shell functions or aliases[^4]. For more complex usage, there are some pretty good cheatsheets[^5] available, and, of course, the official documentation[^6].
+In modern administration, the manual renewal of SSL certificates is a thing of the past, thanks to Certbot[^2] and Let's Encrypt[^3]. Because of this, we usually don't have to use the `openssl` program that much. Personally, I use it only to check certificate dates, verify website certificates, and sometimes to generate random strings. For these purposes, it's more than sufficient to write some custom shell functions or aliases[^4]. For more complex usage, there are some pretty good cheatsheets[^5] available, and, of course, the official documentation[^6].
 
 ## Scenario 15: "Manhattan": can't write data into database
 
@@ -465,7 +466,7 @@ Commercial support is available at
 </html>
 ```
 
-And there it is! The `LimitNOFILE=10` option in the unit file limits the number of open files for the process, much like `ulimit`, but at the process level instead of the session level. That's why the previous actions didn't succeed—the parameter was defined in the unit file! 
+And there it is! The `LimitNOFILE=10` option in the unit file limits the number of open files for the process, much like `ulimit`, but at the process level instead of the session level. That's why the previous actions didn't succeed--the parameter was defined in the unit file! 
 
 After changing the systemd Nginx unit file, don't forget to re-read the file (`systemctl daemon-reload`) and restart Nginx. 
 

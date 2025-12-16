@@ -29,7 +29,7 @@
 <script defer data-domain="notes.hatedabamboo.me" src="https://pa.hatedabamboo.me/js/script.js"></script>
 <!-- social stuff -->
 <meta property="og:type" content="article">
-<meta property="og:title" content="{{ title or site.name }}">
+<meta property="og:title" content="{{ title | safe or site.name | safe }}">
 <meta property="og:description" content="{{ description or site.description }}">
 <meta property="og:url" content="{{ site.url }}{{ page.url }}">
 {% setAsync "ogImageUrl" -%}
@@ -40,6 +40,6 @@
 <meta property="og:image:height" content="630">
 <meta property="og:site_name" content="{{ site.name }}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ title or site.name }}">
+<meta name="twitter:title" content="{{ title | safe or site.name | safe }}">
 <meta name="twitter:description" content="{{ description or site.description }}">
 <meta name="twitter:image" content="{{ site.url }}{{ ogImageUrl }}">

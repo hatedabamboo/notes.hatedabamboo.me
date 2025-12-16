@@ -6,6 +6,7 @@ tags:
 - secrets
 layout: layouts/post.njk
 permalink: /aws-sma-opensource/
+featured: true
 ---
 A few days ago, AWS open-sourced[^1] its Secrets Manager Agent, which is designed to help us users fetch secrets more easily and securely. Let's take a look at what it is, compare it with existing solutions, discuss its potential applications and limitations and how it may help us (or not) in our day-to-day operations.
 

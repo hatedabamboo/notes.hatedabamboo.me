@@ -78,7 +78,7 @@ bash install-hooks.sh
     As always, feel free to [disagree](https://github.com/hatedabamboo/notes.hatedabamboo.me/issues) with me, [correct](https://github.com/hatedabamboo/notes.hatedabamboo.me/pulls) my mistakes and befriend me on one of the social media platforms listed below.
 
     During the process of writing this post, the following music compositions have been listened to:
-    [*Gojira — From Mars to Sirius*](https://open.spotify.com/album/0AvFF0HlQYvYKHaRURGZBs).
+    [*Gojira -- From Mars to Sirius*](https://open.spotify.com/album/0AvFF0HlQYvYKHaRURGZBs).
 
 :::
 

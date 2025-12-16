@@ -31,7 +31,7 @@ Long ago, in a galaxy far, far away, I was a simple datacenter engineer without 
 
 Somewhere around this time, I discovered a wonderful note organizer called Obsidian[^1] through my colleagues. From there, things started moving forward. I began using it not only for professional notes but also for personal ones. It proved to be very handy, especially during the preparation for certifications, whether it was AWS, Hashicorp Terraform, or others (I'm looking at you, CKA). It's like having your own personal Wikipedia.
 
-As the need to write notes grew, I also realized that my notes might be (or might not be) useful to someone else — people on the internet. Boy, how many blogs I pass through every day! Considering all these factors, I decided to finally create one (and also a landing page, because why not).
+As the need to write notes grew, I also realized that my notes might be (or might not be) useful to someone else -- people on the internet. Boy, how many blogs I pass through every day! Considering all these factors, I decided to finally create one (and also a landing page, because why not).
 
 ## Blog: how, why and where
 
@@ -55,7 +55,7 @@ So yeah, if you're planning to set up a blog on GitHub Pages, you need to keep t
 
 ## O landing! My landing!
 
-Now, for the fun part — the landing!
+Now, for the fun part -- the landing!
 
 As an AWS user and practitioner, I decided from the start that I wanted to use S3 static website hosting for my landing. Why? I don't like overcomplicating things with unnecessary JavaScript and a web server where it's not necessary. After all, what is a landing page if not a static webpage, right? Besides, with simple HTML and a minimal amount of CSS and assets, my webpage loads in around 300–400 ms. Take that, modern bloatweb!
 

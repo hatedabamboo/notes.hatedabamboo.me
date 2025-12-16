@@ -7,8 +7,9 @@ tags:
 - kubernetes
 layout: layouts/post.njk
 permalink: /eks-custom-nodeclasses-and-nodepools/
+featured: true
 ---
-Hello, dear reader! It's been a while since our last one-way communication. Mostly because the last couple of months have been taxing on me. Searching for a new job is not an easy task these days. Also, there’s been a new [Warhammer box](https://www.warhammer-community.com/en-gb/articles/ujwwshq1/saturday-pre-orders-saturnine/), which I just couldn’t resist.
+Hello, dear reader! It's been a while since our last one-way communication. Mostly because the last couple of months have been taxing on me. Searching for a new job is not an easy task these days. Also, there's been a new [Warhammer box](https://www.warhammer-community.com/en-gb/articles/ujwwshq1/saturday-pre-orders-saturnine/), which I just couldn't resist.
 
 But I'm slowly getting back up to speed, and today we're gonna explore the abilities to manage the managed service -- in particular, how we can configure custom parameters to spin up instances and storage on AWS EKS to our liking.
 
@@ -80,7 +81,7 @@ In this NodeClass, we specify that we want to spin up new instances inside the p
 
 Now, this part is important.
 
-Since we’re using a custom KMS key to encrypt the volumes of the instances, we must add the required permissions to the key. Specifically, nodes should be able to encrypt and decrypt the volumes (duh!), and the cluster should be able to grant nodes access to the key. So the key policy should look something like this:
+Since we're using a custom KMS key to encrypt the volumes of the instances, we must add the required permissions to the key. Specifically, nodes should be able to encrypt and decrypt the volumes (duh!), and the cluster should be able to grant nodes access to the key. So the key policy should look something like this:
 
 ```json
 {
@@ -135,7 +136,7 @@ Since we’re using a custom KMS key to encrypt the volumes of the instances, we
 }
 ```
 
-Unfortunately for me, I didn’t think of that before debugging why my deployment wasn’t deploying, so here’s a free tip for you. I hope it will help you spend less time than I did.
+Unfortunately for me, I didn't think of that before debugging why my deployment wasn't deploying, so here's a free tip for you. I hope it will help you spend less time than I did.
 
 And finally, we come to NodePools.
 
@@ -201,11 +202,11 @@ aws ec2 describe-instance-type-offerings \
   --query 'InstanceTypeOfferings[*].[InstanceType,Location]'
 ```
 
-Some instances, classes, or generations may not be available in one region but might be available in another. It’s always worth checking beforehand, so you won’t spend too much time wondering why your `c10i.x124large` isn’t coming up in the `ap-southeast-5` region.
+Some instances, classes, or generations may not be available in one region but might be available in another. It's always worth checking beforehand, so you won't spend too much time wondering why your `c10i.x124large` isn't coming up in the `ap-southeast-5` region.
 
 I hope this article helps you spin up your custom nodes quickly and saves you both time and mental capacity. I really appreciate that AWS provides such a neat way to control your Kubernetes infrastructure without having to manage it all manually -- almost a win-win scenario.
 
-[^1]: To be honest, it’s not just application management. EKS brings its own overhead in the form of managing intertwined AWS services (like IAM), but that’s outside the scope of the current article.
+[^1]: To be honest, it's not just application management. EKS brings its own overhead in the form of managing intertwined AWS services (like IAM), but that's outside the scope of the current article.
 
 ---
 

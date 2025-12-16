@@ -7,48 +7,35 @@
     justify-content: space-between;
     background: white;
     padding: 60px;
+    border-left: 12px solid #0091eb;
   }
-
   .header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 16px;
   }
-
+  .favicon {
+    width: 48px;
+    height: 48px;
+  }
   .site-name {
     color: black;
     font-size: 36px;
     font-weight: 600;
     margin: 0;
   }
-
-  .favicon {
-    width: 48px;
-    height: 48px;
-  }
-
   .title {
     color: black;
     font-size: 64px;
     font-weight: 600;
     line-height: 1.2;
     margin: 0;
-    text-align: left;
-  }
-
-  .description {
-    color: black;
-    font-size: 24px;
-    font-weight: 400;
-    margin: 0;
   }
 </style>
-
 <div class="root">
   <div class="header">
+    <img class="favicon" src="https://notes.hatedabamboo.me/assets/favicon.png" alt="favicon"/>
     <h4 class="site-name">{{ name }}</h4>
-    <img class="favicon" src="https://notes.hatedabamboo.me/assets/favicon.png" alt="favicon" />
   </div>
-  <h2 class="title">{{ title }}</h2>
-  <h5 class="description">{{ description }}</h5>
+  <h2 class="title">{{ title | safe }}</h2>
 </div>

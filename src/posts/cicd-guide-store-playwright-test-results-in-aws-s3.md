@@ -8,6 +8,7 @@ tags:
   - testing
 layout: layouts/post.njk
 permalink: /playwright-test-report-in-s3/
+featured: true
 ---
 Integrating Playwright end-to-end test reporting into a CI/CD pipeline by automatically uploading the generated reports to an AWS S3 bucket, enabling easy access and centralized storage.
 
@@ -15,7 +16,7 @@ Integrating Playwright end-to-end test reporting into a CI/CD pipeline by automa
 
 ![image](/assets/cicd-guide-store-playwright-test-results-in-aws-s3.webp)
 
-Modern software development is deeply intertwined with software testing. Unit tests, integration tests, end-to-end tests — without them, we would spend much more time fixing trivial bugs instead of actually developing software. One of the most complex test scenarios is end-to-end testing: it verifies real business functionality and replaces manual clicking with automated test suites.
+Modern software development is deeply intertwined with software testing. Unit tests, integration tests, end-to-end tests -- without them, we would spend much more time fixing trivial bugs instead of actually developing software. One of the most complex test scenarios is end-to-end testing: it verifies real business functionality and replaces manual clicking with automated test suites.
 
 In my job, I've encountered a tool called [Playwright](https://playwright.dev/) for this purpose and was greatly impressed by its capabilities. You can program it to do all the things you do manually -- and run them automatically without needing to open a browser. It's no wonder someone took the time to transform such bloatware as a modern browser into something more automation-friendly. Amazing!
 
@@ -75,9 +76,9 @@ Also, running tests on every pull request and push to main branches can be time-
 
 ## S3 bucket setup
 
-The first part of the configuration is done -- now let’s do something about those reports, right?
+The first part of the configuration is done -- now let's do something about those reports, right?
 
-Obviously, we need a bucket. So let’s create one. For the sake of simplicity, I’ll provide only the Terraform code here.
+Obviously, we need a bucket. So let's create one. For the sake of simplicity, I'll provide only the Terraform code here.
 
 ```hcl
 # S3 bucket for e2e test reports
@@ -148,7 +149,7 @@ To upload files from the GitHub Actions pipeline, we need to acquire AWS credent
 
 Then we configure the test setup as usual, and at the end, we archive the resulting report in two places: GitHub Artifacts and S3. Since we previously created fairly open access to the files in our bucket, we add a layer of obscurity by including a random UUID string in the file path. This way, any malicious actor -- should they be determined to view our failing tests -- would have to deduce at least three variables: the random UUID (complex), the PR number (trivial), and the GitHub run ID (somewhat complex).
 
-Let’s take a look at how the final GitHub Actions workflow looks.
+Let's take a look at how the final GitHub Actions workflow looks.
 
 ```yaml
 name: Playwright Tests

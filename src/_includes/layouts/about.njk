@@ -1,12 +1,10 @@
 {% extends "layouts/base.njk" %}
-
 {% block content %}
-<div class="post-container">
-  <div class="post-left-sidebar"></div>
-  
-  <article class="post-main post-content">
-    <h1>{{ title }}</h1>    
-    {{ content | safe }}
-  </article>  
-</div>
+  <div class="post-container">
+    <div class="post-left-sidebar"></div>
+    <article class="post-main post-content">
+      <h1>{{ title }}</h1>
+      {{ content | safe }}
+    </article>
+  </div>
 {% endblock %}

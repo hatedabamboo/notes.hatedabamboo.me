@@ -9,6 +9,7 @@ tags:
 - troubleshooting
 layout: layouts/post.njk
 permalink: /sad-servers-pt-1/
+featured: true
 ---
 In this series of articles, I will attempt to solve scenarios from the website "Sad Servers" and provide detailed explanations of the tasks and solutions. The website is described as "Like LeetCode for Linux", offering opportunities to train and improve debugging and operating skills with Linux.
 

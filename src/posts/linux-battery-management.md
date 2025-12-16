@@ -15,7 +15,7 @@ Yet another reason why I love Linux: everything is a file. Today I would like to
 
 ::: warning 12.08.2024 update
 
-    Since I started learning Golang, one of my first ideas was to rewrite existing tools I use in Go. I’ve now added the source code for a program that has the same functionality, but written in Go -- because why not.
+    Since I started learning Golang, one of my first ideas was to rewrite existing tools I use in Go. I've now added the source code for a program that has the same functionality, but written in Go -- because why not.
 
 :::
 
@@ -34,7 +34,7 @@ lrwxrwxrwx. 1 root root 0 Apr 13 15:25 AC -> ../../devices/pci0000:00/0000:00:14
 lrwxrwxrwx. 1 root root 0 Apr 13 11:09 BAT0 -> ../../devices/LNXSYSTM:00/LNXSYBUS:00/PNP0A08:00/device:35/PNP0C09:00/PNP0C0A:00/power_supply/BAT0
 ```
 
-AC, as one can guess, is a source of Alternating Current, when my laptop is connected to a power source. But *BAT0* is the one I'm looking for — the battery.
+AC, as one can guess, is a source of Alternating Current, when my laptop is connected to a power source. But *BAT0* is the one I'm looking for -- the battery.
 
 ## Diving Deep Into The Battery
 
@@ -75,9 +75,9 @@ lrwxrwxrwx. 1 root root    0 Apr 13 16:54 subsystem -> ../../../../../../../../.
 
 Let's figure out what is what and what do we need.
 
-Files `manufacturer`, `model_name`, `serial_number`, `technology` and `type` present battery's metadata — not particularly interesting information, but may become necessary in a scenario of replacing the battery.
+Files `manufacturer`, `model_name`, `serial_number`, `technology` and `type` present battery's metadata -- not particularly interesting information, but may become necessary in a scenario of replacing the battery.
 
-`capacity` shows current battery charge in % — a very helpful information, one that we will definitely need.
+`capacity` shows current battery charge in % -- a very helpful information, one that we will definitely need.
 
 Files `charge_control_start_threshold`, `charge_control_end_threshold`, `charge_start_threshold` and `charge_stop_threshold` show charge level on which battery should start charging or end charging. These values play the crucial role in battery lifecycle, as per Battery University[^1] (yes, seriously) the optimal charge range for Li-ion batteries is between 30 and 80 percent.
 

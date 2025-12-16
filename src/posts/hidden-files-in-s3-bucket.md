@@ -55,7 +55,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 {'ResponseMetadata': {'RequestId': '[REDACTED]', 'HostId': '[REDACTED]', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amz-id-2': '[REDACTED]', 'x-amz-request-id': '[REDACTED]', 'date': 'Fri, 25 Oct 2024 10:10:42 GMT', 'content-type': 'application/xml', 'transfer-encoding': 'chunked', 'server': 'AmazonS3'}, 'RetryAttempts': 0}, 'Bucket': 'my-cool-bucket', 'KeyMarker': '', 'UploadIdMarker': '', 'NextKeyMarker': 'archive_2023.tar.gz', 'NextUploadIdMarker': '[REDACTED]', 'MaxUploads': 1000, 'IsTruncated': False, 'Uploads': [{'UploadId': '[REDACTED]', 'Key': 'archive_2023.tar.gz', 'Initiated': datetime.datetime(2023, 12, 21, 12, 1, 22, tzinfo=tzutc()), 'StorageClass': 'STANDARD', 'Owner': {'DisplayName': 'hatedabamboo', 'ID': '[REDACTED]'}, 'Initiator': {'ID': '[REDACTED]', 'DisplayName': 'hatedabamboo'}}]}
 ```
 
-Well, well, well, what do we have here! A strange multipart upload that was created almost a year ago. Actually, “strange” isn’t the right word -- it was definitely me who started it, though I have no memory of it whatsoever. And it seems it was never completed.
+Well, well, well, what do we have here! A strange multipart upload that was created almost a year ago. Actually, "strange" isn't the right word -- it was definitely me who started it, though I have no memory of it whatsoever. And it seems it was never completed.
 
 From this response, we can try to dig up even more information.
 
@@ -86,11 +86,11 @@ Poof! The multipart upload, along with all its parts, is now gone for good.
 
 So what happened, after all?
 
-It seems that once, when uploading a file via the AWS Web Console, I opted for a multipart upload, which seemed like a faster solution. Was it faster? I don’t remember. But apparently, somewhere during the process, the upload failed, and I had to restart from scratch. Yet, the existing multipart upload stayed there -- unnoticed, untouched, with all its parts just waiting to be removed.
+It seems that once, when uploading a file via the AWS Web Console, I opted for a multipart upload, which seemed like a faster solution. Was it faster? I don't remember. But apparently, somewhere during the process, the upload failed, and I had to restart from scratch. Yet, the existing multipart upload stayed there -- unnoticed, untouched, with all its parts just waiting to be removed.
 
-This is a very counterintuitive experience for anyone using the Web Console, as there’s no way to locate failed multipart uploads or view their progress or parts if you didn’t initiate the upload or closed the original window. Even a simple internet interruption could cause the upload to fail, leaving orphaned parts behind.
+This is a very counterintuitive experience for anyone using the Web Console, as there's no way to locate failed multipart uploads or view their progress or parts if you didn't initiate the upload or closed the original window. Even a simple internet interruption could cause the upload to fail, leaving orphaned parts behind.
 
-Multipart upload is a nice feature, but it lacks visibility for users, and that’s a major downside. In the end, it’s your money on the table. I can easily imagine situations where people don’t closely monitor the number of files in their buckets or the total size, leaving dead multipart uploads lying around, silently draining your budget cent by cent.
+Multipart upload is a nice feature, but it lacks visibility for users, and that's a major downside. In the end, it's your money on the table. I can easily imagine situations where people don't closely monitor the number of files in their buckets or the total size, leaving dead multipart uploads lying around, silently draining your budget cent by cent.
 
 ::: info Closing remarks
 

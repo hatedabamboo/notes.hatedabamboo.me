@@ -18,19 +18,19 @@ Hello, dear visitor. Seeing you here today means you're likely a developer, engi
 
 ## Information as code
 
-Before diving into 21st century, let’s step back and consider what "code" really means. Today, we use it for programming, automation, and infrastructure, but the idea of encoding information in a structured, repeatable way has been around for centuries.
+Before diving into 21st century, let's step back and consider what "code" really means. Today, we use it for programming, automation, and infrastructure, but the idea of encoding information in a structured, repeatable way has been around for centuries.
 
 What comes to mind when you hear the word "code"? Most of us (myself included) immediately think of a programming language.
 
 ![The "code"](/assets/everything-as-code/code.webp)
 
-But the word "code" wasn’t originally popularized by programmers. Long before computers existed, humans developed ways to encode information, often to preserve knowledge, communicate securely. One of the earliest examples comes from cryptography.
+But the word "code" wasn't originally popularized by programmers. Long before computers existed, humans developed ways to encode information, often to preserve knowledge, communicate securely. One of the earliest examples comes from cryptography.
 
-Cryptography is one of my many interests. Ciphers, cryptography algorithms, encryption, all that jazz. The practice of encoding information goes back to Ancient Egypt, but one of the earliest well-known encryption methods is Caesar’s Cipher (also called Caesar’s Code).
+Cryptography is one of my many interests. Ciphers, cryptography algorithms, encryption, all that jazz. The practice of encoding information goes back to Ancient Egypt, but one of the earliest well-known encryption methods is Caesar's Cipher (also called Caesar's Code).
 
-Caesar’s Cipher is a simple technique: shifting letters forward in the alphabet to obscure the original message, making it unreadable to anyone who doesn’t know the shift pattern. The result? Encoded information. Information hidden as (somewhat) code.
+Caesar's Cipher is a simple technique: shifting letters forward in the alphabet to obscure the original message, making it unreadable to anyone who doesn't know the shift pattern. The result? Encoded information. Information hidden as (somewhat) code.
 
-At its core, this is the same principle that modern software engineering follows. We structure information in standardized formats so it can be stored, processed, and used reliably. Whether it’s YAML configurations, JSON APIs, or structured documentation, we encode information in ways that make it easy to retrieve, automate, and keep track of.
+At its core, this is the same principle that modern software engineering follows. We structure information in standardized formats so it can be stored, processed, and used reliably. Whether it's YAML configurations, JSON APIs, or structured documentation, we encode information in ways that make it easy to retrieve, automate, and keep track of.
 
 ## Logic as code
 
@@ -122,7 +122,7 @@ Personally, I love IaC because I remember all the difficulties installing hundre
 
 ## Intermission
 
-I've been speaking about code for several chapters now, but I haven’t touched on what ties it all together. And it's not the code. Well, not only the code. In the end, code is just text. Same as this article, same as this website. It's just a text in one way or another.
+I've been speaking about code for several chapters now, but I haven't touched on what ties it all together. And it's not the code. Well, not only the code. In the end, code is just text. Same as this article, same as this website. It's just a text in one way or another.
 
 I can imagine many of you, like me, kept track of some text files in a way like this.
 

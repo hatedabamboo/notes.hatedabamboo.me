@@ -107,7 +107,7 @@ cert-dates() {
 
 ### Print the website TLS certificate details
 
-And here’s the older brother of the previous function. It can be useful in situations where you want to check multiple parameters simultaneously: common name, dates, and DNS names.
+And here's the older brother of the previous function. It can be useful in situations where you want to check multiple parameters simultaneously: common name, dates, and DNS names.
 
 ```bash
 get-cert() {
@@ -150,7 +150,7 @@ In my example, the default expiration time is 1 day. You can configure it to you
 
 ### Share a secret securely
 
-Some big tech companies have their own services for sharing sensitive data. Some security-related software companies, if I’m not mistaken, provide the same functionality.
+Some big tech companies have their own services for sharing sensitive data. Some security-related software companies, if I'm not mistaken, provide the same functionality.
 
 For personal use, I prefer onetimesecret.com.
 
@@ -166,7 +166,7 @@ ots() {
 }
 ```
 
-Unfortunately, they don’t print the full secret URL, so I had to improvise.
+Unfortunately, they don't print the full secret URL, so I had to improvise.
 
 Same as before, to use the full functionality of the service, you will need to create an account and [obtain an API key](https://docs.onetimesecret.com/docs/rest-api).
 
@@ -182,7 +182,7 @@ ipinfo() {
 
 ---
 
-As you can see, the variety of applications for functions is virtually limitless. In situations when you need something done quickly, but writing a [full program](https://github.com/hatedabamboo/jeeves) seems like overkill, and aliases' functionality isn’t enough, bash functions may be just what you need.
+As you can see, the variety of applications for functions is virtually limitless. In situations when you need something done quickly, but writing a [full program](https://github.com/hatedabamboo/jeeves) seems like overkill, and aliases' functionality isn't enough, bash functions may be just what you need.
 
 All the aforementioned functions (and some other stuff) can be found in my [dotfiles](https://github.com/hatedabamboo/dotfiles) repository.
 

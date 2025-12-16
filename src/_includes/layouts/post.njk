@@ -1,88 +1,94 @@
 {% extends "layouts/base.njk" %}
-
 {% block content %}
-<div class="post-container">
-  <div class="post-left-sidebar"></div>
-  
-  <article class="post-main post-content">
-    <div class="post-meta-inline">
-      {{ date | postDate }}
-      • {{ content | readingTime }} minute read
-      {% if tags %}
-        • {% for tag in tags | sort %}<a href="/tags/#tag:{{ tag | slug }}">#{{ tag }}</a>{% if not loop.last %} {% endif %}{% endfor %}
+  <div class="post-container">
+    <div class="post-left-sidebar"></div>
+    <article class="post-main post-content">
+      <div class="post-meta-inline">
+        {{ date | postDate }} • {{ content | readingTime }} minute read
+        {% if tags %}
+          •
+          {% for tag in tags | sort %}
+            <a href="/tags/#tag:{{ tag | slug }}">#{{ tag }}</a>
+            {% if not loop.last %}{% endif %}
+          {% endfor %}
+        {% endif %}
+      </div>
+      <h1>{{ title }}</h1>
+      {{ content | safe }}
+      {% set navigation = collections.posts | getPostNavigation(page) %}
+      {% if navigation.prev or navigation.next %}
+        <nav class="post-nav" aria-label="Post navigation">
+          {% if navigation.prev %}
+            <a href="{{ navigation.prev.url }}" class="post-nav-link post-nav-link--prev" aria-label="Previous: {{ navigation.prev.data.title }}">
+              <div class="post-nav-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
+                  <path
+                    fill="currentColor"
+                    d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3
+                      256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"></path>
+                </svg>
+              </div>
+              <div class="post-nav-title">
+                <span class="post-nav-direction">Previous</span>
+                <div class="post-nav-text">{{ navigation.prev.data.title }}</div>
+              </div>
+            </a>
+          {% endif %}
+          {% if navigation.next %}
+            <a href="{{ navigation.next.url }}" class="post-nav-link post-nav-link--next" aria-label="Next: {{ navigation.next.data.title }}">
+              <div class="post-nav-title">
+                <span class="post-nav-direction">Next</span>
+                <div class="post-nav-text">{{ navigation.next.data.title }}</div>
+              </div>
+              <div class="post-nav-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
+                  <path
+                    fill="currentColor"
+                    d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9
+                      118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"></path>
+                </svg>
+              </div>
+            </a>
+          {% endif %}
+        </nav>
       {% endif %}
-    </div>
-    <h1>{{ title }}</h1>    
-    {{ content | safe }}
-    
-    {% set navigation = collections.posts | getPostNavigation(page) %}
-    {% if navigation.prev or navigation.next %}
-    <nav class="post-nav" aria-label="Post navigation">
-      {% if navigation.prev %}
-      <a href="{{ navigation.prev.url }}" class="post-nav-link post-nav-link--prev" aria-label="Previous: {{ navigation.prev.data.title }}">
-        <div class="post-nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
-            <path fill="currentColor" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256l137.3-137.4c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"></path>
-          </svg>
-        </div>
-        <div class="post-nav-title">
-          <span class="post-nav-direction">Previous</span>
-          <div class="post-nav-text">{{ navigation.prev.data.title }}</div>
-        </div>
-      </a>
-      {% endif %}
-      
-      {% if navigation.next %}
-      <a href="{{ navigation.next.url }}" class="post-nav-link post-nav-link--next" aria-label="Next: {{ navigation.next.data.title }}">
-        <div class="post-nav-title">
-          <span class="post-nav-direction">Next</span>
-          <div class="post-nav-text">{{ navigation.next.data.title }}</div>
-        </div>
-        <div class="post-nav-button">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512">
-            <path fill="currentColor" d="M247.1 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L179.2 256 41.9 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"></path>
-          </svg>
-        </div>
-      </a>
-      {% endif %}
-    </nav>
-    {% endif %}
-  </article>
-  
-  <div class="post-right-sidebar">
-    <div class="post-toc" id="toc">
-      <h3>Table of Contents</h3>
+    </article>
+    <div class="post-right-sidebar">
+      <div class="post-toc" id="toc">
+        <h3>Table of Contents</h3>
+      </div>
     </div>
   </div>
-</div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const headings = document.querySelectorAll('.post-content h2, .post-content h3, .post-content h4');
-  const toc = document.getElementById('toc');
-  
-  if (headings.length > 0) {
-    const ul = document.createElement('ul');
-    
-    headings.forEach((heading, index) => {
-      if (!heading.id) {
-        heading.id = 'heading-' + index;
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const headings = document.querySelectorAll('.post-content h2, .post-content h3, .post-content h4');
+      const toc = document.getElementById('toc');
+      if (headings.length > 0) {
+        const ul = document.createElement('ul');
+        headings.forEach((heading, index) => {
+          if (!heading.id) {
+            heading.id = 'heading-' + index;
+          }
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = '#' + heading.id;
+          a.textContent = heading
+            .textContent
+            .replace('#', '')
+            .trim();
+          a.style.paddingLeft = (
+            heading.tagName === 'H3'
+            ? '0.5rem'
+            : heading.tagName === 'H4'
+              ? '1rem'
+              : '0');
+          li.appendChild(a);
+          ul.appendChild(li);
+        });
+        toc.appendChild(ul);
+      } else {
+        toc.style.display = 'none';
       }
-      
-      const li = document.createElement('li');
-      const a = document.createElement('a');
-      a.href = '#' + heading.id;
-      a.textContent = heading.textContent.replace('#', '').trim();
-      a.style.paddingLeft = (heading.tagName === 'H3' ? '0.5rem' : heading.tagName === 'H4' ? '1rem' : '0');
-      
-      li.appendChild(a);
-      ul.appendChild(li);
     });
-    
-    toc.appendChild(ul);
-  } else {
-    toc.style.display = 'none';
-  }
-});
-</script>
+  </script>
 {% endblock %}
