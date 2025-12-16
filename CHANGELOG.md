@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## 2025-12-16
+
+* Style: fix style in njk template files ([#e1e5b9a](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/e1e5b9a4c0cd1cbd4b625597a6512549cec93157))
+* Style: fix punctuation in posts ([#e1e5b9a](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/e1e5b9a4c0cd1cbd4b625597a6512549cec93157))
+* Feat: introduce featured posts ([#e1e5b9a](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/e1e5b9a4c0cd1cbd4b625597a6512549cec93157))
+* Refactor: move RSS from header to footer ([#e1e5b9a](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/e1e5b9a4c0cd1cbd4b625597a6512549cec93157))
+
 ## 2025-12-01
 
 * Feat: introduce pinned posts ([#50bfe3c](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/50bfe3c797348859a012dbe88cd584d17fcd6c28))
