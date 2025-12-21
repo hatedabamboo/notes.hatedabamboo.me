@@ -1,4 +1,8 @@
 :root {
+    /* Font families */
+    --font-body: Seravek, 'Gill Sans Nova', Ubuntu, Calibri, 'DejaVu Sans', source-sans-pro, sans-serif;
+    --font-mono: 'Nimbus Mono PS', 'Courier New', monospace;
+
     /* Colors */
     --color-white: #fff;
     --color-light-grey: #f5f5f5;
@@ -71,26 +75,6 @@
     --transition-base: 0.2s ease;
 }
 
-/* Fonts */
-@font-face {
-    font-family: "Open Sans";
-    font-style: normal;
-    font-weight: 300 400 700;
-    font-stretch: 100%;
-    font-display: swap;
-    src: url("OpenSans.woff2") format("woff2");
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-@font-face {
-    font-family: "Roboto Mono";
-    font-style: normal;
-    font-weight: 300 400 700;
-    font-display: swap;
-    src: url("RobotoMono.woff2") format("woff2");
-    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
 /* Reset */
 *, *::before, *::after {
     margin: 0;
@@ -103,7 +87,7 @@ body, .post-content, h1, h2, h3, h4, h5, h6, p, a, th, td, li {
 }
 
 body {
-    font-family: "Open Sans", sans-serif;
+    font-family: var(--font-body);
     font-size: var(--font-size-base);
     line-height: 1.6;
     color: var(--color-text);
@@ -330,7 +314,7 @@ h4:hover .headerlink {
 
 /* Code */
 code {
-    font-family: "Roboto Mono", monospace;
+    font-family: var(--font-mono);
     background: var(--color-light-grey);
     padding: 0.2rem 0.4rem;
     border-radius: var(--radius-sm);
@@ -366,13 +350,13 @@ pre[class*="language-"] {
     padding: 0.2rem var(--spacing-sm);
     border-radius: var(--radius-sm);
     font-size: var(--font-size-sm);
-    font-family: "Roboto Mono", monospace;
+    font-family: var(--font-mono);
     text-transform: uppercase;
     z-index: 1;
 }
 
 code[class*="language-"] {
-    font-family: "Roboto Mono", monospace;
+    font-family: var(--font-mono);
     font-size: var(--font-size-lg);
     white-space: pre-wrap;
     word-break: break-all;
