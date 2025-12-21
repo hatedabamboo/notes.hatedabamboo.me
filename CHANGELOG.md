@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2025-12-21
+
+* Refactor: getting rid of downloadable fonts in favor of Modern Font Stacks ([#cf13d16](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/cf13d165a3e661de0ac234e15ce2c1db2dda1539))
+
 ## 2025-12-16
 
 * Style: fix style in njk template files ([#e1e5b9a](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/e1e5b9a4c0cd1cbd4b625597a6512549cec93157))
