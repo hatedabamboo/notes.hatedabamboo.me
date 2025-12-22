@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2025-12-22
+
+* Feat: highlight featured posts upon hover ([#27b9f4f](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/27b9f4fcabe531db1f542b0f65f6a65c54050e96))
+
 ## 2025-12-21
 
 * Refactor: getting rid of downloadable fonts in favor of Modern Font Stacks ([#cf13d16](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/cf13d165a3e661de0ac234e15ce2c1db2dda1539))
