@@ -12,8 +12,9 @@ export const readableDate = (date) =>
 export const year = (date) =>
   DateTime.fromJSDate(date, { zone: "utc" }).toFormat("yyyy");
 
-export const postDate = (dateObj) => {
-  return DateTime.fromJSDate(dateObj).toLocaleString(DateTime.DATE_MED);
+export const postDate = (dateObj, format) => {
+  const dt = DateTime.fromJSDate(dateObj, { zone: "utc" });
+  return format ? dt.toFormat(format) : dt.toLocaleString(DateTime.DATE_MED);
 };
 
 export const currentYear = () => {
