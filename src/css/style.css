@@ -512,6 +512,27 @@ img {
     color: var(--color-primary);
 }
 
+.post-item.featured h2::after {
+    content: 'Featured post!';
+    position: absolute;
+    left: -10rem;
+    top: 0.8rem;
+    background: var(--color-dark);
+    color: var(--color-white);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-base);
+    font-weight: 300;
+}
+
+.post-item.featured h2:hover::after {
+    opacity: 1;
+}
+
 .post-item.featured h2 {
     position: relative;
 }
