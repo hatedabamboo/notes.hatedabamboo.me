@@ -67,7 +67,7 @@ Overall, Gateway API is a nice upgrade over Ingress API with all the previous ex
 
 Upon the retirement announcement, Kubernetes community not only notified the user base about the change, but also provided a list of [existing implementations](https://gateway-api.sigs.k8s.io/implementations/#gateway-controller-implementation-status) by different companies. The list is quite broad, so luckily for us engineers we can stick with whatever we see as most fit, convenient, feature-rich, or just simple.
 
-For my setup, I ended up choosing Envoy Gateway.
+For my setup, I ended up choosing Envoy Gateway[^1].
 
 ## Migration
 
@@ -82,7 +82,7 @@ However, in Envoy Gateway, we will have:
 
 1. Gateway Controller
 2. Gateway
-3. HTTPRoute[^1]
+3. HTTPRoute[^2]
 
 As mentioned earlier, Gateway API implements role-based separation, separating a single Ingress resource into multiple -- Gateway and HTTPRoute.
 
@@ -305,7 +305,8 @@ The only annoyance is that, being a rather new ability, AWS hasn't yet implement
 
 Thank you for reading and see you soon!
 
-[^1]: Gateway also handles GRPCRoute and TLSRoute resources, but for simplicity of the example, I will mention only HTTPRoute.
+[^1]: After publishing and sharing this article with my fellow AWS Community Builders, I was provided with a link to the [benchmark of existing Gateway API implementations](https://github.com/howardjohn/gateway-api-bench). It turns out that Envoy Gateway is by far not the best option for the transition, so you would most likely want to choose Istio or Kgateway.
+[^2]: Gateway also handles GRPCRoute and TLSRoute resources, but for simplicity of the example, I will mention only HTTPRoute.
 
 ---
 
