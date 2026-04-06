@@ -209,13 +209,13 @@ That's not very informative. What about the second one?
 [...]
 ```
 
-Oh, so this is not metadata, as I initially thought, but translations! That’s actually pretty thoughtful! I wonder why only 3 languages, though. And why Polish is not one of them, considering that LOT is a Polish airline? Oh well.
+Oh, so this is not metadata, as I initially thought, but translations! That's actually pretty thoughtful! I wonder why only 3 languages, though. And why Polish is not one of them, considering that LOT is a Polish airline? Oh well.
 
 ## Summary
 
 To be honest, I like the passes and *Wallet* convenience even more now after figuring out that it's basically a zip archive with information on the topic (flight details in this case) and some pictures slapped on top of it.
 
-So, what’s actually inside a `pkpass` boarding pass?
+So, what's actually inside a `pkpass` boarding pass?
 
 - Ticket details
 	- Name of the passenger
