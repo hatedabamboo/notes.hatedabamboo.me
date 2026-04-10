@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## 2026-04-10
+
+* Refactor: JS and CSS optimizations ([#771a27c](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/771a27c001a2b3a06a4dbfa24a2591fbe8dee3c1))
+* Feat: added button to return to top of the page ([#771a27c](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/771a27c001a2b3a06a4dbfa24a2591fbe8dee3c1))
+* Feat: added block with popular posts at the bottom of the main page ([#771a27c](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/771a27c001a2b3a06a4dbfa24a2591fbe8dee3c1))
+* Feat: added block with next articles to rid at the bottom of the post page ([#771a27c](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/771a27c001a2b3a06a4dbfa24a2591fbe8dee3c1))
+* Feat: added blog headline ([#771a27c](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/771a27c001a2b3a06a4dbfa24a2591fbe8dee3c1))
+
 ## 2025-12-22
 
 * Feat: highlight featured posts upon hover ([#27b9f4f](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/27b9f4fcabe531db1f542b0f65f6a65c54050e96))
@@ -100,4 +108,3 @@
 
 ## 2024-11-06
 * Fix: changing address for RSS feed from clunky `feed_rss_created.xml` to reasonable `feed.xml` ([#bc0d93a](https://github.com/hatedabamboo/notes.hatedabamboo.me/commit/bc0d93a987568e9a8bed09c995f027d8c5f34a90))
-
