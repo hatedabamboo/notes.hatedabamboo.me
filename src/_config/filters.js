@@ -6,7 +6,7 @@ import {
   postDate,
   currentYear,
 } from "./filters/dates.js";
-import { excerpt, readingTime } from "./filters/content.js";
+import { excerpt, firstParagraph, readingTime } from "./filters/content.js";
 import { groupBy, getPostNavigation } from "./filters/collections.js";
 
 export default {
@@ -17,6 +17,7 @@ export default {
   postDate,
   currentYear,
   excerpt,
+  firstParagraph,
   readingTime,
   groupBy,
   getPostNavigation,

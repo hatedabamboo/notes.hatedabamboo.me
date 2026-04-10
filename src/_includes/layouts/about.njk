@@ -1,7 +1,9 @@
 {% extends "layouts/base.njk" %}
 {% block content %}
   <div class="post-container">
-    <div class="post-left-sidebar"></div>
+    <div class="post-left-sidebar">
+      {% include "partials/back-to-top.njk" %}
+    </div>
     <article class="post-main post-content">
       <h1>{{ title }}</h1>
       {{ content | safe }}

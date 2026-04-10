@@ -5,6 +5,7 @@ tags:
   - other
 layout: layouts/post.njk
 permalink: /2025-in-review/
+excluded_from_recommendations: true
 ---
 The New Year is nigh, and it's time to look back at the past year. Let's take a look at some numbers and noticeable changes, however big or small they might be. Mostly related to this blog, though some may be personal.
 
