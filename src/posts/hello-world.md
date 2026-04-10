@@ -5,6 +5,7 @@ tags:
 - other
 layout: layouts/post.njk
 permalink: /hello-world/
+excluded_from_recommendations: true
 ---
 Here lies the first ever blogpost. Just so it will be here. No other particular reason.
 

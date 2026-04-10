@@ -131,6 +131,8 @@ export default async function (eleventyConfig) {
   // Collections
   eleventyConfig.addCollection("posts", collections.posts);
   eleventyConfig.addCollection("pinnedPosts", collections.pinnedPosts);
+  eleventyConfig.addCollection("featuredPosts", collections.featuredPosts);
+  eleventyConfig.addCollection("recommendablePosts", collections.recommendablePosts);
   eleventyConfig.addCollection("tagList", collections.tagList);
   eleventyConfig.addCollection("postsByYear", collections.postsByYear);
 
@@ -138,6 +140,7 @@ export default async function (eleventyConfig) {
   eleventyConfig.addFilter("postDate", filters.postDate);
   eleventyConfig.addFilter("currentYear", filters.currentYear);
   eleventyConfig.addFilter("excerpt", filters.excerpt);
+  eleventyConfig.addFilter("firstParagraph", filters.firstParagraph);
   eleventyConfig.addFilter("readingTime", filters.readingTime);
   eleventyConfig.addFilter("groupBy", filters.groupBy);
   eleventyConfig.addFilter("getPostNavigation", filters.getPostNavigation);

@@ -5,6 +5,7 @@ tags:
 - other
 layout: layouts/post.njk
 permalink: /first-year-overview/
+excluded_from_recommendations: true
 ---
 Exactly one year ago, on August 24, 2023, I published my first blog post. Since then, one year has passed, 14 posts have been written, and some other events have happened. I love numbers, so I decided to gather some statistics for the past year and publish them here for your, dear reader, joy, and my own clarity.
 
