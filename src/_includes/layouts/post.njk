@@ -84,7 +84,8 @@
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const headings = document.querySelectorAll('.post-content h2, .post-content h3, .post-content h4');
+      const headings = [...document.querySelectorAll('.post-content h2:not(.featured-title), .post-content h3, .post-content h4')]
+        .filter(h => !h.closest('.featured-posts'));
       const toc = document.getElementById('toc');
       if (headings.length > 0) {
         const ul = document.createElement('ul');
