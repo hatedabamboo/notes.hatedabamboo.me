@@ -4,6 +4,7 @@ date: 2026-04-24
 tags:
   - cicd
   - github
+  - projects
 layout: layouts/post.njk
 permalink: /project-bumpwf/
 ---
@@ -12,6 +13,12 @@ Today I maked a tool that solves one of my headaches: keeping GitHub Actions in 
 <!-- more -->
 
 ![Title image](/assets/project-bumpwf.png)
+
+::: info Source code
+
+    **[github.com/hatedabamboo/bumpwf](https://github.com/hatedabamboo/bumpwf)**
+
+:::
 
 Dependencies are a pain in the butt. Nobody likes dependencies. No programming language or framework has solved dependency problems exactly right: it's either not solving the majority of the problems, or making it extremely complicated and cumbersome.
 
@@ -142,5 +149,5 @@ At the moment of writing this article, there are already several things I think 
 
 <p style="text-align: center; margin: 24px 0 24px 0;"><a href="mailto:reply@hatedabamboo.me?subject=Reply%20to%3A%20Project%3A%20bumpwf">Reply to this post ✉️</a></p>
 
-[^1]: Eventually I'm planning to come up with a solution to utilize `bumpwf` in workflows: either an example or an action.
+[^1]: Eventually I'm planning to come up with a solution to utilize `bumpwf` in workflows: either an example of a workflow or an action.
 [^2]: The name is weird, perhaps I will rename it further down the road.
