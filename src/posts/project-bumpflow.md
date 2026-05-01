@@ -1,22 +1,22 @@
 ---
-title: "Project: bumpwf"
+title: "Project: bumpflow"
 date: 2026-04-24
 tags:
   - cicd
   - github
   - projects
 layout: layouts/post.njk
-permalink: /project-bumpwf/
+permalink: /project-bumpflow/
 ---
 Today I maked a tool that solves one of my headaches: keeping GitHub Actions in workflows up to date and current. In this post I'll tell a bit of the history behind it and what it can do.
 
 <!-- more -->
 
-![Title image](/assets/project-bumpwf.png)
+![Title image](/assets/project-bumpflow.png)
 
 ::: info Source code
 
-    **[github.com/hatedabamboo/bumpwf](https://github.com/hatedabamboo/bumpwf)**
+    **[github.com/hatedabamboo/bumpflow](https://github.com/hatedabamboo/bumpflow)**
 
 :::
 
@@ -48,12 +48,12 @@ Unfortunately, when I tried to wrap the resulting script into a workflow, I hit 
 
 So the existing script was taken as a starting point, rewritten in Go, and filled with some additional functionality.
 
-So what exactly can `bumpwf`[^2] do?
+So what exactly can `bumpflow` do?
 
-1. Updating actions' versions in repository workflows. Running `bumpwf` in the root of the repository will trigger the program to scan `.github/workflows` files, find used actions, parse their versions, fetch GitHub repositories, find the latest versions, and update the actions one by one:
+1. Updating actions' versions in repository workflows. Running `bumpflow` in the root of the repository will trigger the program to scan `.github/workflows` files, find used actions, parse their versions, fetch GitHub repositories, find the latest versions, and update the actions one by one:
 
 ```bash
-~/repo/hatedabamboo [main] $ bumpwf
+~/repo/hatedabamboo [main] $ bumpflow
 Fetching 3 repo(s)...
 
   Action                                        Installed version              Latest version
@@ -86,7 +86,7 @@ You're able to choose whether you'd like to pin the new version as a tag (not re
 2. Do the same as above, but automatically: with the option to choose all tags (flag `-t`) or all hashes (flag `-s`, also the default option):
 
 ```bash
-~/repo/hatedabamboo [main] $ bumpwf -A
+~/repo/hatedabamboo [main] $ bumpflow -A
 Fetching 3 repo(s)...
 
   Action                                        Installed version              Latest version
@@ -107,7 +107,7 @@ All actions updated!
 3. Replace existing pinned versions (tags or hashes) with their counterparts and vice versa:
 
 ```bash
-~/repo/hatedabamboo [main] $ bumpwf -r
+~/repo/hatedabamboo [main] $ bumpflow -r
 Fetching 3 repo(s)...
 
 Actions available for conversion: 3
@@ -139,7 +139,7 @@ The tool also has a nice colored output, which can be turned off by setting the 
 
 ## Limitations
 
-`bumpwf` utilizes the official GitHub API. It has a rather strict rate limit: for unauthorized users, only 60 calls per hour. This can be avoided by getting a [personal access token](https://github.com/settings/personal-access-tokens) and passing it via the environment variable `GH_TOKEN`. Or by switching VPN servers -- that also works.
+`bumpflow` utilizes the official GitHub API. It has a rather strict rate limit: for unauthorized users, only 60 calls per hour. This can be avoided by getting a [personal access token](https://github.com/settings/personal-access-tokens) and passing it via the environment variable `GH_TOKEN`. Or by switching VPN servers -- that also works.
 
 ## Future plans
 
@@ -147,7 +147,6 @@ At the moment of writing this article, there are already several things I think 
 
 ---
 
-<p style="text-align: center; margin: 24px 0 24px 0;"><a href="mailto:reply@hatedabamboo.me?subject=Reply%20to%3A%20Project%3A%20bumpwf">Reply to this post ✉️</a></p>
+<p style="text-align: center; margin: 24px 0 24px 0;"><a href="mailto:reply@hatedabamboo.me?subject=Reply%20to%3A%20Project%3A%20bumpflow">Reply to this post ✉️</a></p>
 
-[^1]: Eventually I'm planning to come up with a solution to utilize `bumpwf` in workflows: either an example of a workflow or an action.
-[^2]: The name is weird, perhaps I will rename it further down the road.
+[^1]: Eventually I'm planning to come up with a solution to utilize `bumpflow` in workflows: either an example of a workflow or an action. Oh hey, [it's there](https://github.com/hatedabamboo/bumpflow#example-workflow-usage)!
