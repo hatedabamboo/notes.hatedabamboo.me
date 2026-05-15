@@ -7,7 +7,7 @@ tags:
 layout: layouts/post.njk
 permalink: /llama-cpp-on-amd-windows/
 ---
-In a time when RAM and GPU prices are through the roof and every service wants its "just $7 bucks, bro" from you, where can you turn to utilize modern technologies in the form of Large Language Models? That's right, your gaming PC! That is if you're a gamer, of course. And if so, this post is just right for you.
+In a time when RAM and GPU prices are through the roof and every service wants its "just 7 bucks, bro" from you, where can you turn to utilize modern technologies in the form of Large Language Models? That's right, your gaming PC! That is if you're a gamer, of course. And if so, this post is just right for you.
 
 <!-- more -->
 
@@ -22,6 +22,12 @@ In a time when RAM and GPU prices are through the roof and every service wants i
 ## Prerequisites
 
 As stated in the headline, this post will focus on a Windows and AMD setup, so it only makes sense for you to have a Windows PC with an AMD GPU. It's also beneficial if you know how to open the command prompt (`Win` + `R`, type `cmd`), paste a command, and read the output.
+
+::: tip Disclaimer
+
+    This post focuses on two approaches to local installation: the long and painful one, and the fast and easy one. If you value your time that much and just want to get it done, skip to [this part](#painless-path). If you want the full experience, complete with all the gory details, just follow along.
+
+:::
 
 ## Painful path
 
@@ -45,7 +51,13 @@ What's `winget` and why do we need it?
 
 We will need `winget` for several tasks further down the article, so it's a necessary prerequisite for the successful installation of llama.cpp.
 
-Navigate to the [Releases](https://github.com/microsoft/winget-cli/releases) page, select your preferred release, follow the installer instructions, and you should have `winget` installed in no time.
+On latest Windows 10 builds and all Windows 11 builds `winget` is already pre-installed. To verify this execute:
+
+```shell
+PS C:\Users\user> winget --version
+```
+
+If it's not installed, navigate to the [Releases](https://github.com/microsoft/winget-cli/releases) page, select your preferred release, follow the installer instructions, and you should have `winget` installed in no time.
 
 ::: info
 
@@ -54,7 +66,6 @@ Navigate to the [Releases](https://github.com/microsoft/winget-cli/releases) pag
 :::
 
 To verify the installation, execute the following command:
-
 
 ```shell
 PS C:\Users\user> winget --version
@@ -65,17 +76,17 @@ PS C:\Users\user> winget --version
 We need this monstrosity for the C/C++ libraries and the ability to compile them. Go to the Visual Studio [website](https://visualstudio.microsoft.com/), hit that "Get free download" button, and the installer will be downloaded shortly.
 Launch the installer. Make sure to select "Desktop development with C++".
 
-![image](/assets/llama-cpp-on-amd-windows/msvs.png)
+![Microsoft Visual Studio setup](/assets/llama-cpp-on-amd-windows/msvs.webp)
 
 Make absolutely sure to deselect these damn "GitHub Copilot" options, since they are enabled by default.
 
-![image](/assets/llama-cpp-on-amd-windows/options.png)
+![Copilot everywhere!](/assets/llama-cpp-on-amd-windows/options.webp)
 
 Hit that "Install" button and wait a couple of minutes for the process to finish.
 
 ### 2. Installing AMD ROCm
 
-In order to fully utilize our glorious processing unit, we need the proper software. Ever heard of Nvidia's CUDA? ROCm is the same thing, but for AMD.
+In order to fully utilize our glorious processing unit, we need the proper software. Ever heard of Nvidia's CUDA? ROCm is almost the same thing, but for AMD.
 To download the ROCm libraries, head over to AMD's [website](https://www.amd.com/en/developer/resources/rocm-hub/hip-sdk.html) for the HIP SDK. Why the HIP SDK? Because this SDK allows developers to utilize a subset of ROCm for Windows. The latest version of the HIP SDK (as of this writing) supports ROCm 7.1.1. Download the HIP SDK, follow the installation prompts, and after a few minutes you should have the necessary libraries and software installed.
 To verify the installation, execute the following command:
 
@@ -208,10 +219,10 @@ Now the hardest part is done. What else is necessary to run your own chatbot? Th
 This is a very easy step. Go to the [Hugging Face](https://huggingface.co/models/) models hub, reduce the *Parameters* slider to ~32B (since models with more parameters won't fit into RAM), select **llama.cpp** from the *Apps* section, and choose whichever you like. For example, [unsloth/gemma-4-26B-A4B-it-GGUF](https://huggingface.co/unsloth/gemma-4-26B-A4B-it-GGUF). Open the *Files and versions* tab and select a `*.gguf` file. Download it and pass it to the llama-server with the `-m` flag:
 
 ```shell
-PS C:\Users\user\llama.cpp> .\build\bin\llama-server.exe -m C:\Users\user\Downloads\gemma-4-26B-A4B-it-UD-Q8_K_XL.gguf
+PS C:\Users\user\llama.cpp> .\build\bin\llama-server.exe -m C:\Users\user\Downloads\gemma-4-26B-A4B-it-UD-Q8_K_XL.gguf --n-gpu-layers 999
 ```
 
-This will start the llama-server with the provided model, and the integrated Web UI will be available at `http://127.0.0.1:8080`.
+This will start the llama-server with the provided model, enable full GPU utilization via the `--n-gpu-layers` flag, and make the integrated Web UI available at `http://127.0.0.1:8080`.
 
 Apart from using the built-in Web UI, there are other open-source applications, like [Jan](https://github.com/janhq/jan). I prefer it to the default one because it supports dynamic switching between models without having to load them one by one into memory or manually unload the previous one. But that's entirely up to you which way to go. Since llama-server exposes an OpenAI-compatible API, it can be plugged into any application supporting an OpenAI backend.
 
@@ -288,6 +299,10 @@ PS C:\Users\user\llama.cpp> ipconfig.exe | Select-String "IPv4 Address"
    IPv4 Address. . . . . . . . . . . : 192.168.1.2
 
 ```
+
+## Afterword
+
+I am somewhat glad to announce that this post was edited and proofread by the locally running `Qwen3.6 35B-A3B UD-Q4_K_XL` model. I want to emphasize that it was only *edited* and *proofread* by an LLM. All of the text was written by my own greasy fingers.
 
 ## Further Reading
 
